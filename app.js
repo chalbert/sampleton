@@ -8,9 +8,9 @@ var app = module.exports = express.createServer();
 
 mongoose.connect('mongodb://localhost/sampleton');
 
-var Todo = mongoose.model('Todo', new mongoose.Schema({
-  text: String,
-  done: Boolean,
+var Item = mongoose.model('Item', new mongoose.Schema({
+  title: String,
+  counter: Boolean,
   order: Number
 }));
 
@@ -30,59 +30,55 @@ app.configure(function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.send('Hello World');
-});
-
-app.get('/todo', function(req, res){
   res.render('index', {title: "MongoDB Backed TODO App"});
 });
 
-app.get('/api/todos', function(req, res){
-  return Todo.find(function(err, todos) {
-    return res.send(todos);
+app.get('/api/items', function(req, res){
+  return Item.find(function(err, items) {
+    return res.send(items);
   });
 });
 
-app.get('/api/todos/:id', function(req, res){
-  return Todo.findById(req.params.id, function(err, todo) {
+app.get('/api/items/:id', function(req, res){
+  return Item.findById(req.params.id, function(err, item) {
     if (!err) {
-      return res.send(todo);
+      return res.send(item);
     }
   });
 });
 
-app.put('/api/todos/:id', function(req, res){
-  return Todo.findById(req.params.id, function(err, todo) {
-    todo.text = req.body.text;
-    todo.done = req.body.done;
-    todo.order = req.body.order;
-    return todo.save(function(err) {
+app.put('/api/items/:id', function(req, res){
+  return Item.findById(req.params.id, function(err, item) {
+    item.title = req.body.title;
+    item.done = req.body.done;
+    item.order = req.body.order;
+    return item.save(function(err) {
       if (!err) {
         console.log("updated");
       }
-      return res.send(todo);
+      return res.send(item);
     });
   });
 });
 
-app.post('/api/todos', function(req, res){
-  var todo;
-  todo = new Todo({
-    text: req.body.text,
+app.post('/api/items', function(req, res){
+  var item;
+  item = new Item({
+    title: req.body.title,
     done: req.body.done,
     order: req.body.order
   });
-  todo.save(function(err) {
+  item.save(function(err) {
     if (!err) {
       return console.log("created");
     }
   });
-  return res.send(todo);
+  return res.send(item);
 });
 
-app.delete('/api/todos/:id', function(req, res){
-  return Todo.findById(req.params.id, function(err, todo) {
-    return todo.remove(function(err) {
+app.delete('/api/items/:id', function(req, res){
+  return Item.findById(req.params.id, function(err, item) {
+    return item.remove(function(err) {
       if (!err) {
         console.log("removed");
         return res.send('')
