@@ -1,3 +1,70 @@
+@import 'nib'
+
 body
-  background red
-  color blue
+  font-family "Lucida Sans Unicode", "Lucida Grande", sans-serif
+  background #fef7ea url(../images/bg.gif)
+  padding 10px 30px
+
+#logo
+  position relative
+  z-index 10
+  font 50px 'Fredericka the Great', cursive
+  color #000
+  background url(../images/gumboot-logo.png) 20px 0 no-repeat
+  padding-left 53px
+  height 70px
+  margin-bottom -15px
+
+.content
+  background #fff
+  padding 20px
+  border-radius 20px
+  border 2px #ccc solid
+
+#item-list
+  padding 0
+  clearfix()
+
+  li
+    list-style none
+
+  .item
+    position relative
+    float left
+    box-shadow 2px 2px 4px #eee
+    border 2px #ccc solid
+    width 140px
+    height 140px
+    margin 0 12px 12px 0
+    border-radius 16px
+    background: linear-gradient(top, #eee, #ccc);
+
+
+  .item-title
+    text-align center
+    font-size 95%
+
+  .item-counter
+    position absolute
+    bottom 5px
+    left 10px
+    right 10px
+    text-align center
+    border-width 3px
+    border-color #999 #000 #333 #555
+    color #fff
+    font-family "Courier New", Courier, monospace
+    font-size 120%
+    background: linear-gradient(top, #222, #999, #999,  #555);
+    border-style solid
+    margin-top 4px
+    border-radius 2px
+
+  .edit
+    display none
+
+  .editing .edit
+      display block
+
+  .editing .display
+      display none
