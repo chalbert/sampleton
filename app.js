@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost/sampleton');
 
 var Item = mongoose.model('Item', new mongoose.Schema({
   title: String,
-  counter: Boolean,
+  counter: Number,
   order: Number
 }));
 
@@ -61,7 +61,7 @@ app.get('/api/items/:id', function(req, res){
 app.put('/api/items/:id', function(req, res){
   return Item.findById(req.params.id, function(err, item) {
     item.title = req.body.title;
-    item.done = req.body.done;
+    item.counter = req.body.counter;
     item.order = req.body.order;
     return item.save(function(err) {
       if (!err) {
@@ -76,7 +76,7 @@ app.post('/api/items', function(req, res){
   var item;
   item = new Item({
     title: req.body.title,
-    done: req.body.done,
+    counter: req.body.counter,
     order: req.body.order
   });
   item.save(function(err) {
