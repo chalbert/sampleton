@@ -18,7 +18,7 @@ $(function(){
     },
 
     // Toggle the `done` state of this item item.
-    inc: function() {
+    increment: function() {
       this.save({counter: this.get("counter") + 1});
     }
 
@@ -69,7 +69,8 @@ $(function(){
 
     // The DOM events specific to an item.
     events: {
-      "dblclick div.item-text"    : "edit",
+      "dblclick div.item-title"   : "edit",
+      "click .item"            : "increment",
       "click span.item-destroy"   : "clear",
       "keypress .item-input"      : "updateOnEnter"
     },
@@ -84,16 +85,20 @@ $(function(){
     render: function() {
       $(this.el).html(this.template(this.model.toJSON()));
       this.setTitle();
+      this.setCounter();
       return this;
     },
 
-    // To avoid XSS (not that it would be harmful in this particular app),
-    // we use `jQuery.text` to set the contents of the item item.
     setTitle: function() {
       var title = this.model.get('title');
-      this.$('.item-text').text(title);
+      this.$('.item-title').text(title);
       this.input = this.$('.item-input');
       this.input.bind('blur', _.bind(this.close, this)).val(title);
+    },
+
+    setCounter: function() {
+      var counter = this.model.get('counter');
+      this.$('.item-counter').text(counter);
     },
 
     // Switch this view into `"editing"` mode, displaying the input field.
@@ -104,13 +109,18 @@ $(function(){
 
     // Close the `"editing"` mode, saving changes to the item.
     close: function() {
-      this.model.save({text: this.input.val()});
+      this.model.save({title: this.input.val()});
       $(this.el).removeClass("editing");
     },
 
     // If you hit `enter`, we're through editing the item.
     updateOnEnter: function(e) {
       if (e.keyCode == 13) this.close();
+    },
+
+    // Remove this view from the DOM.
+    increment: function() {
+      this.model.increment();
     },
 
     // Remove this view from the DOM.
@@ -137,7 +147,7 @@ $(function(){
 
     // Delegated events for creating new items, and clearing completed ones.
     events: {
-      "keypress #new-item":  "createOnEnter",
+      "keypress #new-item":  "createOnEnter"
     },
 
     // At initialization we bind to the relevant events on the `Items`
