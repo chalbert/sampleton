@@ -1,37 +1,95 @@
-
-/**
- * Module dependencies.
- */
-
-var express = require('express')
-  , routes = require('./routes')
+var application_root = __dirname,
+  express = require("express"),
+  stylus = require("stylus"),
+  path = require("path"),
+  mongoose = require('mongoose');
 
 var app = module.exports = express.createServer();
 
-// Configuration
+mongoose.connect('mongodb://localhost/sampleton');
+
+var Todo = mongoose.model('Todo', new mongoose.Schema({
+  text: String,
+  done: Boolean,
+  order: Number
+}));
 
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'your secret here' }));
+  app.use(express.session({ secret: 'All work and no play makes Jack a dull boy' }));
+  app.use(stylus.middleware({ src: __dirname + '/public' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
-});
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
 });
 
 // Routes
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+  res.send('Hello World');
+});
 
-app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+app.get('/todo', function(req, res){
+  res.render('index', {title: "MongoDB Backed TODO App"});
+});
+
+app.get('/api/todos', function(req, res){
+  return Todo.find(function(err, todos) {
+    return res.send(todos);
+  });
+});
+
+app.get('/api/todos/:id', function(req, res){
+  return Todo.findById(req.params.id, function(err, todo) {
+    if (!err) {
+      return res.send(todo);
+    }
+  });
+});
+
+app.put('/api/todos/:id', function(req, res){
+  return Todo.findById(req.params.id, function(err, todo) {
+    todo.text = req.body.text;
+    todo.done = req.body.done;
+    todo.order = req.body.order;
+    return todo.save(function(err) {
+      if (!err) {
+        console.log("updated");
+      }
+      return res.send(todo);
+    });
+  });
+});
+
+app.post('/api/todos', function(req, res){
+  var todo;
+  todo = new Todo({
+    text: req.body.text,
+    done: req.body.done,
+    order: req.body.order
+  });
+  todo.save(function(err) {
+    if (!err) {
+      return console.log("created");
+    }
+  });
+  return res.send(todo);
+});
+
+app.delete('/api/todos/:id', function(req, res){
+  return Todo.findById(req.params.id, function(err, todo) {
+    return todo.remove(function(err) {
+      if (!err) {
+        console.log("removed");
+        return res.send('')
+      }
+    });
+  });
+});
+
+
+app.listen(4000);
