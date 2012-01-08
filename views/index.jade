@@ -1,8 +1,7 @@
 // Todo App Interface
 
 #sampleton
-  .title
-    h1 Sampleton
+  #logo Sampleton
   .content
     #create-item
       input#new-item(placeholder="What needs to be done?", type="text")
@@ -16,7 +15,9 @@
 script#item-template(type="text/template")
   <div class="item">
   .display
-    .item-text
+    .item-title
+  .lever
+  .item-counter
   .edit
     input.item-input(type="text", "value"="")
   </div>
