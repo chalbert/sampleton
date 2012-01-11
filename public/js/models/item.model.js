@@ -5,7 +5,8 @@ define([
   'underscore',
   'backbone'
   ], function(_, Backbone){
-  var ItemModel = Backbone.Model.extend({
+
+  return Backbone.Model.extend({
 
     idAttribute : '_id',
 
@@ -23,5 +24,4 @@ define([
     }
 
   });
-  return ItemModel;
 });

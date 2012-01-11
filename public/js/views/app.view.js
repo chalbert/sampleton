@@ -6,7 +6,7 @@ define([
   'views/item.view'
   ], function($, _, Backbone, Items, ItemView){
 
-  var AppView = Backbone.View.extend({
+  return Backbone.View.extend({
 
     el: $("#sampleton"),
 
@@ -57,7 +57,5 @@ define([
       });
     }
 
-
   });
-  return AppView;
 });
