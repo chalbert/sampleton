@@ -1,3 +1,7 @@
+//|=======================================================================|
+//| VIEW ~ APP
+//|=======================================================================|
+
 define([
   'jquery',
   'underscore',
@@ -7,21 +11,23 @@ define([
   ], function($, _, Backbone, Items, ItemView){
 
   return Backbone.View.extend({
+//------------------------------------------------------------------------
 
     el: $("#sampleton"),
 
     events: {
-      "keypress #new-item":  "createOnEnter"
+      "keypress #new-item":  "input_keypress"
     },
 
-    // At initialization we bind to the relevant events on the `Items`
-    // collection, when items are added or changed. Kick things off by
-    // loading any preexisting items that might be saved in *localStorage*.
     initialize: function() {
       this.input = this.$("#new-item");
 
+      //| > When an item is added, we need to add it to the dom
       Items.bind('add',   this.addOne, this);
+      //| > When the collection is reseted, we need re-add all items
       Items.bind('reset', this.addAll, this);
+      //| > Every event trigger a rendering
+      //| ? Is it needed?
       Items.bind('all',   this.render, this);
 
       Items.fetch();
@@ -29,32 +35,38 @@ define([
 
     render: function() {},
 
-    // Add a single item item to the list by creating a view for it, and
-    // appending its element to the `<ul>`.
+//------------------------------------------------------------------------
+    //|----------------|
+    //| EVENT HANDLERS |
+    //|----------------|
+
+    input_keypress: function(e){
+      switch(e.which) {
+        //| > Enter key
+        case 13:
+          //| > If the input is not empty, create a new item
+          var title = this.input.val();
+          if (title) {
+            Items.create({title: title});
+            this.input.val('');
+          }
+        break;
+      }
+    },
+
+    //|---------|
+    //| ACTIONS |
+    //|---------|
+
+    //| > Create a new view, and append it to the list
     addOne: function(item) {
       var view = new ItemView({model: item});
       this.$("#item-list").append(view.render().el);
     },
 
-    // Add all items in the **Items** collection at once.
+    //| > Add each item
     addAll: function() {
       Items.each(this.addOne);
-    },
-
-    // If you hit return in the main input field, and there is text to save,
-    // create new **Item** model persisting it to *localStorage*.
-    createOnEnter: function(e) {
-      var title = this.input.val();
-      if (!title || e.keyCode != 13) return;
-      Items.create(this.newAttributes({title: title}));
-      this.input.val('');
-    },
-
-    // Generate the attributes for a new Item item.
-    newAttributes: function(attributes) {
-      return _.extend(attributes, {
-        order:    Items.nextOrder()
-      });
     }
 
   });

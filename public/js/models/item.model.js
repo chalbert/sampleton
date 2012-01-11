@@ -8,6 +8,7 @@ define([
 
   return Backbone.Model.extend({
 
+    //| > _id is the default id used by mongodb
     idAttribute : '_id',
 
     defaults: function() {

@@ -7,11 +7,26 @@ define([
   'models/item.model'
   ], function(_, Backbone, Item){
 
-	return Backbone.Collection.extend({
+  return new (Backbone.Collection.extend({
 
     model: Item,
 
     url: '/api/items',
+
+//------------------------------------------------------------------------
+
+    //|---------|
+    //| ACTIONS |
+    //|---------|
+
+    //| > We override the create function to add the order of not provided
+    //|   We Want this on the collection to abstract the model from it
+    create: function(model, options){
+      if (!model.order) {
+        model.order = this.nextOrder();
+      }
+      Backbone.Collection.prototype.create.call(this, model, options);
+    },
 
     //| > Generates next order
     nextOrder: function() {
@@ -19,10 +34,10 @@ define([
       return this.last().get('order') + 1;
     },
 
-    // Items are sorted by their original insertion order.
+    //| > Used by Backbone to sort by order
     comparator: function(item) {
       return item.get('order');
     }
 
-  });
+  }));
 });
