@@ -38,6 +38,7 @@ body
     margin 0 12px 12px 0
     border-radius 16px
     background: linear-gradient(top, #eee, #ccc);
+    cursor pointer
 
 
   .item-title
@@ -59,6 +60,11 @@ body
     border-style solid
     margin-top 4px
     border-radius 2px
+    box-shadow 0 2px 2px #777
+
+  .pressed .item-counter
+    box-shadow none
+    background: linear-gradient(top, #333, #888, #888,  #444);
 
   .edit
     display none

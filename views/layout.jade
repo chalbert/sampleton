@@ -18,11 +18,12 @@ head
 
   link(rel="icon", href="images/favicon.png")
   // CSS concatenated and minified via ant build script
-  link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Fredericka+the+Great")
+  //link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Fredericka+the+Great")
   link(rel="stylesheet", href="css/style.css")
   // end CSS
 
-  script(src="js/libs/modernizr-2.0.6.min.js")
+  script(src="js/libs/modernizr/modernizr-2.0.6.min.js")
+  <script src="js/libs/require/require.js" data-main="js/main" data-order="js/require/order"></script>
 body
 
   #container
@@ -31,20 +32,7 @@ body
     footer
   //! end of #container
 
-  script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
-  script
-    window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\\/script>')
-
-  // scripts concatenated and minified via ant build script
-  script(src="js/libs/underscore.js")
-  script(src="js/libs/backbone.js")
-  script(defer, src="js/script.js")
   // end scripts
-
-  // Change UA-XXXXX-X to be your site's ID
-  //script
-  //  window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
-  //  Modernizr.load({load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'});
 
   //if lt IE 7
     script(src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js")

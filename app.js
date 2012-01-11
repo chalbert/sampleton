@@ -98,5 +98,9 @@ app.delete('/api/items/:id', function(req, res){
   });
 });
 
+app.get('/tpl/:template.:format', function(req, res){
+  res.render('templates/' + req.params.template + '.tpl.jade', {layout: false});
+});
+
 
 app.listen(4000);
