@@ -7,21 +7,25 @@ define([
   'underscore',
   'backbone',
   'collections/item.col',
-  'views/item.view'
+  'views/item.view',
+  // > Extensions here as not returning values
+  'backboneExtension'
   ], function($, _, Backbone, Items, ItemView){
 
-  return Backbone.View.extend({
+  return Backbone.BaseView.extend({
 //------------------------------------------------------------------------
 
     el: $("#sampleton"),
 
-    events: {
-      "keypress #new-item":  "input_keypress"
+    elements: {
+      'input': '#new-item',
+      'list': '#item-list'
     },
 
     initialize: function() {
-      this.input = this.$("#new-item");
-
+      this.constructor.__super__.initialize.apply(this);
+      //this.input = this.$("#new-item");
+      //this.render();
       //| > When an item is added, we need to add it to the dom
       Items.bind('add',   this.addOne, this);
       //| > When the collection is reseted, we need re-add all items
@@ -33,26 +37,32 @@ define([
       Items.fetch();
     },
 
-    render: function() {},
-
 //------------------------------------------------------------------------
-    //|----------------|
-    //| EVENT HANDLERS |
-    //|----------------|
+    //|--------|
+    //| EVENTS |
+    //|--------|
+
+    events: function() {
+      return this.generateEvents({
+        input: 'keypress'
+      });
+    },
 
     input_keypress: function(e){
       switch(e.which) {
         //| > Enter key
         case 13:
           //| > If the input is not empty, create a new item
-          var title = this.input.val();
+          var title = this.$el('input').val();
           if (title) {
             Items.create({title: title});
-            this.input.val('');
+            this.$el('input').val('');
           }
         break;
       }
     },
+
+//------------------------------------------------------------------------
 
     //|---------|
     //| ACTIONS |
@@ -61,12 +71,14 @@ define([
     //| > Create a new view, and append it to the list
     addOne: function(item) {
       var view = new ItemView({model: item});
-      this.$("#item-list").append(view.render().el);
+      this.$el('list').append(view.render().el);
     },
 
     //| > Add each item
     addAll: function() {
-      Items.each(this.addOne);
+      Items.each(function(item){
+        this.addOne(item);
+      }, this);
     }
 
   });

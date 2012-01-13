@@ -6,59 +6,72 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!/tpl/item.html'
+  'text!/tpl/item.html',
+  // > Extensions here as not returning values
+  'backboneExtension'
   ], function($, _, Backbone, itemsTemplate){
 
-  return Backbone.View.extend({
+  return Backbone.BaseView.extend({
 
     tagName:  "li",
+
     template: _.template(itemsTemplate),
 
-    events: {
-      //| > Item
-      "click .item"               : "item_click",
-      //| > Title
-      "click div.item-title"      : "itemTitle_click",
-      "dblclick div.item-title"   : "itemTitle_dblClick",
-      //| > Input
-      "keypress .item-input"      : "input_keypress"
+    elements: {
+      'item'    : '.item',
+      'input'   : '.item-input',
+      'title'   : '.item-title',
+      'counter' : '.item-counter'
     },
 
     initialize: function() {
+      this.constructor.__super__.initialize.apply(this);
       //| > If changed must render
       this.model.bind('change', this.render, this);
       //| > If destroyed must remove from dom
       this.model.bind('destroy', this.remove, this);
+
       this.model.view = this;
-    },
-
-    //| > Render template with data from model
-    render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
-      this.renderTitle();
-      this.renderCounter();
-
-      return this;
     },
 
 //------------------------------------------------------------------------
 
-    //|----------------|
-    //| EVENT HANDLERS |
-    //|----------------|
+   //|--------|
+   //| EVENTS |
+   //|--------|
 
-    itemTitle_click: function(e) {
+    events: function() {
+      return this.registerEvents({
+        item: 'click',
+        title: 'click dblclick',
+        input: 'blur'
+      });
+
+//      return this.buildEventObject({
+//        item: {click: 'item_click'},
+//        title: {
+//          click: 'item_click',
+//          dblclick: 'itemTitle_dblClick'
+//        },
+//        input: {
+//          keypress: 'input_keypress',
+//          blur: 'input_blur'
+//        }
+//      });
+    },
+
+    title_click: function(e) {
       //| > To allow dblclick on title, we need to prevent increment
       e.stopPropagation();
     },
 
-    itemTitle_dblClick: function(e) {
+    title_dblclick: function(e) {
       this.startEditing();
     },
 
     item_click: function(e) {
       //| > If not editing, increment
-      if (!$(this.el).hasClass("editing")) {
+      if (!this.$el().hasClass("editing")) {
         this.effect_press();
         this.model.increment();
       }
@@ -68,44 +81,68 @@ define([
       switch(e.which) {
         //| > Enter key
         case 13:
-          //| >
+          //| > Submit new title
           this.applyEditing();
-
         break;
       }
     },
+
+    input_blur: function(e) {
+     this.applyEditing();
+    },
+
+//------------------------------------------------------------------------
+    //|-----------|
+    //| RENDERING |
+    //|-----------|
+
+    //| > Render template with data from model
+    render: function() {
+      //| > Render the template with data
+      this.$el().html(this.template(this.model.toJSON()));
+
+      //| > We need to set elements after rendering the main element
+      //this.setElements();
+
+      this.renderTitle();
+      this.renderCounter();
+
+      return this;
+    },
+
+    renderTitle: function() {
+      var title = this.model.get('title');
+      this.$el('title').text(title);
+      this.$el('input').val(title);
+    },
+
+    renderCounter: function() {
+      var counter = this.model.get('counter');
+      this.$el('counter').text(counter);
+    },
+
+//------------------------------------------------------------------------
 
     //|---------|
     //| ACTIONS |
     //|---------|
 
-    renderTitle: function() {
-      var title = this.model.get('title');
-      this.$('.item-title').text(title);
-      this.input = this.$('.item-input');
-      this.input.bind('blur', _.bind(this.applyEditing, this)).val(title);
-    },
-
-    renderCounter: function() {
-      var counter = this.model.get('counter');
-      this.$('.item-counter').text(counter);
-    },
 
     //| > Switch this view into `"editing"` mode, displaying the input field.
     startEditing: function() {
-      $(this.el).addClass("editing");
-      this.input.focus();
+      this.$el().addClass("editing");
+      this.$el('input').focus();
     },
 
     //| > Close the `"editing"` mode, saving changes to the item.
     applyEditing: function() {
-      this.model.save({title: this.input.val()});
-      $(this.el).removeClass("editing");
+      this.model.save({title: this.$input.val()});
+      this.$el().removeClass("editing");
     },
 
     //| > Remove this view from the DOM.
     remove: function() {
-      $(this.el).remove();
+      this.$el().remove();
     },
 
     //| > Remove the item, destroy the model.
@@ -120,10 +157,10 @@ define([
     //| > Apply the 'pressed' effect
     effect_press: function(){
       clearTimeout(this.pressTimer);
-      $(this.el).addClass("pressed");
-      var that = this;
+      this.$el().addClass("pressed");
+      var that = this.$el();
       this.pressTimer = setTimeout(function(){
-        $(that.el).removeClass("pressed");
+        that.removeClass("pressed");
       }, 200);
     }
 
