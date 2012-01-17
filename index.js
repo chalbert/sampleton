@@ -33,7 +33,7 @@ app.configure(function(){
   }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/templates');
   app.set('view engine', 'jade');
 
 });
@@ -98,9 +98,9 @@ app.delete('/api/items/:id', function(req, res){
   });
 });
 
-app.get('/tpl/:template.:format', function(req, res){
-  res.render('templates/' + req.params.template + '.tpl.jade', {layout: false});
+app.get(/^\/tpl\/([^.]+).html$/, function(req, res){
+  var path = req.params[0];
+  res.render('public/' + path + '.jade', {layout: false});
 });
-
 
 app.listen(4000);
