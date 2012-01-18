@@ -1,14 +1,16 @@
 define(["/js/views/item.view.js", "/js/models/item.model.js"], function(ItemView, Item) {
 
   describe('Sampling item', function() {
+
+    var item;
     beforeEach(function() {
       $('body').append('<ul id="item-list"></ul>');
-      this.itemView = new ItemView({model: new Item()});
+      item = new ItemView({model: new Item()});
 
     });
 
     afterEach(function() {
-      this.itemView.remove();
+      item.remove();
       $('#item-list').remove();
     });
 
@@ -16,43 +18,55 @@ define(["/js/views/item.view.js", "/js/models/item.model.js"], function(ItemView
     //| TESTS |
     //|-------|
 
-    describe('Can use a MODEL', function() {
+    describe('Will use a model for its data', function() {
 
-      it('should have a model', function() {
-        expect(this.itemView.model).toBeDefined();
+      it('should throw an error WHEN no model', function() {
+        var callingItemWithoutModel = function() {
+          new ItemView();
+        }
+        expect(callingItemWithoutModel).toThrow('View requires: model');
       });
-      it('should have an empty title', function() {
-        expect(this.itemView.model.get('title')).toMatch('');
-      });
-      it('should have a counter set to 0', function() {
-        expect(this.itemView.model.get('counter')).toBe(0);
-      });
+
+//      it('should have an empty title', function() {
+//        expect(item.model.get('title')).toMatch('');
+//      });
+//
+//      it('should have a counter set to 0', function() {
+//        expect(item.model.get('counter')).toBe(0);
+//      });
     });
 
     describe('Can RENDER', function(){
-      it('should be tied to an DOM element', function() {
-        expect(this.itemView.el.tagName.toLowerCase()).toBe('li');
+
+      beforeEach(function () {
+        $('#item-list').append(item.render().el);
       });
 
-      it('should be in display mode', function() {
-        $('#item-list').append(this.itemView.render().el);
-        expect(this.itemView.el).not.toHaveClass('editing');
+      it('should render using the defined tagname', function() {
+        expect($('#item-list > li').get(0).tagName.toLowerCase()).toBe('li');
+      });
+
+      it('should start in display mode', function() {
+        expect(item.el).not.toHaveClass('editing');
       });
 
       it('should render its title', function () {
         var title = 'title';
-        $('#item-list').append(this.itemView.render().el);
 
-        this.itemView.model.set({title: title});
-        expect($(this.itemView.el).find('.item-title')).toHaveText(title);
+        item.model.set({title: title});
+        expect($(item.el).find('.item-title')).toHaveText(title);
       });
 
       it('should render its counter', function () {
         var counter = 24;
-        $('#item-list').append(this.itemView.render().el);
 
-        this.itemView.model.set({counter: counter});
-        expect($(this.itemView.el).find('.item-counter')).toHaveText(counter);
+        item.model.set({counter: counter});
+        expect($(item.el).find('.item-counter')).toHaveText(counter);
+      });
+
+      it('should be removed from DOM WHEN the model is destroyed', function () {
+        item.model.trigger('destroy');
+        expect($('#item-list > li').length).toBe(0);
       });
 
     });
@@ -60,45 +74,58 @@ define(["/js/views/item.view.js", "/js/models/item.model.js"], function(ItemView
     describe('Can use EVENTS', function(){
 
       beforeEach(function () {
-        $('#item-list').append(this.itemView.render().el);
-        this.itemView.model.url = 'stub';
+        $('#item-list').append(item.render().el);
+        item.model.url = 'stub';
+        this.clock = sinon.useFakeTimers();
+      });
+
+      afterEach(function () {
+        this.clock.restore();
       });
 
       it('should increment counter WHEN clicking on the item', function(){
-        var item = $(this.itemView.el).find('.item');
+        var $item = $(item.el).find('.item');
 
-        spyOnEvent(item, 'click');
-        item.click();
-        expect('click').toHaveBeenTriggeredOn(item);
-        expect(this.itemView.model.get('counter')).toBe(1);
+        $item.click();
+        expect(item.model.get('counter')).toBe(1);
+      });
+
+      it('should have a "pressed" effect WHEN clicked', function () {
+        var $item = $(item.el).find('.item');
+
+        $item.click();
+
+        expect($(item.el)).toHaveClass('pressed');
+
+        this.clock.tick(500);
+
+        expect($(item.el)).not.toHaveClass('pressed');
       });
 
       describe('Can use EVENTS on its TITLE', function(){
 
         var title;
         beforeEach(function () {
-          title = $(this.itemView.el).find('.item-title');
+          title = $(item.el).find('.item-title');
         });
 
         it('should go in editing mode WHEN doubleclicking on the title', function(){
-          spyOnEvent(title, 'dblclick');
           title.dblclick();
-          expect($(this.itemView.el)).toHaveClass('editing');
-          expect($(this.itemView.el).find('.item-input')).toBeVisible();
+          expect($(item.el)).toHaveClass('editing');
         });
 
         it('should not increment WHEN clicking on title', function () {
           title.click();
-          expect(this.itemView.model.get('counter')).toBe(0);
+          expect(item.model.get('counter')).toBe(0);
         });
 
       });
 
       describe('Can use EVENTS on its INPUT', function(){
 
-        var input;
+        var $input;
         beforeEach(function () {
-          input = $(this.itemView.el).find('.item-input');
+          $input = $(item.el).find('.item-input');
         });
 
         it('should save the input WHEN pressing enter', function(){
@@ -107,25 +134,25 @@ define(["/js/views/item.view.js", "/js/models/item.model.js"], function(ItemView
 
           keypress.which = 13;
 
-          $(this.itemView.el).addClass('editing');
+          $(item.el).addClass('editing');
 
-          input.val(newValue);
-          input.trigger(keypress);
+          $input.val(newValue);
+          $input.trigger(keypress);
 
-          expect($(this.itemView.el)).not.toHaveClass('editing');
-          expect(this.itemView.model.get('title')).toBe(newValue);
+          expect($(item.el)).not.toHaveClass('editing');
+          expect(item.model.get('title')).toBe(newValue);
         });
 
         it('should save the input WHEN losing focus', function(){
           var newValue = 'my new value';
 
-          $(this.itemView.el).addClass('editing');
+          $(item.el).addClass('editing');
 
-          input.val(newValue);
-          input.trigger('blur');
+          $input.val(newValue);
+          $input.trigger('blur');
 
-          expect($(this.itemView.el)).not.toHaveClass('editing');
-          expect(this.itemView.model.get('title')).toBe(newValue);
+          expect($(item.el)).not.toHaveClass('editing');
+          expect(item.model.get('title')).toBe(newValue);
         });
       });
 
