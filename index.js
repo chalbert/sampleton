@@ -100,7 +100,7 @@ app.delete('/api/items/:id', function(req, res){
 
 app.get(/^\/tpl\/([^.]+).html$/, function(req, res){
   var path = req.params[0];
-  res.render('public/' + path + '.jade', {layout: false});
+  res.render(path + '.jade', {layout: false});
 });
 
 app.listen(4000);
