@@ -23,7 +23,11 @@ define([
       'counter' : '.item-counter'
     },
 
+    requirements: ['model'],
+
     initialize: function() {
+      this._super('initialize');
+
       //| > If changed must render
       this.model.bind('change', this.render, this);
       //| > If destroyed must remove from dom
@@ -115,24 +119,6 @@ define([
       this.$el().removeClass('editing');
     },
 
-    //| > Remove this view from the DOM.
-    remove: function() {
-      this.$el().remove();
-    },
-
-    //| > Remove the item, destroy the model.
-    clear: function() {
-      this.model.destroy();
-    },
-
-    //|---------|
-    //| HELPERS |
-    //|---------|
-
-    isEditing: function(){
-      return this.$el().hasClass('editing');
-    },
-
     //|---------|
     //| EFFECTS |
     //|---------|
@@ -145,6 +131,14 @@ define([
       this.pressTimer = setTimeout(function(){
         that.removeClass('pressed');
       }, 200);
+    },
+
+    //|---------|
+    //| HELPERS |
+    //|---------|
+
+    isEditing: function(){
+      return this.$el().hasClass('editing');
     }
 
   });
