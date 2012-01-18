@@ -33,6 +33,33 @@ define([
       return eventStack;
     },
 
+    initialize: function(){
+      this.ensureRequirements();
+    },
+
+    _super: function (funcName){
+      return this.constructor.__super__[funcName].apply(this, _.rest(arguments));
+    },
+
+    ensureRequirements: function(requirements){
+      requirements = requirements || this.requirements;
+      if (!requirements) return;
+      for (requirement in requirements) {
+        if (!this[requirements[requirement]]
+         && !this._requirementAsOption(requirements[requirement])
+            ) {
+          throw new Error('View requires: ' + requirements[requirement].toString());
+        }
+      }
+    },
+
+    _requirementAsOption: function(requirement){
+      if (this.options[requirement]) {
+        this[requirement] = this.options[requirement];
+        return true;
+      }
+    },
+
     _formatElementEvents: function(element, eventString){
       this._ensureElementExist(element);
       var events = eventString.split(' '),
