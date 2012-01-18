@@ -7,30 +7,31 @@ define([
   'underscore',
   'backbone',
   'glasses',
-  'collections/item.col',
-  'views/item.view'
-  ], function($, _, Backbone, o_o, Items, ItemView){
+  ], function($, _, Backbone, o_o){
 
   return o_o.view.extend({
-//------------------------------------------------------------------------
 
-    el: $("#sampleton"),
+    el: '.item-list-wrapper',
 
     elements: {
       'input': '#new-item',
       'list': '#item-list'
     },
 
+    requirements: ['rowView', 'collection'],
+
     initialize: function() {
+      this._super('initialize');
+
       //| > When an item is added, we need to add it to the dom
-      Items.bind('add',   this.addOne, this);
+      this.collection.bind('add',   this.addOne, this);
       //| > When the collection is reseted, we need re-add all items
-      Items.bind('reset', this.addAll, this);
+      this.collection.bind('reset', this.addAll, this);
       //| > Every event trigger a rendering
       //| ? Is it needed?
-      Items.bind('all',   this.render, this);
+      this.collection.bind('all',   this.render, this);
 
-      Items.fetch();
+      this.collection.fetch();
     },
 
 //------------------------------------------------------------------------
@@ -45,14 +46,12 @@ define([
     },
 
     input_keypress_enter: function(e){
-
       //| > If the input is not empty, create a new item
       var title = this.$el('input').val();
       if (title) {
-        Items.create({title: title});
+        this.collection.create({title: title});
         this.$el('input').val('');
       }
-
     },
 
 //------------------------------------------------------------------------
@@ -62,15 +61,15 @@ define([
     //|---------|
 
     //| > Create a new view, and append it to the list
-    addOne: function(item) {
-      var view = new ItemView({model: item});
+    addOne: function(model) {
+      var view = new this.rowView({model: model});
       this.$el('list').append(view.render().el);
     },
 
     //| > Add each item
     addAll: function() {
-      Items.each(function(item){
-        this.addOne(item);
+      this.collection.each(function(model){
+        this.addOne(model);
       }, this);
     }
 
