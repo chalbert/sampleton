@@ -7,7 +7,7 @@ define([
   'models/item.model'
   ], function(_, Backbone, Item){
 
-  return new (Backbone.Collection.extend({
+  return Backbone.Collection.extend({
 
     model: Item,
 
@@ -39,5 +39,5 @@ define([
       return item.get('order');
     }
 
-  }));
+  });
 });
