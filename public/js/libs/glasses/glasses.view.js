@@ -16,9 +16,10 @@ define([
       if (this.elements && this.elements[element]) {
         return $(this.el).find(this.elements[element]);
       }
+      throw new Error("Element '" + element + "' doesn't exist")
     },
     //| > Convention based event binding
-    generateEvents : function(){
+    mapEvents : function(){
       var eventStack = {};
       if (_.isString(arguments[0])) {
         _.extend(eventStack, this._formatElementEvents('', arguments[0]));
