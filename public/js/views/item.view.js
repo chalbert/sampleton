@@ -43,7 +43,7 @@ define([
    //|--------|
 
     events: function() {
-      return this.generateEvents({
+      return this.mapEvents({
         item: 'click',
         title: 'click dblclick',
         input: 'keypress:enter blur'
