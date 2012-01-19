@@ -13,7 +13,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
   var listView, server, collection, rowview;
 //------------------------------------------------------------------------
 
-  describe('Sampling item list', function() {
+  describe('As a list of sampling items', function() {
 
     beforeEach(function() {
 
