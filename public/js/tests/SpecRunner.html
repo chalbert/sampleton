@@ -10,6 +10,7 @@
   <script type="text/javascript" src="lib/sinon/sinon-1.3.1.js"></script>
   <script type="text/javascript" src="lib/jasmine/jasmine-sinon.js"></script>
 
+	<script type="text/javascript" src="../libs/vendor/underscore/underscore.js"></script>
 	<script type="text/javascript" src="../libs/vendor/require/require.js"></script>
 
 	<script type="text/javascript">
@@ -28,8 +29,9 @@
     );
 		require([
 			//include all specs to be run
-			'tests/specs/ItemViewSpec',
-			'tests/specs/ItemListViewSpec'
+			'tests/specs/glasses/glassesSpec',
+			'tests/specs/views/itemViewSpec',
+			'tests/specs/views/itemListViewSpec'
 		],
 			function() {
 				//run tests
