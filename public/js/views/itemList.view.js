@@ -40,7 +40,7 @@ define([
     //|--------|
 
     events: function() {
-      return this.generateEvents({
+      return this.mapEvents({
         input: 'keypress:enter'
       });
     },
