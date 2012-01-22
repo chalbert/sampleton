@@ -11,14 +11,26 @@ require.config({
 });
 
 require([
+  // Item List
   'views/itemList.view',
   'views/item.view',
-  'collections/item.col'
-], function(itemListView, itemView, itemCollection){
+  'collections/item.col',
+  // Searchbox
+  'views/searchbox.view'
 
-  var itemList = new itemListView({
+], function(itemListView, itemView, itemCollection, searchboxView){
+
+  var sampleton = {};
+
+  //|-------|
+  //| VIEWS |
+  //|-------|
+  sampleton.views = {};
+  sampleton.views.itemList = new itemListView({
     rowView: itemView,
     collection: new itemCollection()
   });
+  sampleton.views.searchbox = new searchboxView(sampleton.views.itemList);
+
 
 });

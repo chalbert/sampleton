@@ -45,7 +45,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
     //| TESTS |
     //|-------|
 
-    describe('Given I insert 3 items in the collection', function(){
+    describe('Given 3 items are inserted in the collection', function(){
 
       var item = [];
       beforeEach(function () {
@@ -58,7 +58,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
       });
     });
 
-    describe('Given I press "enter" in the field', function(){
+    describe('Given "enter" is pressed in the field', function(){
 
       var spySync;
       beforeEach(function () {
