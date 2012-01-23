@@ -23,13 +23,13 @@ define([
 
 //------------------------------------------------------------------------
 
-   //|--------|
-   //| EVENTS |
-   //|--------|
+    //|--------|
+    //| EVENTS |
+    //|--------|
 
     events: function() {
       return this.mapEvents({
-        input: 'keyup change',
+        input: 'keyup change keyup:escape',
         reset: 'click'
       });
     },
@@ -42,21 +42,35 @@ define([
       this.search();
     },
 
+    input_keyup_escape: function(e) {
+      this.reset();
+    },
+
     reset_click: function(e) {
-      this.$el('input').val('');
-      this.listView.resetFilter();
+      this.reset();
     },
 
 //------------------------------------------------------------------------
 
-   //|---------|
-   //| ACTIONS |
-   //|---------|
+    //|---------|
+    //| ACTIONS |
+    //|---------|
 
-  search: function(){
-    var search = this.$el('input').val();
-    this.listView.filterByTitle(search);
-  }
+    search: function(){
+      var search = this.$el('input').val();
+      if (search) {
+        this.$el('reset').removeClass('hidden');
+        this.listView.filterByTitle(search);
+      } else {
+        this.$el('reset').addClass('hidden');
+      }
+    },
+
+    reset: function(){
+      this.$el('reset').addClass('hidden');
+      this.$el('input').val('');
+      this.listView.resetFilter();
+    }
 
   });
 
