@@ -30,7 +30,9 @@ require([
     rowView: itemView,
     collection: new itemCollection()
   });
-  sampleton.views.searchbox = new searchboxView(sampleton.views.itemList);
+  sampleton.views.searchbox = new searchboxView({
+    listView: sampleton.views.itemList
+  });
 
 
 });
