@@ -17,10 +17,10 @@ define([
     template: _.template(itemsTemplate),
 
     elements: {
-      'item'    : '.item',
-      'input'   : '.item-input',
-      'title'   : '.item-title',
-      'counter' : '.item-counter'
+      'item': '.item',
+      'input': '.item-input',
+      'title': '.item-title',
+      'counter': '.item-counter'
     },
 
     requirements: ['model'],
@@ -117,6 +117,14 @@ define([
     applyEditing: function() {
       this.model.save({title: this.$el('input').val()});
       this.$el().removeClass('editing');
+    },
+
+    hide: function(){
+      this.$el().addClass('hidden');
+    },
+
+    show: function(){
+      this.$el().removeClass('hidden');
     },
 
     //|---------|
