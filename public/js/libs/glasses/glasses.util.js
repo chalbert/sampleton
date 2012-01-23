@@ -46,7 +46,15 @@ define(['underscore'], function(_){
       return this.keyMap[keyname];
     },
     keyMap: {
-      'enter': 13
+      enter: 13,
+      backsoace: 8,
+      tab: 9,
+      escape: 27,
+      left: 37,
+      up: 38,
+      right: 39,
+      down: 40,
+      delete: 46
     }
   };
 
