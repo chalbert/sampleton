@@ -15,7 +15,8 @@ define([
 
     elements: {
       'input': '#new-item',
-      'list': '#item-list'
+      'list': '#item-list',
+      'message': '.messagebox'
     },
 
     requirements: ['rowView', 'collection'],
@@ -71,6 +72,50 @@ define([
       this.collection.each(function(model){
         this.addOne(model);
       }, this);
+    },
+
+    filterByTitle: function(title){
+      this._filterBy('title', title);
+    },
+
+    resetFilter: function () {
+      this.showAll();
+      this.deleteMessage();
+    },
+
+    _filterBy: function(attribute, value){
+      var matched = this.collection.filterBy(attribute, value);
+      this.hideAll();
+      if (matched.length === 0) {
+        this.writeMessage('No result for this search');
+      } else {
+        this.deleteMessage();
+        _.each(matched, function(item){
+          item.view.show();
+        });
+      }
+    },
+
+    showAll: function(){
+      this.collection.each(function(item){
+        item.view.show();
+      });
+    },
+
+    hideAll: function(){
+      this.collection.each(function(item){
+        item.view.hide();
+      });
+    },
+    
+    writeMessage: function(text){
+      this.$el('message').text(text)
+                         .removeClass('hidden');
+    },
+
+    deleteMessage: function(){
+      this.$el('message').text('')
+                         .addClass('hidden');
     }
 
   });
