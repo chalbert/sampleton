@@ -1,10 +1,15 @@
 @import 'nib'
 @import 'searchbox'
+@import 'item-list'
 
 body
   font-family "Lucida Sans Unicode", "Lucida Grande", sans-serif
   background #fef7ea url(../images/bg.gif)
   padding 10px 30px
+
+#container
+  position relative
+  min-width 500px
 
 #logo
   position relative
@@ -21,62 +26,6 @@ body
   padding 20px
   border-radius 20px
   border 2px #ccc solid
-
-#item-list
-  padding 0
-  clearfix()
-
-  li
-    list-style none
-
-    &.hidden
-      display none
-
-  .item
-    position relative
-    float left
-    box-shadow 2px 2px 4px #eee
-    border 2px #ccc solid
-    width 140px
-    height 140px
-    margin 0 12px 12px 0
-    border-radius 16px
-    background: linear-gradient(top, #eee, #ccc);
-    cursor pointer
-
-  .item-title
-    text-align center
-    font-size 95%
-
-  .item-counter
-    position absolute
-    bottom 5px
-    left 10px
-    right 10px
-    text-align center
-    border-width 3px
-    border-color #999 #000 #333 #555
-    color #fff
-    font-family "Courier New", Courier, monospace
-    font-size 120%
-    background: linear-gradient(top, #222, #999, #999,  #555);
-    border-style solid
-    margin-top 4px
-    border-radius 2px
-    box-shadow 0 2px 2px #777
-
-  .pressed .item-counter
-    box-shadow none
-    background: linear-gradient(top, #333, #888, #888,  #444);
-
-  .edit
-    display none
-
-  .editing .edit
-      display block
-
-  .editing .display
-      display none
 
 .messagebox
   &.hidden
