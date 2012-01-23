@@ -1,6 +1,7 @@
 define(['backbone', '/js/collections/item.col.js'], function(Backbone, ItemCol){
 
   var server;
+  ItemCol.prototype.model = Backbone.Model;
   describe("As a collection of sampling item", function () {
 
     describe("Given I create an item", function () {
@@ -18,9 +19,8 @@ define(['backbone', '/js/collections/item.col.js'], function(Backbone, ItemCol){
     describe("Given I add 3 items", function () {
 
       it("should add each item an increasing order", function () {
-        ItemCol.prototype.model = Backbone.Model;
-        var collection = new ItemCol();
 
+        var collection = new ItemCol();
         for (var n = 1; n <= 3; n++){
           var server = sinon.fakeServer.create();
 
@@ -34,6 +34,30 @@ define(['backbone', '/js/collections/item.col.js'], function(Backbone, ItemCol){
 
           server.restore();
         }
+
+      });
+
+    });
+
+    describe("Given the collection is filtered by title", function () {
+
+      it("should return an array of models that matched the query", function () {
+
+        var titles = ['shoes', 'bubbles', 'baseball',
+          'bracelet', 'bucolic', 'bubonic'];
+
+        var collection = new ItemCol();
+
+        for (key in titles){
+          var item = new Backbone.Model({id: key, title: titles[key]});
+          collection.add(item)
+        }
+
+        var result = collection.filterBy('title', 'bu');
+        expect(result.length).toBe(3);
+        expect(result[0].get('title')).toBe('bubonic');
+        expect(result[1].get('title')).toBe('bucolic');
+        expect(result[2].get('title')).toBe('bubbles');
 
       });
 
