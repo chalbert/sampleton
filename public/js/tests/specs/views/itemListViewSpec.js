@@ -49,8 +49,10 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
 
       var item = [];
       beforeEach(function () {
-        for (var n = 1; n <= 3; n++) item[n] = new Backbone.Model({id: n});
-        collection.add([item[1], item[2], item[3]]);
+        for (var n = 1; n <= 3; n++) {
+          item[n] = new Backbone.Model({id: n});
+          collection.add([item[n]]);
+        }
       });
 
       it("should render three rows", function() {
@@ -58,7 +60,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
       });
     });
 
-    describe('Given "enter" is pressed in the field', function(){
+    describe('Given "enter" is pressed in the "new item" field', function(){
 
       var spySync;
       beforeEach(function () {
@@ -100,7 +102,72 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
           expect($('#item-list > li').length).toBe(0);
         });
       });
+    });
+
+    describe("Given I filter the list by title", function () {
+      
+      beforeEach(function () {
+
+        var titles = ['shoes', 'bubbles', 'baseball',
+               'bracelet', 'bucolic', 'bubonic'];
+
+        for (key in titles){
+          var item = new Backbone.Model({id: key, title: titles[key]});
+          item.view = sinon.stub();
+          item.view.show = sinon.stub();
+          item.view.hide = sinon.stub();
+          collection.add(item)
+        }
+
+      });
+
+      describe("AND the text matches some items' title", function () {
+
+        it("should show only matching items", function () {
+          collection.filterBy = sinon.stub().returns([
+            collection.get(1),
+            collection.get(4),
+            collection.get(5)
+          ]);
+
+          var search = 'bu';
+          listView.filterByTitle(search);
+
+          expect(collection.get(0).view.show).not.toHaveBeenCalled();
+          expect(collection.get(1).view.show).toHaveBeenCalledOnce();
+          expect(collection.get(2).view.show).not.toHaveBeenCalled();
+          expect(collection.get(3).view.show).not.toHaveBeenCalled();
+          expect(collection.get(4).view.show).toHaveBeenCalledOnce();
+          expect(collection.get(5).view.show).toHaveBeenCalledOnce();
+
+        });
+
+      });
+
+     describe("BUT if the text doesn't match any item's title", function () {
+
+       beforeEach(function () {
+         collection.filterBy = sinon.stub().returns([]);
+
+         var search = 'unmatching string';
+         listView.filterByTitle(search);
+       });
+
+       it("should hide every item", function () {
+         for (var n = 0; n <= 5; n++) {
+           expect(collection.get(n).view.show).not.toHaveBeenCalled();
+         }
+       })
+
+       it("should display a message", function () {
+         expect(listView.$el('message')).not.toHaveClass('hidden');
+         expect(listView.$el('message')).not.toBeEmpty();
+
+       });
+
+     });
 
     });
+
   });
 });
