@@ -14,16 +14,17 @@ head
   title=title
   meta(name="description", content="")
   meta(name="author", content="")
-  meta(name="viewport", content="width=device-width,initial-scale=1")
+  meta(name="viewport", content="width=device-width,minimum-scale=1.0,maximum-scale=1.0")
 
   link(rel="icon", href="images/favicon.png")
-  // CSS concatenated and minified via ant build script
   //link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Fredericka+the+Great")
   link(rel="stylesheet", href="css/style.css")
-  // end CSS
+  <!--[if !IE]>-->
+  link(type="text/css", rel="stylesheet", media="only screen and (max-device-width: 480px)", href="css/mobile.css")
+  <!--<![endif]-->
 
   script(src="js/libs/vendor/modernizr/modernizr-2.0.6.min.js")
-  <script src="js/libs/vendor/require/require.js" data-main="js/app" data-order="js/require/order"></script>
+  script(src="js/libs/vendor/require/require.js", data-main="js/app", data-order="js/require/order")
 body
 
   #container
