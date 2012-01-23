@@ -43,6 +43,20 @@ define([
     //| > Used by Backbone to sort by order
     comparator: function(item) {
       return item.get('order');
+    },
+
+    //|---------|
+    //| HELPERS |
+    //|---------|
+
+    filterBy: function(attribute, value){
+      var result = this.filter(function(item){
+        var search = new RegExp(value, 'i'),
+            target = item.get(attribute).toLowerCase();
+
+        return target.match(search);
+      });
+      return result;
     }
 
   });
