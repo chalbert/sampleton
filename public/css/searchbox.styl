@@ -1,8 +1,35 @@
 .searchbox
   position absolute
-  right 38px
-  top  44px
+  right 8px
+  top  26px
   z-index 20
+
   .search-input
     width 180px
-  //.search-reset
+    border 1px #ccc solid
+    border-radius 12px
+    height 20px
+    padding 0 24px 0 6px
+    outline none
+    &:focus
+      box-shadow inset 1px 1px 3px #e7e7e7
+
+  .search-reset
+    border 0
+    border-radius 12px
+    background #ccc
+    color #fff
+    text-align center
+    font-size 12px
+    padding 0
+    width 17px
+    height 16px
+    margin 0 0 0  -23px
+    font-family verdana
+    position relative
+    z-index 30
+    cursor pointer
+    &:hover
+      background #999
+    &.hidden
+      display none
