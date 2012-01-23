@@ -1,75 +1,73 @@
-define(['/js/views/searchbox.view.js'], function(SearchboxView){
+define(['backbone', '/js/views/searchbox.view.js'], function(Backbone, SearchboxView){
 
-  describe("GIVEN I type some text in the field", function () {
+  describe("As a searchbox", function () {
 
-    var searchbox, $searchbox, $searchInput, $itemList;
+    var searchbox, $searchbox, $searchInput, $itemList, $searchReset, listView;
     beforeEach(function() {
-
-      var titles = ['shoes', 'bubbles', 'hair', 'oliver',
-        'bracelet', 'elephant', 'moving arrow',
-        'bucolic', 'bubonic', 'bubble gum'];
 
       var searchboxClass = 'searchbox',
           searchInputClass = 'search-input',
-          listId = 'item-list';
+          searchResetClass = 'search-reset';
 
-      $('body')
-          .append('<div class="' + searchboxClass + '"><input class="' + searchInputClass + '"/></div>')
-          .append('<ul id="' + listId + '"></ul>');
+      loadFixtures('searchbox.html');
 
       $searchbox = $('.' + searchboxClass);
       $searchInput = $('.' + searchInputClass);
-      $itemList = $('#' + listId);
+      $searchReset = $('.' + searchResetClass);
 
-      for (title in titles) {
-        $itemList.append('<li><div class="item-title">' + titles[title] + '</div></li>');
-      }
-
-      searchbox = new SearchboxView();
+      listView = new Backbone.View();
+      searchbox = new SearchboxView({listView: listView});
 
     });
 
     afterEach(function () {
       searchbox.remove();
-
       $searchbox.remove();
-      $itemList.remove();
     });
 
-    describe("AND the text matches some items' title", function () {
+    describe("Given I type some text in the field", function () {
 
-      it("should display only those items", function () {
 
-        var search = 'bu';
-        $searchbox.val(search);
+      describe("And the text matches some items' title", function () {
 
-        // only containing bu
-        var selection = $itemList.find('li:visible');
-        expect(selection.length).toBe(4);
-        expect(selection.get(0)).toHaveText('bubbles');
-        expect(selection.get(1)).toHaveText('bucolic');
-        expect(selection.get(2)).toHaveText('bubonic');
-        expect(selection.get(3)).toHaveText('bubble gum');
+        it("should filter the list of item when the value change", function () {
 
+          var searchOnChange = 'search on change';
+          $searchInput.val(searchOnChange);
+          listView.filterByTitle = sinon.stub();
+          $searchInput.trigger('change');
+          expect(listView.filterByTitle).toHaveBeenCalledWith(searchOnChange);
+        });
+
+        it("should filter the list of item when a key is pressed", function () {
+          var searchOnKeyup = 'search on keyup';
+          $searchInput.val(searchOnKeyup);
+          listView.filterByTitle = sinon.stub();
+          $searchInput.trigger('keyup');
+          expect(listView.filterByTitle).toHaveBeenCalledWith(searchOnKeyup);
+
+        });
+      });
+    });
+
+    describe("Given I click the cancel button", function () {
+
+      beforeEach(function () {
+        listView.resetFilter = sinon.stub();
+      });
+
+      it("should reset the search input", function () {
+        $searchInput.val('a great new search');
+        $searchReset.click();
+        expect($searchInput).toHaveValue('');
+      });
+
+      it("should reset the filtering", function () {
+        $searchReset.click();
+        expect(listView.resetFilter).toHaveBeenCalledOnce();
       });
 
     });
-
-    xdescribe("BUT if the text doesn't match any item's title", function () {
-
-      it("should hide every item", function () {
-
-      })
-
-      it("should display a message", function () {
-
-      });
-
-    });
-
-  });
-
-  describe("GIVEN I click the cancel button", function () {
 
   });
 
