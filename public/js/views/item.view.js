@@ -7,7 +7,7 @@ define([
   'underscore',
   'backbone',
   'glasses',
-  'text!/tpl/item/item.html'
+  'text!tpl/item/item.html'
   ], function($, _, Backbone, o_o, itemsTemplate){
 
   return o_o.view.extend({
@@ -60,6 +60,7 @@ define([
     },
 
     item_click: function(e) {
+      e.preventDefault();
       //| > If not editing, increment
       if (!this.isEditing()) {
         this.effect_press();
