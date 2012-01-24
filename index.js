@@ -1,9 +1,9 @@
 var application_root = __dirname,
-  express = require("express"),
-  stylus = require("stylus"),
-  nib = require("nib"),
-  path = require("path"),
-  mongoose = require('mongoose');
+    express = require("express"),
+    stylus = require("stylus"),
+    nib = require("nib"),
+    path = require("path"),
+    mongoose = require('mongoose');
 
 var app = module.exports = express.createServer();
 
@@ -17,9 +17,9 @@ var Item = mongoose.model('Item', new mongoose.Schema({
 
 function compile(str, path) {
   return stylus(str)
-    .set('filename', path)
-    .set('compress', true)
-    .use(nib());
+      .set('filename', path)
+      .set('compress', true)
+      .use(nib());
 }
 
 app.configure(function(){
@@ -39,6 +39,7 @@ app.configure(function(){
 });
 
 // Routes
+
 
 app.get('/', function(req, res){
   res.render('index', {title: "Sampling made simple ~ Sampleton"});
@@ -104,3 +105,7 @@ app.get(/^\/tpl\/([^.]+).html$/, function(req, res){
 });
 
 app.listen(4000);
+
+express.createServer(function (req, res) {
+  res.redirect('http://www.chalbert.com', 301);
+}).listen(5000);
