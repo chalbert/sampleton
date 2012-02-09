@@ -7,7 +7,9 @@ define([
   'underscore',
   'backbone',
   'glasses',
-  ], function($, _, Backbone, o_o){
+  'mediator',
+  'jqueryui/sortable'
+  ], function($, _, Backbone, o_o, mediator){
 
   return o_o.view.extend({
 
@@ -24,15 +26,23 @@ define([
     initialize: function() {
       this._super('initialize');
 
-      //| > When an item is added, we need to add it to the dom
+      this.$el.sortable({
+        items: 'li',
+        placeholder: 'placeholder',
+        helper: 'clone',
+        revert: true,
+        tolerance: 'pointer'
+      });
+
       this.collection.bind('add',   this.addOne, this);
-      //| > When the collection is reseted, we need re-add all items
       this.collection.bind('reset', this.addAll, this);
-      //| > Every event trigger a rendering
-      //| ? Is it needed?
       this.collection.bind('all',   this.render, this);
 
       this.collection.fetch();
+
+      mediator.subscribe('editing:go', this.showInput, this);
+      mediator.subscribe('recording:go', this.hideInput, this);
+
     },
 
 //------------------------------------------------------------------------
@@ -41,18 +51,34 @@ define([
     //|--------|
 
     events: function() {
-      return this.mapEvents({
+      return this.mapEvents('sortupdate', {
         input: 'keypress:enter'
       });
     },
 
+    sortupdate: function(e, ui){
+      var id = ui.item.find('.item').data('id'),
+          position = ui.item.index() + 1,
+          model = this.collection.getByCid(id);
+
+      model.save({'order': position});
+    },
+
     input_keypress_enter: function(e){
       //| > If the input is not empty, create a new item
-      var title = this.$el('input').val();
+      var title = this.$get('input').val();
       if (title) {
         this.collection.create({title: title});
-        this.$el('input').val('');
+        this.$get('input').val('');
       }
+    },
+
+    hideInput: function(){
+      this.$get('input').slideUp(150);
+    },
+
+    showInput: function(){
+      this.$get('input').slideDown(150);
     },
 
 //------------------------------------------------------------------------
@@ -61,10 +87,11 @@ define([
     //| ACTIONS |
     //|---------|
 
+
     //| > Create a new view, and append it to the list
     addOne: function(model) {
       var view = new this.rowView({model: model});
-      this.$el('list').append(view.render().el);
+      this.$get('list').append(view.render().el);
     },
 
     //| > Add each item
@@ -109,13 +136,13 @@ define([
     },
     
     writeMessage: function(text){
-      this.$el('message').text(text)
-                         .removeClass('hidden');
+      this.$get('message').text(text)
+                          .removeClass('hidden');
     },
 
     deleteMessage: function(){
-      this.$el('message').text('')
-                         .addClass('hidden');
+      this.$get('message').text('')
+                          .addClass('hidden');
     }
 
   });
