@@ -18,7 +18,6 @@ define([
 
     initialize: function(){
       this._super('initialize');
-      var input = this.$el('input');
     },
 
 //------------------------------------------------------------------------
@@ -57,18 +56,18 @@ define([
     //|---------|
 
     search: function(){
-      var search = this.$el('input').val();
+      var search = this.$get('input').val();
       if (search) {
-        this.$el('reset').removeClass('hidden');
+        this.$get('reset').removeClass('hidden');
         this.listView.filterByTitle(search);
       } else {
-        this.$el('reset').addClass('hidden');
+        this.$get('reset').addClass('hidden');
       }
     },
 
     reset: function(){
-      this.$el('reset').addClass('hidden');
-      this.$el('input').val('');
+      this.$get('reset').addClass('hidden');
+      this.$get('input').val('');
       this.listView.resetFilter();
     }
 
