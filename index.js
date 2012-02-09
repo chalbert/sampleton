@@ -9,11 +9,24 @@ var app = module.exports = express.createServer();
 
 mongoose.connect('mongodb://localhost/sampleton');
 
-var Item = mongoose.model('Item', new mongoose.Schema({
-  title: String,
-  counter: Number,
-  order: Number
-}));
+
+var Item = mongoose.model('Item', (function() {
+  var shema = new mongoose.Schema({
+    title:String,
+    records:[Record],
+    order:Number
+  });
+
+  shema.virtual('counter').get(function(){
+    return this.records.length;
+  });
+  return shema;
+})());
+
+
+var Record = new mongoose.Schema({
+  date: { type: Date, 'default': Date.now }
+});
 
 function compile(str, path) {
   return stylus(str)
@@ -45,15 +58,41 @@ app.get('/', function(req, res){
   res.render('index', {title: "Sampling made simple ~ Sampleton"});
 });
 
+//|-----------|
+//| TEMPLATES |
+//|-----------|
+
+app.get(/^\/templates\/([^.]+).html$/, function(req, res){
+  var path = req.params[0];
+  res.render(path + '.jade', {layout: false});
+});
+
+//|-------|
+//| ITEMS |
+//|-------|
+
 app.get('/api/items', function(req, res){
   return Item.find(function(err, items) {
-    return res.send(items);
+    var response = [];
+    items.forEach(function(item){
+      response.push({
+        _id: item._id,
+        title: item.title,
+        order: item.order,
+        counter: item.counter
+      });
+    });
+    return res.send(response);
+
+    //return res.send(items);
+
   });
 });
 
 app.get('/api/items/:id', function(req, res){
   return Item.findById(req.params.id, function(err, item) {
     if (!err) {
+      //item.records = new array(req.body.records.length);
       return res.send(item);
     }
   });
@@ -62,7 +101,7 @@ app.get('/api/items/:id', function(req, res){
 app.put('/api/items/:id', function(req, res){
   return Item.findById(req.params.id, function(err, item) {
     item.title = req.body.title;
-    item.counter = req.body.counter;
+    item.records = req.body.records;
     item.order = req.body.order;
     return item.save(function(err) {
       if (!err) {
@@ -74,12 +113,12 @@ app.put('/api/items/:id', function(req, res){
 });
 
 app.post('/api/items', function(req, res){
-  var item;
-  item = new Item({
+  var item = new Item({
     title: req.body.title,
-    counter: req.body.counter,
+    records: req.body.records,
     order: req.body.order
   });
+
   item.save(function(err) {
     if (!err) {
       return console.log("created");
@@ -99,13 +138,38 @@ app.delete('/api/items/:id', function(req, res){
   });
 });
 
-app.get(/^\/tpl\/([^.]+).html$/, function(req, res){
-  var path = req.params[0];
-  res.render(path + '.jade', {layout: false});
+//|---------|
+//| RECORDS |
+//|---------|
+
+app.get('/api/records/:itemId', function(req, res){
+  console.log('get:records');
+
+  return Item.findById(req.params.itemId, function(err, item) {
+    return res.send(item.records);
+  });
+
 });
+
+app.post('/api/records/:item', function(req, res){
+
+  console.log('route' + req.params.item);
+
+  Item.findById(req.params.item, function(err, item) {
+    item.records.push({
+      date: req.body.date
+    });
+    item.save();
+    console.log('Record created');
+    return res.send({success:1});
+  });
+
+});
+
+//|---------
 
 app.listen(4000);
 
 express.createServer(function (req, res) {
-  res.redirect('http://www.chalbert.com', 301);
+  res.redirect('http://www.chalbert.com' + req.url, 301);
 }).listen(5000);
