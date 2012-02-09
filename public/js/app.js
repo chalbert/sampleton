@@ -1,38 +1,22 @@
 require.config({
   paths: {
-    jquery: 'libs/vendor/jquery/jquery-min',
-    underscore: 'libs/vendor/underscore/underscore-min',
+    jquery: 'libs/vendor/jquery/jquery',
+    jqueryui: 'libs/vendor/jqueryui',
+    underscore: 'libs/vendor/underscore/underscore',
     backbone: 'libs/vendor/backbone/backbone',
     glasses: 'libs/glasses/glasses',
     text: 'libs/vendor/require/text',
-    order: "libs/vendor/require/order"
+    order: "libs/vendor/require/order",
+    date: "libs/vendor/date/date",
+    mediator: "libs/mediator"
   }
 
 });
 
 require([
-  // Item List
-  'views/itemList.view',
-  'views/item.view',
-  'collections/item.col',
-  // Searchbox
-  'views/searchbox.view'
+  'views/app.view'
+], function(appView){
 
-], function(itemListView, itemView, itemCollection, searchboxView){
-
-  var sampleton = {};
-
-  //|-------|
-  //| VIEWS |
-  //|-------|
-  sampleton.views = {};
-  sampleton.views.itemList = new itemListView({
-    rowView: itemView,
-    collection: new itemCollection()
-  });
-  sampleton.views.searchbox = new searchboxView({
-    listView: sampleton.views.itemList
-  });
-
+  var app = new appView();
 
 });
