@@ -55,6 +55,10 @@ define(['underscore'], function(_){
       right: 39,
       down: 40,
       'delete': 46
+    },
+
+    capitalize : function(string) {
+      return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
     }
   };
 
