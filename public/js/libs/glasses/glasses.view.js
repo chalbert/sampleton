@@ -1,5 +1,5 @@
 //|===================================================|
-//| CHALBERT ~ VIEW
+//| GLASSES VIEW | o_o.view
 //|===================================================|
 
 define([
@@ -11,7 +11,7 @@ define([
 
   return Backbone.View.extend({
 
-    $el: function(element) {
+    $get: function(element) {
       if (!element) return $(this.el);
       if (this.elements && this.elements[element]) {
         return $(this.el).find(this.elements[element]);
@@ -26,7 +26,7 @@ define([
       }
       var childrenEvents = arguments[1] || arguments[0];
       if (_.isObject(childrenEvents)) {
-        for (child in childrenEvents) {
+        for (var child in childrenEvents) {
           _.extend(eventStack, this._formatElementEvents(child, childrenEvents[child]));
         }
       }
@@ -45,7 +45,7 @@ define([
     ensureRequirements: function(requirements){
       requirements = requirements || this.requirements;
       if (!requirements) return;
-      for (requirement in requirements) {
+      for (var requirement in requirements) {
         if (!this[requirements[requirement]]
          && !this._requirementAsOption(requirements[requirement])
             ) {
@@ -66,9 +66,14 @@ define([
       var events = eventString.split(' '),
           eventStack = {};
 
-      for (eventKey in events) {
+      for (var eventKey in events) {
 
         var event = events[eventKey];
+        if (window.Touch) {
+          if (event === 'click'){
+            event: 'touchstart'
+          }
+        }
 
         util.ensureEventIsValid(event);
 
@@ -104,9 +109,9 @@ define([
       this._ensureEventMethodExist(element, eventName, keyName);
 
       if (element === '') {
-        this.$el().bind(eventName, data, router);
+        this.$get().bind(eventName, data, router);
       } else {
-        this.$el().delegate(this.getElementSelector(element), eventName, data, router);
+        this.$get().delegate(this.getElementSelector(element), eventName, data, router);
       }
     },
 
