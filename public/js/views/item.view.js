@@ -7,8 +7,9 @@ define([
   'underscore',
   'backbone',
   'glasses',
-  'text!tpl/item/item.html'
-  ], function($, _, Backbone, o_o, itemsTemplate){
+  'mediator',
+  'text!/templates/item/item.html'
+  ], function($, _, Backbone, o_o, mediator, itemsTemplate){
 
   return o_o.view.extend({
 
@@ -18,9 +19,10 @@ define([
 
     elements: {
       'item': '.item',
-      'input': '.item-input',
-      'title': '.item-title',
-      'counter': '.item-counter'
+      'titleField': '.field-title',
+      'title': '.title',
+      'counter': '.counter',
+      'history': '.btn-history'
     },
 
     requirements: ['model'],
@@ -45,37 +47,34 @@ define([
     events: function() {
       return this.mapEvents({
         item: 'click',
-        title: 'click dblclick',
-        input: 'keypress:enter blur'
+        history: 'click',
+        titleField: 'keypress:enter blur'
       });
     },
 
-    title_click: function(e) {
-      //| > To allow dblclick on title, we need to prevent increment
-      e.stopPropagation();
-    },
-
-    title_dblclick: function(e) {
-      this.startEditing();
-    },
-
     item_click: function(e) {
-      e.preventDefault();
       //| > If not editing, increment
       if (!this.isEditing()) {
+        e.preventDefault();
         this.effect_press();
         this.model.increment();
       }
     },
 
-    input_keypress_enter: function(e) {
-      this.applyEditing();
+    titleField_keypress_enter: function(e) {
+      this.$get('titleField').blur();
     },
 
-    input_blur: function(e) {
+    titleField_blur: function(e) {
      this.applyEditing();
     },
 
+    history_click: function(e){
+      e.preventDefault;
+      e.stopPropagation();
+      mediator.publish('records:go', this.model.id);
+    },
+    
 //------------------------------------------------------------------------
     //|-----------|
     //| RENDERING |
@@ -84,7 +83,7 @@ define([
     //| > Render template with data from model
     render: function() {
       //| > Render the template with data
-      this.$el().html(this.template(this.model.toJSON()));
+      this.$get().html(this.template(this.model.toJSON()));
       this.renderTitle();
       this.renderCounter();
 
@@ -93,13 +92,13 @@ define([
 
     renderTitle: function() {
       var title = this.model.get('title');
-      this.$el('title').text(title);
-      this.$el('input').val(title);
+      this.$get('title').text(title);
+      this.$get('titleField').val(title);
     },
 
     renderCounter: function() {
       var counter = this.model.get('counter');
-      this.$el('counter').text(counter);
+      this.$get('counter').text(counter);
     },
 
 //------------------------------------------------------------------------
@@ -108,24 +107,17 @@ define([
     //| ACTIONS |
     //|---------|
 
-    //| > Switch this view into `"editing"` mode, displaying the input field.
-    startEditing: function() {
-      this.$el().addClass('editing');
-      this.$el('input').focus();
-    },
-
     //| > Close the `"editing"` mode, saving changes to the item.
     applyEditing: function() {
-      this.model.save({title: this.$el('input').val()});
-      this.$el().removeClass('editing');
+      this.model.save({title: this.$get('titleField').val()});
     },
 
     hide: function(){
-      this.$el().addClass('hidden');
+      this.$get().addClass('hidden');
     },
 
     show: function(){
-      this.$el().removeClass('hidden');
+      this.$get().removeClass('hidden');
     },
 
     //|---------|
@@ -135,8 +127,8 @@ define([
     //| > Apply the 'pressed' effect
     effect_press: function(){
       clearTimeout(this.pressTimer);
-      this.$el().addClass('pressed');
-      var that = this.$el();
+      this.$get().addClass('pressed');
+      var that = this.$get();
       this.pressTimer = setTimeout(function(){
         that.removeClass('pressed');
       }, 200);
@@ -147,7 +139,7 @@ define([
     //|---------|
 
     isEditing: function(){
-      return this.$el().hasClass('editing');
+      return !this.$get('counter').is(':visible');
     }
 
   });
