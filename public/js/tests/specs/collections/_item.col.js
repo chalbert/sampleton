@@ -6,7 +6,7 @@ define(['backbone', '/js/collections/item.col.js'], function(Backbone, ItemCol){
 
     describe("Given I create an item", function () {
 
-      //| ? default behavior ? no - it has been overridden
+      //| we need to test because it has been overridden
       it("should add the model to the collection", function () {
 
         var collection = new ItemCol(new Backbone.Model());
@@ -48,19 +48,47 @@ define(['backbone', '/js/collections/item.col.js'], function(Backbone, ItemCol){
 
         var collection = new ItemCol();
 
-        for (key in titles){
+        for (var key in titles){
           var item = new Backbone.Model({id: key, title: titles[key]});
           collection.add(item)
         }
 
         var result = collection.filterBy('title', 'bu');
         expect(result.length).toBe(3);
-        expect(result[0].get('title')).toBe('bubonic');
+        expect(result[0].get('title')).toBe('bubbles');
         expect(result[1].get('title')).toBe('bucolic');
-        expect(result[2].get('title')).toBe('bubbles');
+        expect(result[2].get('title')).toBe('bubonic');
 
       });
 
+    });
+
+    describe("Given I change the order of on item", function () {
+
+      it("should adjust the order of the other to reflect the change", function () {
+
+        var collection = new ItemCol([
+          {id: 1, order: 1},
+          {id: 2, order: 2},
+          {id: 3, order: 3},
+          {id: 4, order: 4},
+          {id: 5, order: 5}]
+        );
+
+        collection.get(1).set('order', 5);
+        expect(collection.get(1).get('order')).toBe(5);
+        expect(collection.get(2).get('order')).toBe(1);
+        expect(collection.get(3).get('order')).toBe(2);
+        expect(collection.get(4).get('order')).toBe(3);
+        expect(collection.get(5).get('order')).toBe(4);
+        collection.get(5).set('order', 2);
+        expect(collection.get(1).get('order')).toBe(5);
+        expect(collection.get(2).get('order')).toBe(1);
+        expect(collection.get(3).get('order')).toBe(3);
+        expect(collection.get(4).get('order')).toBe(4);
+        expect(collection.get(5).get('order')).toBe(2);
+
+      });
     });
 
   });

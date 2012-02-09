@@ -13,7 +13,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
   var listView, server, collection, rowview;
 //------------------------------------------------------------------------
 
-  describe('As a list of sampling items', function() {
+  describe('As the view for a list of sampling items', function() {
 
     beforeEach(function() {
 
@@ -111,7 +111,7 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
         var titles = ['shoes', 'bubbles', 'baseball',
                'bracelet', 'bucolic', 'bubonic'];
 
-        for (key in titles){
+        for (var key in titles){
           var item = new Backbone.Model({id: key, title: titles[key]});
           item.view = sinon.stub();
           item.view.show = sinon.stub();
@@ -160,9 +160,8 @@ define(['backbone', '/js/views/itemList.view.js'], function(Backbone, ItemListVi
        })
 
        it("should display a message", function () {
-         expect(listView.$el('message')).not.toHaveClass('hidden');
-         expect(listView.$el('message')).not.toBeEmpty();
-
+         expect(listView.$get('message')).not.toHaveClass('hidden');
+         expect(listView.$get('message')).not.toBeEmpty();
        });
 
      });

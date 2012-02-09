@@ -54,13 +54,13 @@ define(["/js/libs/glasses/glasses.js"], function(o_o) {
 
 //------------------------------------------------------------------------
 
-    describe("Given I call the $el() helper", function () {
+    describe("Given I call the $get() helper", function () {
 
       describe("And I don't provide any argument", function () {
 
         it("should return the view base DOM element", function () {
           var myView = new view();
-          expect(myView.$el()).toBe($(myView.el));
+          expect(myView.$get()).toBe($(myView.el));
         });
       });
 
@@ -72,8 +72,8 @@ define(["/js/libs/glasses/glasses.js"], function(o_o) {
         });
 
         it("should return the associated DOM element", function(){
-          for (element in elementsMixin.elements) {
-            expect(myView.$el(element)).toExist();
+          for (var element in elementsMixin.elements) {
+            expect(myView.$get(element)).toExist();
           }
         });
       });
@@ -83,7 +83,7 @@ define(["/js/libs/glasses/glasses.js"], function(o_o) {
         it("should throw an error", function () {
 
           var gettingAnNonExistingElement = function(){
-            expect(myView.$el('nonExistingElement'))
+            expect(myView.$get('nonExistingElement'))
           }
 
           expect(gettingAnNonExistingElement).toThrow();
@@ -104,9 +104,9 @@ define(["/js/libs/glasses/glasses.js"], function(o_o) {
             var myView = new (view.extend(eventsMixin)
                 .extend(callbackMixin));
 
-            myView.$el().click().blur().keypress();
+            myView.$get().click().blur().keypress();
 
-            for (callback in callbackMixin) {
+            for (var callback in callbackMixin) {
               expect(myView[callback]).toHaveBeenCalledOnce();
             }
           });
@@ -136,9 +136,9 @@ define(["/js/libs/glasses/glasses.js"], function(o_o) {
                   .extend(elementsEventsMixin)
                   .extend(elementCallbackMixin));
 
-              myView.$el('title').dblclick();
-              myView.$el('input').click().blur();
-              for (callback in elementCallbackMixin) {
+              myView.$get('title').dblclick();
+              myView.$get('input').click().blur();
+              for (var callback in elementCallbackMixin) {
                 expect(myView[callback]).toHaveBeenCalled();
               }
             });

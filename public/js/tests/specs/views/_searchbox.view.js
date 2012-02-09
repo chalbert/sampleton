@@ -1,6 +1,6 @@
 define(['backbone', '/js/views/searchbox.view.js'], function(Backbone, SearchboxView){
 
-  describe("As a searchbox", function () {
+  describe("As the view for a searchbox", function () {
 
     var searchbox, $searchbox, $searchInput, $itemList, $searchReset, listView;
     beforeEach(function() {
