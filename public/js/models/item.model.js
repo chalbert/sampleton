@@ -3,25 +3,46 @@
 //|===================================================|
 define([
   'underscore',
-  'backbone'
-  ], function(_, Backbone){
+  'backbone',
+  'glasses',
+  'collections/record.col'
+], function(_, Backbone, o_o, RecordCol){
 
-  return Backbone.Model.extend({
-
-    //| > _id is the default id used by mongodb
-    idAttribute : '_id',
+  return o_o.model.extend({
 
     defaults: function() {
       return {
         title: '',
-        counter:  0,
+        records:  {},
         order: 0
       };
     },
 
+    initialize: function(){
+      this.set('records', new RecordCol({}, {item: this.id}));
+
+      this.counter = this.get('counter');
+      this.unset('counter');
+    },
+
+    counter: 0,
+    getCounter: function() {
+      var length = this.counter + this.get('records').length;
+      return length;
+    },
+
+    record: (function() {
+      var now = new Date();
+      return {
+        date: now
+      }
+    }),
+
     //| > Increment counter
     increment: function() {
-      this.save({counter: this.get("counter") + 1});
+      var records = this.get("records");
+      records.create();
+      this.trigger('change')
     }
 
   });
