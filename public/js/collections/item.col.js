@@ -5,13 +5,17 @@ define([
   'underscore',
   'backbone',
   'models/item.model'
-  ], function(_, Backbone, Item){
+], function(_, Backbone, Item){
 
   return Backbone.Collection.extend({
 
     model: Item,
 
     url: '/api/items',
+
+    initialize: function(){
+      this.on('change:order', this.reorder);
+    },
 
 //------------------------------------------------------------------------
 
@@ -30,6 +34,9 @@ define([
         model = model || {};
         model.order = this.nextOrder();
       }
+
+      //model.on('change:order', this.reorder);
+
       return Backbone.Collection.prototype.create.call(this, model, options);
     },
 
@@ -45,8 +52,25 @@ define([
       return item.get('order');
     },
 
+    reorder: function(model, value, options){
+      //| > If this change is from the reorder script, stop here
+      if (options.reorder) return false;
+      var previous = model.previousAttributes().order,
+          current = model.changedAttributes().order,
+          range = [previous, current].sort(),
+          direction = current < previous ? 1 : -1;
+
+      this.each(function(item){
+        if (model === item) return false;
+        var order = item.get('order');
+        if (order >= range[0] && order <= range[1] ) {
+          item.save('order', order + direction, {reorder :true});
+        }
+      });
+    },
+
     //|---------|
-    //| HELPERS |
+    //| ACTIONS |
     //|---------|
 
     filterBy: function(attribute, value){
