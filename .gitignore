@@ -2,5 +2,5 @@
 .idea
 node_modules
 _working files
-public/css/style.css
+public/css/*.css
 npm-debug.log
