@@ -83,7 +83,9 @@ define([
     //| > Render template with data from model
     render: function() {
       //| > Render the template with data
-      this.$get().html(this.template(this.model.toJSON()));
+      this.$get().html(this.template({
+        cid: this.model.cid
+      }));
       this.renderTitle();
       this.renderCounter();
 

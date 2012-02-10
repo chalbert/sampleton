@@ -63,8 +63,9 @@ body
     left 44px
     top 0
     color #C47D30
-    -webkit-mask-image linear-gradient(top, rgba(0,0,0,0) 10%, rgba(0,0,0,.45) 66%, rgba(0,0,0,.2) 100%)
-    //-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,.85)))
+    -webkit-mask-image -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgba(0,0,0,0.00)), color-stop(0.66, rgba(0,0,0,0.45)), color-stop(1, rgba(0,0,0,0.20)));
+    -webkit-mask-image:-webkit-linear-gradient(top, rgba(0,0,0,0.00) 10%, rgba(0,0,0,0.45) 66%, rgba(0,0,0,0.20) 100%);
+    -moz-mask-image:-moz-linear-gradient(top, rgba(0,0,0,0.00) 10%, rgba(0,0,0,0.45) 66%, rgba(0,0,0,0.20) 100%);
 
 
 
