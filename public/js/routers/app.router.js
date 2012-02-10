@@ -22,11 +22,11 @@ define(['backbone','underscore', 'mediator'], function(Backbone, _, mediator){
     },
 
     recording: function(){
-      mediator.publish('editing:stop');
+      mediator.publish('recording:start');
     },
 
     editing: function(){
-      mediator.publish('editing:start');
+      mediator.publish('recording:stop');
       mediator.publish('records:close');
     },
 
