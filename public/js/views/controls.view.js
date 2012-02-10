@@ -15,6 +15,13 @@ define([
       'pause': '.control-pause'
     },
 
+    initialize: function(){
+      this._super('initialize');
+
+      mediator.subscribe('recording:start', this.pushStart, this);
+      mediator.subscribe('recording:stop', this.pushPause, this);
+    },
+
 //------------------------------------------------------------------------
 
     //|--------|
@@ -34,9 +41,20 @@ define([
 
     pause_click: function(e) {
       mediator.publish('editing:go');
-    }
+    },
+
 
 //------------------------------------------------------------------------
+
+    pushStart: function(e) {
+      this.$start.addClass('pushed');
+      this.$pause.removeClass('pushed');
+    },
+
+    pushPause: function(e) {
+      this.$start.removeClass('pushed');
+      this.$pause.addClass('pushed');
+    }
 
   });
 });
