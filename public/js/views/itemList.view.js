@@ -9,7 +9,7 @@ define([
   'glasses',
   'mediator',
   'jqueryui/sortable'
-  ], function($, _, Backbone, o_o, mediator){
+], function($, _, Backbone, o_o, mediator){
 
   return o_o.view.extend({
 
@@ -40,8 +40,14 @@ define([
 
       this.collection.fetch();
 
-      mediator.subscribe('editing:go', this.showInput, this);
-      mediator.subscribe('recording:go', this.hideInput, this);
+      mediator.subscribe('recording:stop', function() {
+        this.startEditing()
+        this.showInput();
+      }, this);
+      mediator.subscribe('recording:start', function(){
+        this.stopEditing();
+        this.hideInput();
+      }, this);
 
     },
 
@@ -134,15 +140,25 @@ define([
         item.view.hide();
       });
     },
-    
+
     writeMessage: function(text){
-      this.$get('message').text(text)
-                          .removeClass('hidden');
+      this.$get('message')
+          .text(text)
+          .removeClass('hidden');
     },
 
     deleteMessage: function(){
-      this.$get('message').text('')
-                          .addClass('hidden');
+      this.$get('message')
+          .text('')
+          .addClass('hidden');
+    },
+
+    startEditing: function(){
+      this.$el.addClass('editing');
+    },
+
+    stopEditing: function(){
+      this.$el.removeClass('editing');
     }
 
   });
