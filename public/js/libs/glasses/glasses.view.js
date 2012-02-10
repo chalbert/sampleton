@@ -35,7 +35,16 @@ define([
     },
 
     initialize: function(){
+      this.refreshElement();
+
       this.ensureRequirements();
+    },
+
+    refreshElement: function(element){
+      var elements = element ? [element] : this.elements;
+      for (var element in elements) {
+        this['$' + element] = $(this.el).find(this.elements[element]);
+      }
     },
 
     _super: function (funcName){
