@@ -52,21 +52,11 @@ define([
       //| ROUTERS |
       //|---------|
 
-      mediator.subscribe('editing:start', this.startEditing, this);
-      mediator.subscribe('editing:stop', this.stopEditing, this);
       mediator.subscribe('records:load', this.loadRecords, this);
 
       this.routers.app = new appRouter();
       Backbone.history.start();
 
-    },
-
-    startEditing: function(){
-      this.$el.addClass('editing');
-    },
-
-    stopEditing: function(){
-      this.$el.removeClass('editing');
     },
 
     loadRecords: function(itemId){
