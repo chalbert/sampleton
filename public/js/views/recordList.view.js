@@ -48,7 +48,6 @@ define([
     render: function() {
       //| > Render the template with data
       this.$el.html(recordsTemplate);
-      this.rendered = true;
       return this;
     },
     
