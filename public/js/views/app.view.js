@@ -16,15 +16,13 @@ define([
   'views/searchbox.view',
   // Controls
   'views/controls.view',
-  // Records
-  'views/record.view',
-  'views/recordList.view',
-  'collections/record.col',
+  // Messenger
+  'views/messenger.view',
   // ROUTERS
   'routers/app.router'
 
 ], function($, _, Backbone, o_o, mediator, itemListView, itemView, itemCollection,
-            searchboxView, controlsView, recordView, recordListView, recordCollection, appRouter){
+            searchboxView, controlsView, messengerView, appRouter){
 
   return o_o.view.extend({
 
@@ -32,6 +30,10 @@ define([
 
     views: {},
     routers: {},
+
+    elements: {
+      'content': '.content'
+    },
 
     initialize: function() {
       this._super('initialize');
@@ -47,12 +49,15 @@ define([
         listView: this.views.itemList
       });
       this.views.controls = new controlsView();
+      this.views.messenger = new messengerView();
 
       //|---------|
       //| ROUTERS |
       //|---------|
 
-      mediator.subscribe('records:load', this.loadRecords, this);
+      mediator.subscribe('records:open', function(){
+        if (!this.views.records) this.loadRecords();
+      }, this);
 
       this.routers.app = new appRouter();
       Backbone.history.start();
@@ -60,15 +65,23 @@ define([
     },
 
     loadRecords: function(itemId){
-      var records = this.views.records || (this.views.records = this.newRecords());
-      records.rendered || (this.$el.append(records.render().$el));
-    },
 
-    newRecords: function(){
-      return new recordListView({
-        rowView: recordView,
-        recordCollection: recordCollection
-      })
+      require([
+        'views/record.view',
+        'views/recordList.view',
+        'collections/record.col'],
+          $.proxy(function(recordView, recordListView, recordCollection) {
+
+            this.views.records = this.views.records ||  new recordListView({
+              rowView: recordView,
+              recordCollection: recordCollection
+            });
+            this.$el.append(this.views.records.render().$el);
+            this.views.records.open();
+
+          }, this)
+      );
+
     }
 
   });
