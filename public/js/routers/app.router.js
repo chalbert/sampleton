@@ -1,4 +1,4 @@
-define(['backbone','underscore', 'mediator'], function(Backbone, _, mediator){
+define(['backbone','underscore', 'mediator', 'routers/access'], function(Backbone, _, mediator, access){
   return Backbone.Router.extend({
     routes: {
       "": "editing",
@@ -31,8 +31,9 @@ define(['backbone','underscore', 'mediator'], function(Backbone, _, mediator){
     },
 
     records: function(itemId){
-      mediator.publish('records:load', itemId);
       mediator.publish('records:open', itemId);
     }
+
   });
+
 });
