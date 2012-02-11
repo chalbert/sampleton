@@ -2,6 +2,8 @@ require.config({
   paths: {
     jquery: 'libs/vendor/jquery/jquery',
     jqueryui: 'libs/vendor/jqueryui',
+    touchpunch: 'libs/vendor/jqueryui/jquery.ui.touch-punch.min',
+    cookie: 'libs/vendor/jquery/jquery.cookie',
     underscore: 'libs/vendor/underscore/underscore',
     backbone: 'libs/vendor/backbone/backbone',
     glasses: 'libs/glasses/glasses',
