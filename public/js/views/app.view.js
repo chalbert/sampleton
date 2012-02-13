@@ -55,8 +55,8 @@ define([
       //| ROUTERS |
       //|---------|
 
-      mediator.subscribe('records:open', function(){
-        if (!this.views.records) this.loadRecords();
+      mediator.subscribe('records:open', function(itemId){
+        this.loadRecords(itemId);
       }, this);
 
       this.routers.app = new appRouter();
@@ -71,12 +71,16 @@ define([
         'views/recordList.view',
         'collections/record.col'],
           $.proxy(function(recordView, recordListView, recordCollection) {
-
-            this.views.records = this.views.records ||  new recordListView({
-              rowView: recordView,
-              recordCollection: recordCollection
-            });
-            this.$el.append(this.views.records.render().$el);
+            if (!this.views.records) {
+              this.views.records = new recordListView({
+                item: this.views.itemList.collection.get(itemId),
+                rowView: recordView,
+                recordCollection: recordCollection
+              });
+              this.$el.append(this.views.records.$el);
+            } else {
+              this.views.records.item = this.views.itemList.collection.get(itemId);
+            }
             this.views.records.open();
 
           }, this)

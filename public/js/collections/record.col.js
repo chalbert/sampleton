@@ -11,10 +11,9 @@ define([
 
     model: Record,
 
-//    url: '/api/records',
-
     initialize: function(records, options){
-      this.url = '/api/records/' + options.item;
+      this.item = options.item;
+      this.url = '/api/records/' + this.item.id;
     },
 
 //------------------------------------------------------------------------

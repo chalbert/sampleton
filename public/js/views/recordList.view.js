@@ -10,17 +10,23 @@ define([
   return o_o.view.extend({
 
     className: 'records',
+    tagName: 'section',
 
-    requirements: ['rowView', 'recordCollection'],
+    requirements: ['item', 'rowView', 'recordCollection'],
 
     elements: {
+      title: 'h1',
       records: '.list-record'
     },
 
     initialize: function(){
+      this.$el.html(recordsTemplate);
+      this.titleTemplate = this.$get('title').text();
       this._super('initialize');
+      this.render();
+      //this.refreshElement();
 
-      mediator.subscribe('records:open', this.open, this);
+//      mediator.subscribe('records:open', this.open, this);
       //mediator.subscribe('records:close', this.close, this);
     },
 
@@ -46,11 +52,24 @@ define([
     //|-----------|
 
     render: function() {
+
       //| > Render the template with data
-      this.$el.html(recordsTemplate);
+
+      //this.template = this.$el.not('script');
+      this.renderTitle();
+
       return this;
     },
-    
+
+    renderTitle: function() {
+      var title = _.template(
+          this.titleTemplate,
+          { item: this.item.get('title') }
+      );
+
+      this.$get('title').text(title);
+    },
+
 //------------------------------------------------------------------------
 
     //|---------|
@@ -72,15 +91,12 @@ define([
       }, this);
     },
 
-    open: function(itemId){
+    open: function(){
 
-      mediator.publish('records:load');
-
-      this.collection = new this.recordCollection({}, {item: itemId});
-
+      this.collection = new this.recordCollection([], {item: this.item});
       this.collection.bind('add',   this.addOne, this);
       this.collection.bind('reset', this.addAll, this);
-      //this.collection.bind('all',   this.render, this);
+      this.collection.bind('reset',   this.render, this);
 
       this.collection.fetch();
 
