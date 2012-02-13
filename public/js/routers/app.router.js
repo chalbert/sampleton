@@ -9,13 +9,14 @@ define(['backbone','underscore', 'mediator', 'routers/access'], function(Backbon
     initialize: function(){
 
       _.forEach(this.routes, function(name, route) {
-        mediator.subscribe(name + ':go', function(){
-          var matches = route.match(/:\w+/g),
-              args = Array.prototype.slice.call(arguments);
-          _.forEach(matches, function(match){
-            route = route.replace(match, args.shift());
-          });
-          this.navigate(route, {trigger: true});
+        mediator.subscribe(name + ':go', function() {
+            var matches = route.match(/:\w+/g),
+                args = Array.prototype.slice.call(arguments),
+                newRoute = route;
+            _.forEach(matches, function(match){
+              newRoute = newRoute.replace(match, args.shift());
+            });
+            this.navigate(newRoute, {trigger: true});
         }, this);
       }, this);
 
