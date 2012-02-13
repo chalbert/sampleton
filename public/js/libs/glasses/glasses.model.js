@@ -16,7 +16,7 @@ define([
     get: function (attr) {
       var property = Backbone.Model.prototype.get.call(this, attr),
           method = this['get' + util.capitalize(attr)];
-      if (!property && typeof method == 'function')
+      if (!property && property !== 0 && typeof method == 'function')
       {
         return method.call(this);
       }
