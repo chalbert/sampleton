@@ -1,21 +1,17 @@
 .item-list-wrapper
-  position absolute
+  pos absolute 0
   z-index 100
   overflow auto
-  top 0
-  bottom 0
-  left 0
-  right 0
   padding: 20px;
 
 #new-item
   width 100%
-  border #eee 1px solid
+  borders #eee
+  border-radius 4px
   font-size 14px
   text-align center
   margin-bottom 10px
   padding 3px 0
-  border-radius 4px
 
 #item-list
   margin-right -20px
@@ -34,19 +30,15 @@
       cursor pointer
 
   .placeholder
-    display block
+    block 4px 140px
     float left
-    width 4px
-    height 140px
     background #444
     margin 0 2px 0 -8px
 
   li
     list-style none
-    display block
+    block 140px
     float left
-    width 140px
-    height 140px
     margin 0 12px 12px 0
 
     &.hidden
@@ -79,7 +71,7 @@
       padding-top 1px
       background #fff693
       border-radius 16px 16px 0 0
-      border-bottom 2px #c9c08f dashed
+      borders bottom 2px #c9c08f dashed
 
     .counter
       position absolute
@@ -87,15 +79,13 @@
       left 10px
       right 10px
       text-align center
-      border-width 3px
-      border-color #999 #000 #333 #555
+      borders 3px #999 #000 #333 #555
+      border-radius 2px
       color #fff
       font-family "Courier New", Courier, monospace
       font-size 120%
       background: linear-gradient(top, #222, #999, #999,  #555);
-      border-style solid
       margin-top 4px
-      border-radius 2px
       box-shadow 0 2px 2px #777
 
     .pressed .item-counter
@@ -103,34 +93,29 @@
       background: linear-gradient(top, #333, #888, #888,  #444);
 
     .btn-history
-      position absolute
-      bottom 0
-      left 0
-      right 0
+      pos absolute auto 0 0 0
       text-decoration underline
       font-size 14px
-      color #333
+      colors #333
+      borders top #c17c22
       text-decoration none
       background linear-gradient(top, #dcaa75,  #c47d30, #c9c08f)
       padding 6px 2px 6px 2px
       text-align center
       display block
       border-radius 0 0 16px 16px
-      border-top 1px #c17c22 solid
       text-shadow 1px 1px 1px #f0daa2
       cursor pointer
 
 .item-sorting
   position absolute
-  width 136px
+  block 136px
   text-align center
   font-size 15px
   line-heigth 18px
   background #fff693
   padding 4px
   list-style none
-  margin 0
-  display block
   margin 0 12px
   box-shadow 2px 2px 6px #666
   z-index 10000

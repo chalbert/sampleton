@@ -1,29 +1,27 @@
 .records
-  position absolute
-  top 100%
+  pos absolute 100% 8px -10px 8px
   background #fff
-  bottom -10px
-  left 8px
-  right 8px
   border-radius 16px 16px 0 0
-  border-width 8px 8px 0 8px
-  border-color #333
-  border-style solid
+  borders #333 8px 8px 0 8px
   z-index 100
   box-shadow 0 0 12px #666, inset 0 0 6px #999
+
+  h1
+    font-size 22px
+    margin 8px 0 0 10px
 
   .list-record
     width 100%
     font-size 13px
     margin 6px 0 0 0
-    border-top 1px #eee solid
+    borders top #eee
     tr
-      border-bottom 1px #eee solid
+      borders bottom #eee
     td
       padding 6px 6px
       &:first-child
         background #fefcde
-        border-right 1px #fefac8 solid
+        border right #fefac8
         text-align center
       &:last-child
         width 100%
