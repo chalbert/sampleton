@@ -84,7 +84,8 @@ define([
     render: function() {
       //| > Render the template with data
       this.$get().html(this.template({
-        cid: this.model.cid
+        cid: this.model.cid,
+        counter: this.model.get('counter')
       }));
       this.renderTitle();
       this.renderCounter();
