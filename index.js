@@ -1,5 +1,7 @@
 var application_root = __dirname,
     express = require("express"),
+    connect = require("connect"),
+    access = require("./modules/access"),
     stylus = require("stylus"),
     nib = require("nib"),
     path = require("path"),
@@ -9,6 +11,19 @@ var app = module.exports = express.createServer();
 
 mongoose.connect('mongodb://localhost/sampleton');
 
+var User = mongoose.model('User', (function() {
+  var shema = new mongoose.Schema({
+    role: Number,
+    email: String,
+    name: String,
+    password: String,
+  });
+
+  shema.virtual('counter').get(function(){
+    return this.records.length;
+  });
+  return shema;
+})());
 
 var Item = mongoose.model('Item', (function() {
   var shema = new mongoose.Schema({
@@ -53,18 +68,62 @@ app.configure(function(){
 
 // Routes
 
+//|-------|
+//| LOGIN |
+//|-------|
+
+app.post('/login', function(req, res, next){
+  if (req.email && req.password) {
+    return User.findOne({email: email, password: password}, function(err, items) {
+      if (err) {
+        req.formError = {
+          type: 'wrong',
+          message: "Bummer! This email &ampt; password don't match an account."
+        }
+        next();
+      }
+    });
+  }
+});
+
+app.all('/login', function(req, res){
+  //getMessages
+  /*
+  var flash = req.flash(),
+      infos = flash.info,
+      errors = flash.error;
+  */
+
+  res.render('login', {
+    $title$: "Sampling made simple ~ Sampleton",
+    $style$: 'site',
+    $js$: 'js/site',
+    $formError$: req.formError
+  });
+});
 
 app.get('/', function(req, res){
-  res.render('index', {title: "Sampling made simple ~ Sampleton"});
+  res.render('index', {
+    $title$: "Sampling made simple ~ Sampleton",
+    $style$: 'app',
+    $js$: 'js/app'
+  });
 });
 
 //|-----------|
 //| TEMPLATES |
 //|-----------|
 
-app.get(/^\/templates\/([^.]+).html$/, function(req, res){
-  var path = req.params[0];
-  res.render(path + '.jade', {layout: false});
+app.get(/^\/templates\/([^.]+).html$/, function(req, res, next){
+  var template = req.params[0] + '.jade',
+      templatePath = app.set('views') + '/' + template;
+  path.exists(templatePath, function(exists){
+    if (!exists) {
+      res.send("This template doesn't exist: " + template, 404);
+    } else {
+      res.render(template, {layout: false});
+    }
+  });
 });
 
 //|-------|
