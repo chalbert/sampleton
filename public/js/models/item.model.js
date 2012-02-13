@@ -19,13 +19,12 @@ define([
     },
 
     initialize: function(){
-      this.set('records', new RecordCol({}, {item: this.id}));
+      this.set('records', new RecordCol([], {item: this}));
 
       this.counter = this.get('counter');
       this.unset('counter');
     },
 
-    counter: 0,
     getCounter: function() {
       var length = this.counter + this.get('records').length;
       return length;
