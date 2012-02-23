@@ -1,33 +1,25 @@
-#logo
+logo($height = 70px)
   position relative
-  z-index 10
   float left
   width 50px
-  height 75px
-  //font 40px 'Fredericka the Great', cursive
-  z-index 100
-  //font 50px 'Times new roman'
-  font 66px 'Times new roman'
+  height $height
+  font-family 'Times new roman'
+  font-size @height
   color #fffab3
-  //background rgba(254, 213, 116, .3) url(../images/gumboot-logo.png) 10px 12px no-repeat
-  background url(../images/gumboot-logo.png) 10px 10px no-repeat
-  background-size 51px 70px
-  padding-left 53px
+  background url(../images/gumboot-logo.png) (@height / 8) (@height / 8) no-repeat
+  $bg-size = image-size('../images/gumboot-logo.png')
+  $ratio = $height / $bg-size[1]
+  ratio $ratio
+  background-size ($bg-size[0] * $ratio) ($bg-size[1] * $ratio)
+  padding 0 0 ($height / 8) ($bg-size[0] * $ratio)
   letter-spacing 3px
-  //height 50px
   margin-top -5px
-  padding 0 10px 6px 45px
-  //padding 0 10px 6px 10px
   border-radius 6px
   text-shadow  0 0 2px #784813
   z-index 200
-  //-webkit-text-stroke: 1px #fbd7c3 ;
   &:after
-    //text-shadow  0 -1px 4px #eaad36
     content 'Sampleton'
-    position absolute
-    left 44px
-    top 0
+    absolute left ($bg-size[0] * $ratio) top 0
     color #C47D30
     -webkit-mask-image -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgba(0,0,0,0.00)), color-stop(0.66, rgba(0,0,0,0.45)), color-stop(1, rgba(0,0,0,0.20)));
     -webkit-mask-image:-webkit-linear-gradient(top, rgba(0,0,0,0.00) 10%, rgba(0,0,0,0.45) 66%, rgba(0,0,0,0.20) 100%);
