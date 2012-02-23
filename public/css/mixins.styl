@@ -46,7 +46,7 @@ apply-borders(sides, width, color, style)
 sides = top right bottom left
 border-styles = solid dashed dotted double groove ridge inset outset inherit
 
-borders(args...)
+borders()
   this-sides = false
   this-width = false
   this-color = false
@@ -60,7 +60,7 @@ borders(args...)
       else
         this-width = arg
 
-    else if arg is a 'color'
+    else if arg is a 'color' or arg == 'transparent'
       if this-color
         push(this-color, arg)
       else
@@ -95,12 +95,37 @@ size(a, b = false)
   else
     height a
 
-block(args...)
-  size args
+block(a, b = false)
+  size a b
   display block
 
 
-inline-block(args...)
-  size args
-  display block
+inline-block(a, b = false)
+  size a b
+  display inline-block
 
+goldenBox()
+  border-radius 10px
+  background linear-gradient(top, #dcaa75,  #c47d30, #c9c08f)
+  box-shadow 0 0 4px #666, inset 0 -2px 8px #f2d5b7;
+
+alignment = left rigth center
+
+type()
+  for arg in arguments
+    if arg is a 'color'
+      color arg
+    else if arg is a 'unit'
+      font-size arg
+    else if arg in alignment
+      text-align arg
+
+reset()
+  padding 0
+  margin 0
+  border 0
+
+$normal = 14px;
+$medium = 18px;
+$large = 22px;
+$very-large = 25px;
