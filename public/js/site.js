@@ -14,6 +14,6 @@ require([
   'login.stage'
 ], function(loginStage){
 
-  var app = new loginStage();
+//  var app = new loginStage();
 
 });

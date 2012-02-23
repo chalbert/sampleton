@@ -1,8 +1,8 @@
 define([
   'jquery',
   'underscore',
-  '2D',
-  'intersection',
+//  '2D',
+//  'intersection',
   'classes/plugins/jquery.stage'
 ], function ($, _, twoD, Intersection) {
 
