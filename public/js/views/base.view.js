@@ -1,15 +1,37 @@
 //|===================================================|
-//| GLASSES VIEW | o_o.view
+//| BASE VIEW
 //|===================================================|
 
 define([
   'jquery',
   'underscore',
   'backbone',
-  'libs/glasses/glasses.util'
-], function($, _, Backbone, util){
+  'modelBinding',
+  'mediator',
+  'classes/plugins/underscore-extension'
+], function($, _, Backbone, ModelBinding, mediator){
 
   return Backbone.View.extend({
+
+    open: function(){
+      mediator.publish('shortcut:add', this.shortcuts, this);
+      if (this.model) {
+        this.model.clear();
+        if (this.model.configure) {
+          this.model.configure.apply(this.model, arguments);
+        }
+        this.model.fetch();
+      }
+      this.$el.show();
+    },
+
+    close: function(){
+      mediator.publish('shortcut:remove', this.shortcuts, this);
+      if (this.model) {
+        this.model.clear();
+      }
+      this.$el.hide();
+    },
 
     $get: function(element) {
       if (!element) return $(this.el);
@@ -34,10 +56,57 @@ define([
       return eventStack;
     },
 
-    initialize: function(){
-      this.refreshElement();
+    initialize: function(options){
+      //|> Add the template
+      if (this.options.html) {
+        this.$el.html(this.options.html);
+      }
+
+      //| > We add the mixins methods, extending current methods if present
+      _.each(this.mixins, function(mixin, name){
+        // Call method on open and on close
+        this.previousMethod || (this.previousMethod = {})
+        _.each(mixin, function(method, methodName) {
+
+          if (methodName === 'requirements') {
+            if (this.requirements) {
+              this.requirements = _.union(this.requirements, mixin[methodName]);
+            } else {
+              this.requirements = mixin[methodName];
+            }
+          } else {
+
+            if (this[methodName]) this.previousMethod[methodName] = this[methodName];
+            // New method
+            if (this.previousMethod[methodName]) {
+              this[methodName] = function(){
+                this.previousMethod[methodName].apply(this, arguments);
+                mixin[methodName].apply(this, arguments);
+              }
+            } else {
+              this[methodName] = mixin[methodName];
+            }
+
+          }
+        }, this);
+        if (mixin.initialize) mixin.initialize.call(this);
+      }, this);
+
+      if (this.model) {
+        this.$el.find('[data-sync]').each($.proxy(function(index, el){
+          this.model.on('change:' + $(el).attr('name'), function(value, options){
+            Backbone.sync.call(this, 'update', this.model, options);
+          }, this);
+        }, this));
+        ModelBinding.bind(this, { all: "name" });
+      }
+
+      _.each(this.views, function(view, name){
+        this.views[name] = new view();
+      }, this);
 
       this.ensureRequirements();
+      this.refreshElement();
     },
 
     refreshElement: function(element){
@@ -48,7 +117,9 @@ define([
     },
 
     _super: function (funcName){
-      return this.constructor.__super__[funcName].apply(this, _.rest(arguments));
+      var args = _.rest(arguments);
+      if (_.isArguments(args[0])) args = args[0];
+      return this.constructor.__super__[funcName].apply(this, args);
     },
 
     ensureRequirements: function(requirements){
@@ -56,7 +127,7 @@ define([
       if (!requirements) return;
       for (var requirement in requirements) {
         if (!this[requirements[requirement]]
-         && !this._requirementAsOption(requirements[requirement])
+            && !this._requirementAsOption(requirements[requirement])
             ) {
           throw new Error('View requires: ' + requirements[requirement].toString());
         }
@@ -64,7 +135,7 @@ define([
     },
 
     _requirementAsOption: function(requirement){
-      if (this.options[requirement]) {
+      if (this.options[requirement] || this.options[requirement] === 0) {
         this[requirement] = this.options[requirement];
         return true;
       }
@@ -84,9 +155,9 @@ define([
           }
         }
 
-        util.ensureEventIsValid(event);
+        this._ensureEventIsValid(event);
 
-        if (util.isSpecificKeyEvent(event)) {
+        if (this._isSpecificKeyEvent(event)) {
           this._bindSpecificKeyEvent(element, event);
         } else {
           this._pushFormattedEvent(eventStack, element, event);
@@ -105,11 +176,11 @@ define([
     },
 
     _bindSpecificKeyEvent: function(element, event) {
-      var eventParts = util.getEventParts(event),
+      var eventParts = this._getEventParts(event),
           eventName = eventParts[0],
           keyName = eventParts[1],
           data = {
-            key: util.getKeycode(keyName),
+            key: _.getKeycode(keyName),
             keyName: keyName,
             el: element
           },
@@ -157,6 +228,38 @@ define([
         var method = this._getEventMethod(e.data.el, e.type, e.data.keyName);
         this[method].apply(this);
       }
+    },
+
+    _isValidEvent: function(event){
+      //| > Only key event take options
+      if (this._isEventWithOption(event) && !this._isSpecificKeyEvent(event)) {
+        return false;
+      }
+      return true;
+    },
+
+    _ensureEventIsValid: function(event){
+      if (!this._isValidEvent(event)) {
+        throw "This event does not exist: " + element;
+      }
+    },
+
+    _isEventWithOption: function(event){
+      return (event.indexOf(':') !== -1);
+    },
+
+    _isSpecificKeyEvent: function(event){
+      if (!this._isEventWithOption(event)) return false;
+
+      var eventParts = this._getEventParts(event);
+      return _.isKeyEvent(eventParts[0]) && _.isKey(eventParts[1]);
+    },
+
+    _getEventParts: function (event) {
+      eventParts = event.split(':');
+      return eventParts;
     }
+
+
   });
 });
