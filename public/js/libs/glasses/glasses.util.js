@@ -21,21 +21,26 @@ define(['underscore'], function(_){
     },
 
     keyEvents: ['keypress', 'keydown', 'keyup'],
+
     isKeyEvent: function(event){
       if (this.keyEvents.indexOf(event) !== -1) return true;
     },
+
     isKey: function(key){
       if (_.keys(this.keyMap).indexOf(key) !== -1) return true;
     },
+
     isEventWithOption: function(event){
       return (event.indexOf(':') !== -1);
     },
+
     isSpecificKeyEvent: function(event){
       if (!this.isEventWithOption(event)) return false;
 
       var eventParts = this.getEventParts(event);
       return this.isKeyEvent(eventParts[0]) && this.isKey(eventParts[1]);
     },
+
     getEventParts: function (event) {
       eventParts = event.split(':');
       return eventParts;
@@ -45,6 +50,13 @@ define(['underscore'], function(_){
     getKeycode: function(keyname){
       return this.keyMap[keyname];
     },
+
+    getKey: function(code){
+      for (var key in this.keyMap) {
+        if (this.keyMap[key] === code) return key;
+      }
+    },
+
     keyMap: {
       enter: 13,
       backspace: 8,
