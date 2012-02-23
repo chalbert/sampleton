@@ -2,12 +2,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'glasses',
+  'views/base.view',
   'mediator',
-  'jqueryui/droppable'
-], function ($, _, Backbone, o_o, mediator) {
+  'jqueryui/droppable',
+  'jqueryui/effects/core'
+], function ($, _, Backbone, baseView, mediator) {
 
-  return o_o.view.extend({
+  return baseView.extend({
 
     el:  ".controls",
 
@@ -17,22 +18,48 @@ define([
       'trash': '.control-trash'
     },
 
+    shortcuts: {
+      enter: 'toggleRecording'
+    },
+
     initialize: function(){
       this._super('initialize');
 
+      this.initializeTash();
+
+      mediator.subscribe('recording:start', this.pushStart, this);
+      mediator.subscribe('recording:stop', this.pushPause, this);
+
+      mediator.subscribe('controlsMustClose', this.close, this);
+
+      this.open();
+
+    },
+
+    initializeTash: function(){
       this.$trash.droppable({
         tolerance: 'pointer',
         hoverClass: 'active'
       });
 
-      // Don't bubble, so need to attach directly on element
+      // Those events don't bubble, so need to attach directly on element
       this.$trash
           .bind('drop', $.proxy(this.trash_drop))
           .bind('dropover', $.proxy(this.trash_dropover))
           .bind('dropout', $.proxy(this.trash_dropout));
+    },
 
-      mediator.subscribe('recording:start', this.pushStart, this);
-      mediator.subscribe('recording:stop', this.pushPause, this);
+    open: function(){
+      this.$el.removeClass('closed', 350);
+      this.delegateEvents(this.events());
+      this._super('open');
+    },
+
+    close: function(){
+      mediator.publish('controlsWillClose');
+      this.$el.addClass('closed', 350);
+      this.undelegateEvents();
+      this._super('close');
     },
 
 //------------------------------------------------------------------------
@@ -48,27 +75,19 @@ define([
       });
     },
 
-    trash_dropover: function(e, ui) {
-//      this.$trash.addClass('active');
-      console.log('dropover');
-    },
-
-    trash_dropout: function(e, ui) {
-      console.log('dropout');
-//      this.$trash.removeClass('active');
-    },
-
     trash_drop: function(e, ui){
       mediator.publish('items:stopSorting');
       mediator.publish('items:deleteItem', ui);
     },
 
     start_click: function(e) {
-      mediator.publish('recording:go');
+      //mediator.publish('recording:go');
+      mediator.publish('recording:start');
     },
 
     pause_click: function(e) {
-      mediator.publish('editing:go');
+      mediator.publish('recording:stop');
+      //mediator.publish('project:go');
     },
 
 
@@ -82,6 +101,14 @@ define([
     pushPause: function(e) {
       this.$start.removeClass('pushed');
       this.$pause.addClass('pushed');
+    },
+
+    toggleRecording: function(){
+      if (this.$start.hasClass('pushed')) {
+        this.pause_click();
+      } else {
+        this.start_click();
+      }
     }
 
   });
