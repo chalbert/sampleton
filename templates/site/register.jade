@@ -6,7 +6,7 @@ section#login
     form(action="", method="post")
       - if ($formError)
         p.messenger
-          span.error= $formError.message
+          span.message= $formError.message
 
       .field-wrapper
         input.field-user(name="name", placeholder="Your name", value=$name)
