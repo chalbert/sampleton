@@ -1,23 +1,19 @@
-.item-list-wrapper
+.project
   pos absolute 0
   z-index 100
   overflow auto
-  padding: 20px;
+  padding 20px
 
-#new-item
-  width 100%
-  borders #eee
-  border-radius 4px
-  font-size 14px
-  text-align center
-  margin-bottom 10px
-  padding 3px 0
+  .btn-back
+    float right
+    margin 0 8px
 
-#item-list
+.item-list
   margin-right -20px
   padding 0
   display block
-  clearfix()
+  clear both
+  margin-top 12px
 
   &.editing
     .display
@@ -44,13 +40,14 @@
     &.hidden
       display none
 
+
     .item
       position relative
       width 100%
       height 100%
       box-shadow 0 0 5px #888, inset 0 0 4px #fff
       border-radius 16px
-      background: linear-gradient(top, #eee, #ccc);
+      background linear-gradient(top, #eee, #ccc)
       user-select none
 
     .title, .field-title
@@ -107,19 +104,26 @@
       text-shadow 1px 1px 1px #f0daa2
       cursor pointer
 
-.item-sorting
-  position absolute
-  block 136px
-  text-align center
-  font-size 15px
-  line-heigth 18px
-  background #fff693
-  padding 4px
-  list-style none
-  margin 0 12px
-  box-shadow 2px 2px 6px #666
-  z-index 10000
-  border-radius 16px
+  .item-sorting
+    position fixed
+    block 136px auto
+    text-align center
+    font-size 15px
+    line-heigth 18px
+    background #fff693
+    padding 4px
+    list-style none
+    margin 0 12px
+    //margin 75px 0 0 40px
+    box-shadow 2px 2px 6px #666
+    z-index 10000
+    border-radius 16px
 
-  .edit, .counter
+    .edit, .counter
       display none
+
+    .display
+      display block
+    .item
+      background transparent
+      box-shadow none
