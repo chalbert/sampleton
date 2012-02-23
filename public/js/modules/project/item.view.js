@@ -6,16 +6,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'glasses',
-  'mediator',
-  'text!/templates/item/item.html'
-  ], function($, _, Backbone, o_o, mediator, itemsTemplate){
+  'views/base.view',
+  'mediator'
+  ], function($, _, Backbone, baseView, mediator){
 
-  return o_o.view.extend({
+  return baseView.extend({
 
     tagName:  "li",
-
-    template: _.template(itemsTemplate),
 
     elements: {
       'item': '.item',
@@ -25,21 +22,13 @@ define([
       'history': '.btn-history'
     },
 
-    requirements: ['model'],
+    requirements: ['model', 'html'],
 
-    initialize: function() {
+    initialize: function(){
       this._super('initialize');
-
-      //| > If changed must render
-      this.model.bind('change', this.render, this);
-      //| > If destroyed must remove from dom
-      this.model.bind('destroy', this.remove, this);
-
-      this.model.view = this;
     },
 
 //------------------------------------------------------------------------
-
    //|--------|
    //| EVENTS |
    //|--------|
@@ -66,63 +55,16 @@ define([
     },
 
     titleField_blur: function(e) {
-     this.applyEditing();
+     //this.model.change();
     },
 
     history_click: function(e){
       e.preventDefault;
       e.stopPropagation();
-      mediator.publish('records:go', this.model.id);
+      mediator.publish('go:records', this.model.project, this.model.id);
     },
     
 //------------------------------------------------------------------------
-    //|-----------|
-    //| RENDERING |
-    //|-----------|
-
-    //| > Render template with data from model
-    render: function() {
-      //| > Render the template with data
-      this.$get().html(this.template({
-        cid: this.model.cid,
-        counter: this.model.get('counter')
-      }));
-      this.renderTitle();
-      this.renderCounter();
-
-      return this;
-    },
-
-    renderTitle: function() {
-      var title = this.model.get('title');
-      this.$get('title').text(title);
-      this.$get('titleField').val(title);
-    },
-
-    renderCounter: function() {
-      var counter = this.model.get('counter');
-      this.$get('counter').text(counter);
-    },
-
-//------------------------------------------------------------------------
-
-    //|---------|
-    //| ACTIONS |
-    //|---------|
-
-    //| > Close the `"editing"` mode, saving changes to the item.
-    applyEditing: function() {
-      this.model.save({title: this.$get('titleField').val()});
-    },
-
-    hide: function(){
-      this.$get().addClass('hidden');
-    },
-
-    show: function(){
-      this.$get().removeClass('hidden');
-    },
-
     //|---------|
     //| EFFECTS |
     //|---------|
@@ -137,6 +79,7 @@ define([
       }, 200);
     },
 
+//------------------------------------------------------------------------
     //|---------|
     //| HELPERS |
     //|---------|

@@ -4,23 +4,21 @@
 define([
   'underscore',
   'backbone',
-  'glasses'
-], function(_, Backbone, o_o){
+  'models/base.model'
+], function(_, Backbone, baseModel){
 
-  return o_o.model.extend({
+  return baseModel.extend({
 
     defaults: function() {
       return {
-        date: new Date()
+        created_at: new Date()
       };
     },
 
-    initialize: function(){
-      if (!_.isDate(this.get('date'))) {
-        this.set('date', new Date(this.get('date')));
-      }
+    getCreated_at_string: function(){
+      return new Date(this.get('created_at')).toString('dddd, MMMM, d, yyyy');
     }
-    
+
 
   });
 });

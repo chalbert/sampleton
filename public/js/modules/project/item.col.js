@@ -4,17 +4,21 @@
 define([
   'underscore',
   'backbone',
-  'models/item.model'
+  'modules/project/item.model'
 ], function(_, Backbone, Item){
 
   return Backbone.Collection.extend({
 
     model: Item,
 
-    url: '/api/items',
-
     initialize: function(){
       this.on('change:order', this.reorder);
+    },
+
+    configure: function(projectId){
+      this.url = '/api/projects/' + projectId + '/items';
+      this.project = projectId;
+      Item.prototype.project = projectId;
     },
 
 //------------------------------------------------------------------------
@@ -26,6 +30,7 @@ define([
     //| > We override the create function to add the order of not provided
     //|   We Want this on the collection to abstract the model from it
     create: function(model, options){
+
       if (model instanceof Backbone.Model) {
         if (!model.get('order')) {
           model.set({order: this.nextOrder()});
