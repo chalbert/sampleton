@@ -2,9 +2,9 @@ var express = require("express"),
     stylus = require("stylus"),
     mongoose = require('mongoose'),
     routers = {
-      templates: require("./modules/routers/Templates.R.js"),
-      identification: require("./modules/routers/Identification.R.js"),
-      app: require("./modules/routers/App.R.js")
+      templates: require("./modules/routers/templates.R.js"),
+      identification: require("./modules/routers/identification.R.js"),
+      app: require("./modules/routers/app.R.js")
     },
     settings = require('./settings');
 
