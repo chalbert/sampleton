@@ -1,20 +1,19 @@
-// Backbone.ModelBinding v0.4.3
+// Backbone.ModelBinding v0.5.0
 //
 // Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
 // Distributed Under MIT Liscene
 //
 // Documentation and Full Licence Availabe at:
 // http://github.com/derickbailey/backbone.modelbinding
-
+//
 // ----------------------------
 // Backbone.ModelBinding
 // ----------------------------
-
 ;(function(root){
 
 var modelbinding = (function(Backbone, _, $) {
   var modelBinding = {
-    version: "0.4.3",
+    version: "0.5.0",
 
     bind: function(view, options){
       view.modelBinder = new ModelBinder(view, options);
@@ -282,7 +281,7 @@ var modelbinding = (function(Backbone, _, $) {
           var bindingAttr = config.getBindingAttr('radio');
 
           var modelChange = function(model, val){
-            var value_selector = "input[type=radio][" + bindingAttr + "=" + group_name + "][value='" + val + "']";
+            var value_selector = "input[type=radio][" + bindingAttr + "='" + group_name + "'][value='" + val + "']";
             view.$(value_selector).attr("checked", "checked");
           };
           modelBinder.registerModelBinding(model, group_name, modelChange);
@@ -301,7 +300,7 @@ var modelbinding = (function(Backbone, _, $) {
             }
           };
 
-          var group_selector = "input[type=radio][" + bindingAttr + "=" + group_name + "]";
+          var group_selector = "input[type=radio][" + bindingAttr + "='" + group_name + "']";
           view.$(group_selector).each(function(){
             var groupEl = $(this);
             modelBinder.registerElementBinding(groupEl, elementChange);
@@ -310,11 +309,11 @@ var modelbinding = (function(Backbone, _, $) {
           var attr_value = model.get(group_name);
           if (typeof attr_value !== "undefined" && attr_value !== null) {
             // set the default value on the form, from the model
-            var value_selector = "input[type=radio][" + bindingAttr + "=" + group_name + "][value='" + attr_value + "']";
+            var value_selector = "input[type=radio][" + bindingAttr + "='" + group_name + "'][value='" + attr_value + "']";
             view.$(value_selector).attr("checked", "checked");
           } else {
             // set the model to the currently selected radio button
-            var value_selector = "input[type=radio][" + bindingAttr + "=" + group_name + "]:checked";
+            var value_selector = "input[type=radio][" + bindingAttr + "='" + group_name + "']:checked";
             var value = view.$(value_selector).val();
             setModelValue(group_name, value);
           }
