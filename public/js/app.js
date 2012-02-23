@@ -10,7 +10,7 @@ require.config({
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",
     mediator: "classes/mediator",
-    modelBinding: "libs/vendor/backbone/backbone.modelBinding"
+    modelBinding: "libs/vendor/backbone/backbone.modelbinding"
   }
 
 });
