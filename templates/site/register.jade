@@ -1,0 +1,23 @@
+
+section#login
+  .content
+    #logo Sampleton
+    h1 Create an account
+    form(action="", method="post")
+      - if ($formError)
+        p.messenger
+          span.error= $formError.message
+
+      .field-wrapper
+        input.field-user(name="name", placeholder="Your name", value=$name)
+
+      .field-wrapper
+        input.field-user(name="email", placeholder="Your email", value=$email)
+
+      .field-wrapper
+        input.field-password(type="password", name="password", placeholder="Choose a password", value=$password)
+
+      input.btn-submit(type="submit", value="Register")
+  .link
+    | Already have an account?
+    a(href="/login") Log in

@@ -1,0 +1,20 @@
+#boot
+section#login
+  .content
+    #logo.no-boot.
+      Sampleton
+    h1 Sampling made simple
+    form(action="", method="post")
+      - if ($formError)
+        p.messenger
+          span.error= $formError.message
+      .field-wrapper
+        input.field-user(name="email", placeholder="Your email", value=$email)
+
+      .field-wrapper
+        input.field-password(type="password", name="password", placeholder="Your password")
+
+      input.btn-submit(type="submit")
+  .link
+    | Don't have an account?
+    a(href="/register") Register
