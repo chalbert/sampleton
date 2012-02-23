@@ -1,5 +1,5 @@
 var access = require("../access.js"),
-    User = require("../models/user.model.js");
+    User = require("../models/user.M.js");
 
 var identification = function(app) {
 

@@ -1,7 +1,7 @@
 var access = require("../access.js"),
-    User = require("../models/user.model");
-    Project = require("../models/project.model");
-    Item = require("../models/item.model");
+    User = require("../models/user.M");
+    Project = require("../models/project.M");
+    Item = require("../models/item.M");
 
 var sampleton = function(app) {
 

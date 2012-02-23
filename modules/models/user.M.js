@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Project = require('./project.model.js');
+    Project = require('./project.M.js');
 
 var User = mongoose.model('User', new mongoose.Schema({
   role: {type: Number, 'default': 1 },

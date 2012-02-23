@@ -1,6 +1,6 @@
 var access = {},
     roles = require('./roles'),
-    User = require('./models/user.model');
+    User = require('./models/user.M');
 
 access.isRestrictedTo = function(role) {
   return function(req, res, next) {

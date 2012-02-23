@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Record = require('./record.model.js');
+    Record = require('./record.M.js');
 
 var Item = new mongoose.Schema({
   title:String,
