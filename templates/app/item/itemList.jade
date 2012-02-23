@@ -1,0 +1,14 @@
+input.field-new(placeholder="New sample type", type="text")
+a.btn-back Project List
+
+h1(data-bind="text title")
+
+ul.item-list.editing
+  li
+    .item(data-bind="data-id id")
+      .display
+       .title(data-bind="title")
+       .counter(data-bind="counter")
+      .edit
+       input.field-title(name="title", data-sync)
+       <a class="btn-history">History <span data-bind="counter"></span></a>

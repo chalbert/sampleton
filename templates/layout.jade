@@ -11,14 +11,14 @@ head
   meta(charset="utf-8")
   meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
 
-  title=$title$
+  title=$title
   meta(name="description", content="")
   meta(name="author", content="")
   meta(name="viewport", content="width=device-width,minimum-scale=1.0,maximum-scale=1.0")
 
   link(rel="icon", href="images/favicon.png")
-  - var $style$ = 'css/' + $style$ + '.css';
-  link(rel="stylesheet", href=$style$)
+  - var $style = 'css/' + $style + '.css';
+  link(rel="stylesheet", href=$style)
   <!--[if !IE]>-->
   link(type="text/css", rel="stylesheet", media="only screen and (max-device-width: 480px)", href="css/mobile.css")
   <!--<![endif]-->
@@ -27,9 +27,6 @@ head
 body
 
   #container
-    header
     !=body
-    footer
-
-  script(src="js/libs/vendor/require/require.js", data-main=$js$)
+  script(src="js/libs/vendor/require/require.js", data-main=$js)
 </html>

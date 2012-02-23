@@ -1,0 +1,12 @@
+h1
+ | History:
+ span(data-bind="title")
+
+menu.toolbar-records(type="toolbar")
+  li
+    a.btn-previous(data-bind="enabled previous")
+  li
+    a.btn-next(data-bind="enabled next")
+
+table#list-record.list-table
+  <tr><td data-bind="position"></td><td data-bind="created_at_string"></td></tr>
