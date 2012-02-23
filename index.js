@@ -1,234 +1,48 @@
-var application_root = __dirname,
-    express = require("express"),
-    connect = require("connect"),
-    access = require("./modules/access"),
+var express = require("express"),
     stylus = require("stylus"),
-    nib = require("nib"),
-    path = require("path"),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    routers = {
+      templates: require("./modules/routers/Templates.R.js"),
+      identification: require("./modules/routers/Identification.R.js"),
+      app: require("./modules/routers/App.R.js")
+    },
+    settings = require('./settings');
 
 var app = module.exports = express.createServer();
+var db = mongoose.connect(settings.db.host, settings.db.db);
 
-mongoose.connect('mongodb://localhost/sampleton');
-
-var User = mongoose.model('User', (function() {
-  var shema = new mongoose.Schema({
-    role: Number,
-    email: String,
-    name: String,
-    password: String,
-  });
-
-  shema.virtual('counter').get(function(){
-    return this.records.length;
-  });
-  return shema;
-})());
-
-var Item = mongoose.model('Item', (function() {
-  var shema = new mongoose.Schema({
-    title:String,
-    records:[Record],
-    order:Number
-  });
-
-  shema.virtual('counter').get(function(){
-    return this.records.length;
-  });
-  return shema;
-})());
-
-
-var Record = new mongoose.Schema({
-  date: { type: Date, 'default': Date.now }
-});
-
-function compile(str, path) {
-  return stylus(str)
-      .set('filename', path)
-      .set('compress', true)
-      .use(nib());
-}
+//|---------------|
+//| CONFIGURATION |
+//|---------------|
 
 app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'All work and no play makes Jack a dull boy' }));
-  app.use(stylus.middleware({
-    src: __dirname + '/public',
-    compile: compile
-  }));
+  app.use(express.session(settings.session));
+  app.use(stylus.middleware(settings.stylus));
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-  app.set('views', __dirname + '/templates');
+  app.use(express.static(settings.paths.static));
+  app.set('views', settings.paths.views);
   app.set('view engine', 'jade');
-
-});
-
-// Routes
-
-//|-------|
-//| LOGIN |
-//|-------|
-
-app.post('/login', function(req, res, next){
-  if (req.email && req.password) {
-    return User.findOne({email: email, password: password}, function(err, items) {
-      if (err) {
-        req.formError = {
-          type: 'wrong',
-          message: "Bummer! This email &ampt; password don't match an account."
-        }
-        next();
-      }
-    });
-  }
-});
-
-app.all('/login', function(req, res){
-  //getMessages
-  /*
-  var flash = req.flash(),
-      infos = flash.info,
-      errors = flash.error;
-  */
-
-  res.render('login', {
-    $title$: "Sampling made simple ~ Sampleton",
-    $style$: 'site',
-    $js$: 'js/site',
-    $formError$: req.formError
-  });
-});
-
-app.get('/', function(req, res){
-  res.render('index', {
-    $title$: "Sampling made simple ~ Sampleton",
-    $style$: 'app',
-    $js$: 'js/app'
-  });
-});
-
-//|-----------|
-//| TEMPLATES |
-//|-----------|
-
-app.get(/^\/templates\/([^.]+).html$/, function(req, res, next){
-  var template = req.params[0] + '.jade',
-      templatePath = app.set('views') + '/' + template;
-  path.exists(templatePath, function(exists){
-    if (!exists) {
-      res.send("This template doesn't exist: " + template, 404);
-    } else {
-      res.render(template, {layout: false});
-    }
-  });
-});
-
-//|-------|
-//| ITEMS |
-//|-------|
-
-app.get('/api/items', function(req, res){
-  return Item.find(function(err, items) {
-    var response = [];
-    items.forEach(function(item){
-      response.push({
-        _id: item._id,
-        title: item.title,
-        order: item.order,
-        counter: item.counter
-      });
-    });
-    return res.send(response);
-
-    //return res.send(items);
-
-  });
-});
-
-app.get('/api/items/:id', function(req, res){
-  return Item.findById(req.params.id, function(err, item) {
-    if (!err) {
-      //item.records = new array(req.body.records.length);
-      return res.send(item);
-    }
-  });
-});
-
-app.put('/api/items/:id', function(req, res){
-  return Item.findById(req.params.id, function(err, item) {
-    item.title = req.body.title;
-    item.records = req.body.records;
-    item.order = req.body.order;
-    return item.save(function(err) {
-      if (!err) {
-        console.log("updated");
-      }
-      return res.send(item);
-    });
-  });
-});
-
-app.post('/api/items', function(req, res){
-  var item = new Item({
-    title: req.body.title,
-    records: req.body.records,
-    order: req.body.order
-  });
-
-  item.save(function(err) {
-    if (!err) {
-      return console.log("created");
-    }
-  });
-  return res.send(item);
-});
-
-app.delete('/api/items/:id', function(req, res){
-  return Item.findById(req.params.id, function(err, item) {
-    return item.remove(function(err) {
-      if (!err) {
-        console.log("removed");
-        return res.send('')
-      }
-    });
-  });
 });
 
 //|---------|
-//| RECORDS |
+//| ROUTING |
 //|---------|
 
-app.get('/api/records/:itemId', function(req, res){
-  console.log('get:records');
-
-  return Item.findById(req.params.itemId, function(err, item) {
-    return res.send(item.records);
-  });
-
+// Easier for debugging, when node restarts
+app.all('*', function(req, res, next) {
+  req.connection.setTimeout(1500);
+  next();
 });
 
-app.post('/api/records/:item', function(req, res){
+routers.templates(app);
+routers.identification(app);
+routers.app(app);
 
-  console.log('route' + req.params.item);
-
-  Item.findById(req.params.item, function(err, item) {
-    item.records.push({
-      date: req.body.date
-    });
-    item.save();
-    console.log('Record created');
-    return res.send({success:1});
-  });
-
-});
-
-//|---------
+//|-----|
+//| END |
+//|-----|
 
 app.listen(4000);
-
-express.createServer(function (req, res) {
-  res.redirect('http://www.chalbert.com' + req.url, 301);
-}).listen(5000);
