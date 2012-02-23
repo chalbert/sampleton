@@ -1,5 +1,5 @@
 .records
-  pos absolute 100% 8px -10px 8px
+  pos fixed 1000px 38px -10px 38px
   background #fff
   border-radius 16px 16px 0 0
   borders #333 8px 8px 0 8px
@@ -8,13 +8,14 @@
 
   h1
     font-size 22px
-    margin 8px 0 0 10px
+    margin 8px 0 6px 10px
 
   .list-record
     width 100%
     font-size 13px
-    margin 6px 0 0 0
     borders top #eee
+
+
     tr
       borders bottom #eee
     td
@@ -26,3 +27,19 @@
       &:last-child
         width 100%
         text-align right
+
+.toolbar-records
+  absolute top 12px right 10px
+  li
+    inline-block 16px
+    margin 0 6px
+  .btn-next, .btn-previous
+    inline-block 100%
+    background url(/images/play.png) center center no-repeat
+    background-size 90%
+    cursor pointer
+  .btn-previous
+    transform rotate(180deg)
+  [disabled]
+    opacity .35
+    cursor default
