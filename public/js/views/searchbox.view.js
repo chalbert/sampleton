@@ -2,10 +2,11 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'glasses'
-], function ($, _, Backbone, o_o) {
+  'mediator',
+  'views/base.view'
+], function ($, _, Backbone, mediator, baseView) {
 
-  return o_o.view.extend({
+  return baseView.extend({
 
     el:  ".searchbox",
 
@@ -14,14 +15,7 @@ define([
       'reset': '.search-reset'
     },
 
-    requirements: ['listView'],
-
-    initialize: function(){
-      this._super('initialize');
-    },
-
 //------------------------------------------------------------------------
-
     //|--------|
     //| EVENTS |
     //|--------|
@@ -50,7 +44,6 @@ define([
     },
 
 //------------------------------------------------------------------------
-
     //|---------|
     //| ACTIONS |
     //|---------|
@@ -58,17 +51,17 @@ define([
     search: function(){
       var search = this.$get('input').val();
       if (search) {
-        this.$get('reset').removeClass('hidden');
-        this.listView.filterByTitle(search);
+        this.$get('reset').show();
+        mediator.publish('search', search);
       } else {
-        this.$get('reset').addClass('hidden');
+        this.$get('reset').hide();
       }
     },
 
     reset: function(){
-      this.$get('reset').addClass('hidden');
+      this.$get('reset').hide();
       this.$get('input').val('');
-      this.listView.resetFilter();
+      mediator.publish('search', null);
     }
 
   });
