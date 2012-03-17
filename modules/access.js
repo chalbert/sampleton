@@ -2,7 +2,10 @@ var access = {},
     roles = require('./roles'),
     User = require('./models/user.M');
 
-access.isRestrictedTo = function(role) {
+access.isRestrictedTo = function(role, options) {
+
+  options || (options = {});
+
   return function(req, res, next) {
 
     if (req.session.user && req.session.user.authenticated) {
@@ -10,11 +13,15 @@ access.isRestrictedTo = function(role) {
       if (req.session.user.role >= roles[role]) {
         next();
       } else {
-        next(new Error("Arg! You're not authorized to access this."));
+        (options.redirect)
+            ? res.redirect('/login', 302)
+            : res.send({auth: 1}, 403);
       }
 
     } else {
-      res.redirect('/login');
+      (options.redirect)
+          ? res.redirect('/login', 302)
+          : res.send({auth: 0}, 403);
     }
   }
 }

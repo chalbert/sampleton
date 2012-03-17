@@ -1,0 +1,106 @@
+.list-default
+  display none
+  padding 12px
+  text-align center
+  clear both
+  borders top #ddd
+  margin 6px 0 0 0
+
+.field-new
+  size 100% 23px
+  borders #ddd
+  border-radius 4px
+  font-size 14px
+  text-align center
+  margin-bottom 10px
+  padding 0
+  width 35%
+  float right
+  margin 0
+
+.list-table
+  width 100%
+  font-size 13px
+  margin 6px 0 0 0
+  borders top #ddd
+
+  tr
+    borders bottom #ddd
+
+  &.clickable
+    tr:hover
+      background #eee
+      cursor pointer
+
+  td
+    vertical-align middle
+    >span
+      display inline-block
+      padding 6px 6px
+
+    &:first-child
+      background #fefcde
+      border right #fefac8
+      text-align center
+      width 1px
+
+    &.date
+      text-align right
+      white-space nowrap
+
+    &.stretch
+      width 100%
+
+    &.nowrap
+      white-space nowrap
+
+    &.edit
+      transition opacity .35s
+      cursor pointer
+      opacity .25
+      &:hover, &.active
+        opacity 1
+
+      .btn-edit
+        block 20px
+        margin 2px 6px 0 0
+        background url(/images/writing.png) 4px 0 no-repeat
+        background-size 100%
+
+  .edit-options
+    width 0px
+    height 18px
+    padding 5px 0 0 0
+    float right
+    overflow hidden
+
+    &.open
+     width auto
+
+    .btn-delete
+      margin 0 2px
+
+  thead
+    td, td:first-child
+      background #f4eca2
+
+    td
+      padding 2px 6px
+      text-align center
+      borders right #ddd
+      color #333
+      text-shadow 1px 1px 1px #fff;
+
+      &:last-child
+        text-align right
+
+  &.data
+    tbody
+      td
+        borders right #ccc dashed
+
+ul.clickable
+  li
+    &:hover
+      background #f6f6f6
+      cursor pointer

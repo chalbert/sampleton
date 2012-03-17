@@ -1,0 +1,141 @@
+.templates
+  pos absolute 0
+  z-index 100
+  overflow auto
+  padding 20px
+
+
+  .btn-back
+    float right
+    margin 0 8px
+
+.template
+  pos absolute 0
+  z-index 100
+  overflow auto
+  padding 20px
+
+  h1
+
+    width 55%
+
+    >*
+      float left
+
+    .title
+      display inline-block
+      width 74%
+
+      &:focus
+        margin -1px
+
+  .btn-back
+    float right
+    margin 0 8px
+
+#list-fields
+  width 65%
+  float left
+
+  tr.ui-sortable-helper
+    border 0
+    position absolute
+    margin -15px -6px
+    height 20px
+    td
+      background #FEFAC8
+    td
+      visibility hidden
+    td.col-title
+      position absolute
+      display block
+      visibility visible
+      box-shadow 1px 1px 3x #666
+
+      .handle
+        dragging()
+        background-color #FEFAC8
+        opacity 1
+        left -14px
+        top 0px
+
+    input[name=title]
+      border 0
+      background transparent
+
+  tr.placeholder
+    &:before
+      content ''
+      background #666
+      block 100% 2px
+      position absolute
+
+  td
+    >.handle
+      margin 5px 2px 0 4px
+      padding 0
+      draggable()
+      block 11px 14px
+      opacity 0
+      background url(/images/grid-draggable.png)
+      absolute left 4px
+
+  tr:hover
+    td
+      >.handle
+        opacity 1
+
+  td
+    vertical-align top
+
+  td:not(:first-child)
+    padding 1px 3px
+
+  td:first-child
+    width 200px
+
+  input[name=title]
+    width 150px
+    margin 2px 0 0 2px
+
+  .new_option_wrapper
+    margin-top 2px
+    text-align right
+
+  .options
+
+    .delete
+      background #F33
+      type 11px #fff
+      border-radius 2px
+      padding 1px
+      text-align center
+
+    ul
+      background #f3f3f3
+      borders left right #eee
+
+      li
+        position relative
+        float left
+        margin-left 2px
+        padding 2px 0
+
+        .handle
+          margin 3px 2px 0 4px
+          draggable()
+          block 7px 14px
+          opacity .35
+          background url(/images/grid-draggable.png)
+          float left
+        &:hover
+          .handle
+            opacity 1
+
+
+
+#template-preview
+  width 34%
+  float right
+  font-size 12px
+  visibility visible

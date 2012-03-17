@@ -20,7 +20,9 @@ var stylus = require("stylus"),
     nib = require("nib");
 
 settings.stylus = {
-  src:__dirname + '/public',
+  src:__dirname + '/templates',
+  dest: __dirname + '/public',
+  images: __dirname + '/public/images',
   compile: function (str, path) {
     return stylus(str)
         .set('filename', path)

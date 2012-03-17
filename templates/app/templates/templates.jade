@@ -1,0 +1,16 @@
+.page-right-head
+  input.field-new(placeholder="New template", type="text")
+  a.btn-back Project List
+
+h1 Templates
+
+#list-templates
+  .list-default
+  table.list-table.clickable
+    tr
+      td
+        span(data-bind="position")
+      td.stretch
+        span(data-bind="title")
+      td.date
+        span(data-bind="created_at_string")

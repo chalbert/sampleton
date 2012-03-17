@@ -8,7 +8,7 @@
 //
 // ----------------------------
 // Backbone.ModelBinding
-// ----------------------------
+// ------------ ----------------
 ;(function(root){
 
 var modelbinding = (function(Backbone, _, $) {
@@ -156,6 +156,18 @@ var modelbinding = (function(Backbone, _, $) {
     config.email = attribute;
   };
 
+
+  var filter = function(container, selector){
+    var result = [];
+    if (container.find(selector).length) {
+      $.merge(result, $(container).children(selector));
+      container.children(':not(.view):has(' + selector + ')').each(function(){
+        $.merge(result, filter($(this), selector));
+      });
+    }
+    return $(result);
+  };
+
   // ----------------------------
   // Text, Textarea, and Password Bi-Directional Binding Methods
   // ----------------------------
@@ -176,7 +188,8 @@ var modelbinding = (function(Backbone, _, $) {
     methods.bind = function(selector, view, model, config){
       var modelBinder = this;
 
-      view.$(selector).each(function(index){
+
+      filter(view.$el, selector).each(function(index){
         var element = view.$(this);
         var elementType = _getElementType(element);
         var attribute_name = config.getBindingValue(element, elementType);
@@ -221,7 +234,7 @@ var modelbinding = (function(Backbone, _, $) {
     methods.bind = function(selector, view, model, config){
       var modelBinder = this;
 
-      view.$(selector).each(function(index){
+      filter(view.$el, selector).each(function(index){
         var element = view.$(this);
         var attribute_name = config.getBindingValue(element, 'select');
 
@@ -248,7 +261,7 @@ var modelbinding = (function(Backbone, _, $) {
         var attr_value = model.get(attribute_name);
         if (typeof attr_value !== "undefined" && attr_value !== null) {
           element.val(attr_value);
-        } 
+        }
 
         // set the model to the form's value if there is no model value
         if (element.val() != attr_value) {
@@ -272,7 +285,7 @@ var modelbinding = (function(Backbone, _, $) {
       var modelBinder = this;
 
       var foundElements = [];
-      view.$(selector).each(function(index){
+      filter(view.$el, selector).each(function(index){
         var element = view.$(this);
 
         var group_name = config.getBindingValue(element, 'radio');
@@ -333,7 +346,7 @@ var modelbinding = (function(Backbone, _, $) {
     methods.bind = function(selector, view, model, config){
       var modelBinder = this;
 
-      view.$(selector).each(function(index){
+      filter(view.$el, selector).each(function(index){
         var element = view.$(this);
         var bindingAttr = config.getBindingAttr('checkbox');
         var attribute_name = config.getBindingValue(element, 'checkbox');
@@ -488,7 +501,7 @@ var modelbinding = (function(Backbone, _, $) {
     methods.bind = function(selector, view, model, config){
       var modelBinder = this;
 
-      view.$(selector).each(function(index){
+      filter(view.$el, selector).each(function(index){
         var element = view.$(this);
         var databindList = splitBindingAttr(element);
 

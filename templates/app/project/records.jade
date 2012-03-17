@@ -1,0 +1,32 @@
+h1
+ | History:
+ span(data-bind="title")
+
+menu.toolbar-records(type="toolbar")
+  li
+    a.btn-previous(data-bind="enabled previous")
+  li
+    a.btn-next(data-bind="enabled next")
+
+#list-record
+  table.list-table.data
+    thead
+      script#template-record-head(type="text/x-handlebars-template")
+        tr
+          td #
+          {{#each fields}}
+          td(style="width:{{../rowWidth}}") {{this.title}}
+          {{/each}}
+          td(width="*") Recorded time
+    tbody
+      script#template-record(type="text/x-handlebars-template")
+          td
+            span(data-bind="position")
+          {{#each values}}
+          td
+            span {{this}}
+          {{/each}}
+          td.date(width="*")
+            span(data-bind="created_at_string")
+
+  .list-default

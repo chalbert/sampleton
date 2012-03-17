@@ -1,0 +1,40 @@
+.page-right-head
+  input.field-new(placeholder="New field", type="text")
+  a.btn-back Template List
+
+h1
+  div Template:&nbsp
+  .title(contenteditable="true", data-bind="text title")
+
+#list-fields
+  .list-default
+  table.list-table
+    tr
+      td
+        .id(data-bind="data-id id")
+        span(data-bind="position")
+      td.nowrap.col-title
+        .handle
+        input.discrete(name="title", data-sync)
+      td
+        types = {text: 'Text', number:'Number', textarea:'Long text', radio:'Choose one of many', checkbox:'Choose many'}
+        select(name="type", data-sync)
+          for type, value in types
+            option(value=value)= type
+        .new_option_wrapper
+          input.discrete(name="new_option", placeholder="New option")
+      td.stretch
+        .edit-options
+          a.btn-delete Delete
+        .options
+          ul
+            li
+      td.edit
+        a.btn-edit
+
+
+#template-preview.project-form
+  h2 Preview
+  table.list-form
+    tr
+      include ../project/project.form.field.jade

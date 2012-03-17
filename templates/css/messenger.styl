@@ -1,0 +1,48 @@
+.messenger
+  display block
+  text-align center
+
+  span
+    display inline-block
+    box-shadow 2px 2px 4px #a47e3c
+    border-radius 2px
+    padding 2px 6px
+    font-size 12px
+    font-weight bold
+    &.message
+      color #333
+      borders #f7d18f
+      background #FFF693
+
+.confirm
+  display none
+
+.confirm-box
+  fixed left 50% top 50%
+  width 300px
+  min-height 60px
+  padding 20px
+  box-shadow 0 0 4px #666
+  margin -120px 0 0 -150px
+  border-radius 5px
+  borders #f7d18f
+  background linear-gradient(top, #FFF693,  #ebcb73, #FFF693)
+  z-index 10000
+  text-align center
+
+  .message
+    height 40px
+    text-align left
+
+  .btn-confirm
+    font-size 18px
+    margin 0 10px
+
+  .btn-cancel
+    margin 0 10px
+    type 13px #333
+
+.confirm-overlay
+  pos fixed 0 0 0 0
+  background rgba(150, 150, 150, .35)
+  z-index 1000

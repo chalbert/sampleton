@@ -13,7 +13,7 @@ var identification = function(app) {
       return User.findOne({email: req.body.email, password: req.body.password}, ['name', 'role'], function(err, user) {
         if (!user) {
           req.formError = {
-            message: "Bummer! This email &amp; password don't match an account."
+            message: "Bummer! This email &amp; password don't match any account."
           };
           return next();
 

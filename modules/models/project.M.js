@@ -6,6 +6,7 @@ var Project = mongoose.model('Project', new mongoose.Schema({
   title: {type: String, 'default': 'New project'},
   items: [Item],
   order: Number,
+  template: mongoose.Schema.ObjectId,
   created_at: { type: Date, 'default': Date.now }
 }));
 

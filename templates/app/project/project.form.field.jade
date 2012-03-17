@@ -1,0 +1,19 @@
+td
+  span(data-id="{{id}}") {{title}}
+  | :
+td
+  .options.
+    {{#if options}}
+      {{options}}
+    {{/if}}
+    {{#if textarea}}
+      <textarea name="{{id}}" class="field-simple"/>
+    {{/if}}
+    {{#if text}}
+      <input name="{{id}}" class="field-simple"/>
+    {{/if}}
+    {{#if number}}
+      <input name="{{id}}" class="field-simple" type="number"/>
+      <a class="plus">+</a>
+      <a class="minus">-</a>
+    {{/if}}

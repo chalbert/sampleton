@@ -4,21 +4,24 @@ require.config({
     jqueryui: 'libs/vendor/jqueryui',
     touchpunch: 'libs/vendor/jqueryui/jquery.ui.touch-punch.min',
     cookie: 'libs/vendor/jquery/jquery.cookie',
-    underscore: 'libs/vendor/underscore/underscore',
-    backbone: 'libs/vendor/backbone/backbone',
+    underscore: 'libs/vendor/underscore/underscore-extended',
+    backbone: 'libs/vendor/backbone/backbone-extended',
     text: 'libs/vendor/require/text',
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",
-    mediator: "classes/mediator",
-    modelBinding: "libs/vendor/backbone/backbone.modelbinding"
+    modelBinding: "libs/vendor/backbone/backbone.modelbinding",
+    handlebars: "libs/vendor/handlebars/handlebars"
   }
 
 });
 
 require([
-  'views/app.view'
-], function(appView){
+  'sampleton/app/app.view',
+  'sampleton/app/app.router'
+], function(appView, appRouter){
 
-  var app = new appView();
+  var app = new appView(),
+      router = new appRouter();
+  app.open();
 
 });

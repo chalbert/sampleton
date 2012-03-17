@@ -1,0 +1,46 @@
+.page-right-head
+  a.btn-template Template
+  input.field-new(placeholder="New sample type", type="text")
+  a.btn-back Project List
+
+h1(contenteditable="true", data-bind="text title")
+
+#menu-template
+  .searchbox
+    span.search-icon
+    input.search-input(placeholder="Find template...")
+    input.search-reset.hidden(type="reset", value="")
+  ul.clickable
+    li
+      div(data-bind="data-id id")
+        span(data-bind="title")
+
+  a.link-templates Modify templates
+
+#list-project
+  .list-default
+  ul
+    li
+      .item(data-bind="data-id id")
+        .handle
+          svg(xmlns="http://www.w3.org/2000/svg", version="1.1", width="30", height="25", viewBox="0 0 30 30")
+            path#quadcurveABC(d="M 0 30 q 15 -24 30 0", stroke="#aaa", stroke-width="5", fill="none")
+        .display
+         .title(data-bind="title")
+         .counter(data-bind="counter")
+        .edit
+          .field-title(contenteditable="true", data-bind="text title", data-sync)
+          a.btn-history
+            |History (
+            span(data-bind="counter")
+            |)
+
+form.project-form
+  h2 New record
+    span.item-title
+  p.message
+  table.list-form
+    tr
+      include project.form.field.jade
+  .submit-wrapper
+    a.btn-confirm Save record

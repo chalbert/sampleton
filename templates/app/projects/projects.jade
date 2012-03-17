@@ -1,6 +1,19 @@
-input.field-new(placeholder="New project", type="text")
+.page-right-head
+  input.field-new(placeholder="New project", type="text")
 
 h1 Your projects
 
-table#list-projects.list-table.clickable
-  <tr><td data-bind="position"></td><td data-bind="title"></td><td data-bind="created_at_string"></td></tr>
+#list-projects.editing
+  .list-default
+  table.list-table.clickable
+    tr
+      td
+        span(data-bind="text position")
+      td.stretch
+        span(data-bind="text title")
+      td.date
+        span(data-bind="text created_at_string")
+        .edit-options
+          a.btn-delete Delete
+      td.edit
+        a.btn-edit
