@@ -37,19 +37,20 @@ define([
     },
 
     setup: function() {
-      this._super('setup', arguments);
       // Setup fields based on the selected template of this item
-      this.model.on('change:fields', function() {
-        var fields = this.model.get('fields');
-        if (fields) {
-          this.views.list.fields = fields;
-          this.views.list.rowView.prototype.fields = fields;
-          this.views.list.open(this.attributes);
-        }
+      this.model.on('change', function() {
+        if (!this.model.id) return;
+
+        var fields = this.model.get('fields') || [];
+        this.views.list.fields = fields;
+        this.views.list.rowView.prototype.fields = fields;
+        this.views.list.open(this.attributes);
 
       }, this);
 
       $(window).bind('click.outsiteRecord', $.proxy(this.back, this));
+
+      this._super('setup', arguments);
     },
 
     show: function(){
