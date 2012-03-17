@@ -4,3 +4,4 @@ node_modules
 _working files
 public/css/*.css
 npm-debug.log
+*_notes
