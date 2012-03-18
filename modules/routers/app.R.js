@@ -84,7 +84,8 @@ var sampleton = function(app) {
 
     var project = new Project({
       owner: req.session.user._id,
-      title: req.body.title
+      title: req.body.title,
+      order: req.body.order
     });
 
     project.save(function(err){
@@ -110,6 +111,7 @@ var sampleton = function(app) {
 
     req.project.title = req.body.title;
     req.project.template = req.body.template;
+    req.project.order = req.body.order;
 
     req.project.save(function(err){
       if (!err) {
