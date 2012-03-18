@@ -41,6 +41,7 @@ define([
     },
 
     open: function(){
+      this.hide();
       this._super('open', arguments);
       $(window).bind('click.outsiteRecord', $.proxy(this.hideConfirm, this));
     },
