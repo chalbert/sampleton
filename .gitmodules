@@ -10,3 +10,6 @@
 [submodule "public/js/src/plugins/backbone/backbone-elements"]
 	path = public/js/src/plugins/backbone/backbone-elements
 	url = git://github.com/chalbert/Backbone-Elements.git
+[submodule "public/js/src/plugins/backbone/backbone-multiviews"]
+	path = public/js/src/plugins/backbone/backbone-multiviews
+	url = git://github.com/chalbert/Backbone-Multiviews.git

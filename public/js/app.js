@@ -8,6 +8,7 @@ require.config({
     backbone: 'libs/vendor/backbone/backbone-extended',
       'backbone-mixins': 'src/plugins/backbone/backbone-mixins/backbone-mixins',
       'backbone-elements': 'src/plugins/backbone/backbone-elements/backbone-elements',
+      'backbone-multiviews': 'src/plugins/backbone/backbone-multiviews/backbone-multiviews',
     text: 'libs/vendor/require/text',
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",
