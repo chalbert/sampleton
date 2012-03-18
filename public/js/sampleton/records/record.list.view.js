@@ -52,7 +52,6 @@ define([
     },
 
     setup: function(){
-      this._super('setup', arguments);
 
       this.autoRender = false;
 
@@ -75,6 +74,7 @@ define([
         this.publish('loaded:recordList');
       }, this);
 
+      this._super('setup', arguments);
     }
 
   });

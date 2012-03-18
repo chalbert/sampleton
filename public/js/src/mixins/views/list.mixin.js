@@ -88,18 +88,20 @@ define([
 
     //| > Add each item
     addAll: function() {
+
       if (this.autoRender === false) {
         this.preRender = true;
-        return;
-      }
-      this.preRender = false;
+      } else {
+        this.preRender = false;
 
-      this.$list
-          .empty()
-          .show();
-      this.collection.each(function(model){
-        this.addOne(model);
-      }, this);
+        this.$list
+            .empty()
+            .show();
+        this.collection.each(function(model){
+          this.addOne(model);
+        }, this);
+      }
+
       this.collection.trigger('rendered');
     },
 
