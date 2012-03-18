@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!/templates/app/projects/projects.html',
+  'text!../../../templates/app/projects/projects.html',
   'src/ui/new.view',
   'sampleton/projects/projects.collection.view',
   'sampleton/projects/projects.col'

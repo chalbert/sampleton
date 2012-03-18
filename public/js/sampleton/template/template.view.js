@@ -13,7 +13,7 @@ define([
   'sampleton/template/field/template.field.view',
   'sampleton/template/field/template.field.col',
   'src/ui/new.view',
-  'text!/templates/app/templates/template.html',
+  'text!../../../templates/app/templates/template.html',
   'jqueryui/sortable',
   'touchpunch'
 ], function($, _, Backbone, listMixin, searchableMixin,

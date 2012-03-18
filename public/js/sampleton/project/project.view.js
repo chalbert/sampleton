@@ -14,7 +14,7 @@ define([
   'sampleton/project/form/project.form.view',
   'sampleton/project/templateMenu.view',
   // Template
-  'text!/templates/app/project/project.html',
+  'text!../../../templates/app/project/project.html',
 
   'jqueryui/sortable',
   'touchpunch',

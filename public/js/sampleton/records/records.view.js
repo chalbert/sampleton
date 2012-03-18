@@ -4,7 +4,7 @@ define([
   'backbone',
   'handlebars',
   'sampleton/records/records.model',
-  'text!/templates/app/project/records.html',
+  'text!../../../templates/app/project/records.html',
   'sampleton/records/record.list.view'
 ], function ($, _, Backbone, Handlebars, recordsModel, recordsTemplate, recordListView) {
 

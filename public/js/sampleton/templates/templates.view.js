@@ -4,7 +4,7 @@ define([
   'backbone',
   'src/mixins/views/list.mixin',
   'src/mixins/views/searchable.mixin',
-  'text!/templates/app/templates/templates.html',
+  'text!../../../templates/app/templates/templates.html',
   'sampleton/templates/templates.row.view',
   'sampleton/templates/templates.col',
   'src/ui/new.view'
