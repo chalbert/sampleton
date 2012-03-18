@@ -7,7 +7,7 @@ define([
   'underscore',
   'libs/vendor/backbone/backbone',
   'modelBinding',
-  'src/plugins/backbone/backbone-elements',
+  'backbone-elements',
   'src/plugins/backbone/backbone-multiviews'
 ], function($, _, Backbone, ModelBinding){
 

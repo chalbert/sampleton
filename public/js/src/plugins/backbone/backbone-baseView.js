@@ -7,8 +7,8 @@ define([
   'underscore',
   'libs/vendor/backbone/backbone',
   'modelBinding',
-  'src/plugins/backbone/backbone-elements',
-  'src/plugins/backbone/backbone-multiviews'
+  'backbone-elements',
+  'backbone-multiviews'
 ], function($, _, Backbone){
 
   Backbone.View = Backbone.View.extend({

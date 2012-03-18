@@ -1,0 +1,12 @@
+[submodule "public/js/src/plugins/underscore/underscore-keys"]
+	path = public/js/src/plugins/underscore/underscore-keys
+	url = git://github.com/chalbert/Underscore-Keys.git
+[submodule "templates/css/stylus-mixins"]
+	path = templates/css/stylus-mixins
+	url = git://github.com/chalbert/Stylus-Mixins.git
+[submodule "public/js/src/plugins/backbone/backbone-mixins"]
+	path = public/js/src/plugins/backbone/backbone-mixins
+	url = git://github.com/chalbert/Backbone-Mixins.git
+[submodule "public/js/src/plugins/backbone/backbone-elements"]
+	path = public/js/src/plugins/backbone/backbone-elements
+	url = git://github.com/chalbert/Backbone-Elements.git

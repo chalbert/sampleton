@@ -6,6 +6,8 @@ require.config({
     cookie: 'libs/vendor/jquery/jquery.cookie',
     underscore: 'libs/vendor/underscore/underscore-extended',
     backbone: 'libs/vendor/backbone/backbone-extended',
+      'backbone-mixins': 'src/plugins/backbone/backbone-mixins/backbone-mixins',
+      'backbone-elements': 'src/plugins/backbone/backbone-elements/backbone-elements',
     text: 'libs/vendor/require/text',
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",

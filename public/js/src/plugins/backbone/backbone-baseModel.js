@@ -3,7 +3,7 @@ define([
   'underscore',
   'libs/vendor/backbone/backbone',
   'src/mixins/models/configurable.mixin',
-  'src/plugins/backbone/backbone-mixins'
+  'backbone-mixins'
 ], function($, _, Backbone, configurableMixin){
 
   Backbone.Model = Backbone.Model.extend({
