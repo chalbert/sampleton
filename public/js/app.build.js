@@ -9,24 +9,28 @@
       name: "app"
     },
     {
-      name: 'sampleton/projects/projects.view',
+      name: "preload",
       exclude: ["app"]
+    },
+    {
+      name: 'sampleton/projects/projects.view',
+      exclude: ["app", "preload"]
     },
     {
       name: 'sampleton/project/project.view',
-      exclude: ["app"]
+      exclude: ["app", "preload"]
     },
     {
       name: 'sampleton/records/records.view',
-      exclude: ["app"]
+      exclude: ["app", "preload"]
     },
     {
       name: 'sampleton/templates/templates.view',
-      exclude: ["app"]
+      exclude: ["app", "preload"]
     },
     {
       name: 'sampleton/template/template.view',
-      exclude: ["app"]
+      exclude: ["app", "preload"]
     }
   ],
   paths: {
@@ -40,6 +44,6 @@
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",
     modelBinding: "libs/vendor/backbone/backbone.modelbinding",
-    handlebars: "empty:"
+    handlebars: "empty:" //libs/vendor/handlebars/handlebars
   }
 })

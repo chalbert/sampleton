@@ -16,25 +16,30 @@ require.config({
 });
 
 require([
+  'jquery',
   'sampleton/app/app.view',
-  'sampleton/app/app.router',
-  //COMMONS
-  'text', 'date',
-  'src/mixins/views/searchable.mixin',
-  'src/mixins/views/list.mixin',
-  'src/mixins/collections/orderable.mixin',
-  'src/ui/new.view',
-  'js/libs/vendor/jqueryui/core.js',
-  'js/libs/vendor/jqueryui/widget.js',
-  'js/libs/vendor/jqueryui/mouse.js',
-  'js/libs/vendor/jqueryui/draggable.js',
-  'js/libs/vendor/jqueryui/droppable.js',
-  'js/libs/vendor/jqueryui/sortable.js',
-  'touchpunch'
-], function(appView, appRouter){
+  'sampleton/app/app.router'
+], function($, appView, appRouter){
+
+  var loaded, fetched,
+      preload = function(){
+        if (!loaded || !fetched) return;
+        require(['preload']);
+      };
+  $(window).bind('load', function(){
+    loaded = true;
+    preload();
+  });
+
+  $('body').ajaxStop(function(){
+    fetched = true;
+    preload();
+  });
 
   var app = new appView(),
       router = new appRouter();
   app.open();
+
+
 
 });
