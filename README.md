@@ -1,5 +1,5 @@
-nu# Sampleton - Sampling made simpler
-### **Pre-alpha release**: [sampleton.chalbert.com](http://sampleton.chalbert.com)
+# Sampleton - Sampling made simpler
+### **Pre-release demo**: [sampleton.chalbert.com](http://sampleton.chalbert.com)
 
 Sampleton is a Web App helping in your sampling projects. Its main focus as for now is biological survey but it 
 will in time be usable for any type or survey.
