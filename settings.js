@@ -32,8 +32,14 @@ settings.stylus = {
 };
 
 settings.paths = {
-  static: __dirname + '/public',
-  views: __dirname + '/templates'
+  development: {
+    static: __dirname + '/public',
+    views: __dirname + '/templates'
+  },
+  production: {
+    static: __dirname + '/public-build',
+    views: __dirname + '/templates'
+  }
 }
 
 
