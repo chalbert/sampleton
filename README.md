@@ -1,4 +1,4 @@
-# Sampleton - Sampling made simpler
+nu# Sampleton - Sampling made simpler
 ### **Pre-alpha release**: [sampleton.chalbert.com](http://sampleton.chalbert.com)
 
 Sampleton is a Web App helping in your sampling projects. Its main focus as for now is biological survey but it 
@@ -34,7 +34,7 @@ Sampleton is built using some of the latest tools in Web App development.
 * **Mongo DB / Mongoose**
 * **Jade** for back-end templates
 * **Stylus** for CSS
-* **Backbone** including numerous custom plugins ([see my repository](https://github.com/chalbert))
+* **Backbone** including custom plugins ([see my repository](https://github.com/chalbert))
 * **JQuery** (of course)
 * **Require.js** for dependency management & code optimization (r.js)
 * **Handlebars** for front-end templating
