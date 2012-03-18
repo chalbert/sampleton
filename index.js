@@ -1,5 +1,6 @@
 var express = require("express"),
     stylus = require("stylus"),
+    jade = require("jade"),
     mongoose = require('mongoose'),
     routers = {
       templates: require("./modules/routers/templates.R.js"),
@@ -22,9 +23,18 @@ app.configure(function(){
   app.use(express.session(settings.session));
   app.use(stylus.middleware(settings.stylus));
   app.use(app.router);
-  app.use(express.static(settings.paths.static));
-  app.set('views', settings.paths.views);
   app.set('view engine', 'jade');
+});
+
+app.configure('development', function(){
+  app.use(express.static(settings.paths.development.static));
+  app.set('views', settings.paths.development.views);
+});
+
+app.configure('production', function(){
+  app.use(express.static(settings.paths.production.static));
+  app.set('views', settings.paths.production.views);
+  app.set('views', settings.paths.production.views);
 });
 
 //|---------|
