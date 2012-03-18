@@ -49,7 +49,8 @@ var sampleton = function(app) {
       $title: "Sampling made simple ~ Sampleton",
       $style: 'app',
       $js: 'js/app',
-      $name: req.session.user.name
+      $name: req.session.user.name,
+      $message: 'Loading...'
     });
   });
 
