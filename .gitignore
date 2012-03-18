@@ -5,3 +5,5 @@ _working files
 public/css/*.css
 npm-debug.log
 *_notes
+public-build
+public/templates
