@@ -6,20 +6,14 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'src/mixins/views/shortcutManager.mixin',
   'sampleton/app/messenger.view',
   'src/ui/searchbox.view',
   // For class animation
   'jqueryui/effects/core'
 
-], function($, _, Backbone, shortcutManagerMixin,
-            messengerView, searchBoxView) {
+], function($, _, Backbone, messengerView, searchBoxView) {
 
   return Backbone.View.extend({
-
-    mixins: {
-      shortcutManager: shortcutManagerMixin
-    },
 
     el:  "#sampleton",
 
