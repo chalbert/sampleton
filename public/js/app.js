@@ -5,6 +5,7 @@ require.config({
     touchpunch: 'libs/vendor/jqueryui/jquery.ui.touch-punch.min',
     cookie: 'libs/vendor/jquery/jquery.cookie',
     underscore: 'libs/vendor/underscore/underscore-extended',
+      'underscore-keys': 'src/plugins/underscore/underscore-keys/underscore-keys',
     backbone: 'libs/vendor/backbone/backbone-extended',
       'backbone-mixins': 'src/plugins/backbone/backbone-mixins/backbone-mixins',
       'backbone-elements': 'src/plugins/backbone/backbone-elements/backbone-elements',
