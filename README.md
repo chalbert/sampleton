@@ -28,8 +28,6 @@ informations for each specimen.
 
 ## Behind the Hood
 
-Sampleton is built using some of the latest tools in Web App development.
-
 * **Node.js/express.js**
 * **Mongo DB / Mongoose**
 * **Jade** for back-end templates
