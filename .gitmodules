@@ -13,3 +13,9 @@
 [submodule "public/js/src/plugins/backbone/backbone-multiviews"]
 	path = public/js/src/plugins/backbone/backbone-multiviews
 	url = git://github.com/chalbert/Backbone-Multiviews.git
+[submodule "public/js/src/plugins/backbone/backbone-mediator"]
+	path = public/js/src/plugins/backbone/backbone-mediator
+	url = git://github.com/chalbert/Backbone-Mediator.git
+[submodule "public/js/src/plugins/backbone/backbone-shortcuts"]
+	path = public/js/src/plugins/backbone/backbone-shortcuts
+	url = git://github.com/chalbert/Backbone-Shortcuts.git

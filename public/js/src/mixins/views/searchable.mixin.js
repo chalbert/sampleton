@@ -5,12 +5,12 @@ define(function () {
 
     open: function(){
       this._super('open', arguments);
-      this.subscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
+      Backbone.Mediator.subscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
     },
 
     close: function(){
       this.resetFilter();
-      this.unsubscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
+      Backbone.Mediator.unsubscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
       this._super('close', arguments);
     },
 

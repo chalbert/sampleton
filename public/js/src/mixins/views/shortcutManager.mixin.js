@@ -7,8 +7,8 @@ define([
 
     initialize: function(){
       this._super('initialize', arguments);
-      this.subscribe('shortcut:add', this.addShortcuts, this);
-      this.subscribe('shortcut:remove', this.removeShortcuts, this);
+      Backbone.Mediator.subscribe('shortcut:add', this.addShortcuts, this);
+      Backbone.Mediator.subscribe('shortcut:remove', this.removeShortcuts, this);
       $(document).keydown($.proxy(this.document_key, this));
     },
 

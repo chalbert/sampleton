@@ -24,8 +24,8 @@ define([
       this._super('setup', arguments);
 
       this.setupTrash();
-      this.subscribe('recording:start', this.pushStart, this);
-      this.subscribe('recording:stop', this.pushPause, this);
+      Backbone.Mediator.subscribe('recording:start', this.pushStart, this);
+      Backbone.Mediator.subscribe('recording:stop', this.pushPause, this);
       this.$el.removeClass('closed');
     },
 
@@ -65,16 +65,16 @@ define([
     },
 
     trash_drop: function(e, ui){
-      this.publish('items:stopSorting');
-      this.publish('items:deleteItem', ui);
+      Backbone.Mediator.publish('items:stopSorting');
+      Backbone.Mediator.publish('items:deleteItem', ui);
     },
 
     start_click: function(e) {
-      this.publish('recording:start');
+      Backbone.Mediator.publish('recording:start');
     },
 
     pause_click: function(e) {
-      this.publish('recording:stop');
+      Backbone.Mediator.publish('recording:stop');
     },
 
 //------------------------------------------------------------------------

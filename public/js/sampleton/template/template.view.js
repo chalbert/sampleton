@@ -102,7 +102,7 @@ define([
 
     back_click: function(e){
       e.stopPropagation();
-      this.publish('go:templates');
+      Backbone.Mediator.publish('go:templates');
     },
 
     list_sortstart: function(e, ui) {

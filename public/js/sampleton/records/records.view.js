@@ -32,7 +32,7 @@ define([
 
 
     open: function() {
-      this.publish('loading', 'recordList', "Loading records...");
+      Backbone.Mediator.publish('loading', 'recordList', "Loading records...");
       this._super('open', arguments);
     },
 
@@ -59,7 +59,7 @@ define([
         this.$el.stop().show().css({top: top}).animate({
           top: this.openPosition
         }, 350, $.proxy(function(){
-          this.publish('records:extended');
+          Backbone.Mediator.publish('records:extended');
         }, this));
       }
     },
@@ -99,7 +99,7 @@ define([
 
 
     back: function(){
-      this.publish('go:project', this.attributes.project);
+      Backbone.Mediator.publish('go:project', this.attributes.project);
       this.close();
     },
 
@@ -110,14 +110,14 @@ define([
     previous_click: function(e){
       e.preventDefault();
       if (this.model.get('previous')) {
-        this.publish('go:records', this.attributes.project, this.model.get('previous'));
+        Backbone.Mediator.publish('go:records', this.attributes.project, this.model.get('previous'));
       }
     },
 
     next_click: function(e){
       e.preventDefault();
       if (this.model.get('next')) {
-        this.publish('go:records', this.attributes.project, this.model.get('next'));
+        Backbone.Mediator.publish('go:records', this.attributes.project, this.model.get('next'));
       }
     }
 

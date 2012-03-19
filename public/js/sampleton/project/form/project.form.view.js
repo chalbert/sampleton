@@ -36,8 +36,8 @@ define([
       this._super('initialize', arguments);
 
       this.disable();
-      this.subscribe('item:select', this.enable, this);
-      this.subscribe('item:unselect', this.disable, this);
+      Backbone.Mediator.subscribe('item:select', this.enable, this);
+      Backbone.Mediator.subscribe('item:unselect', this.disable, this);
 
       this.$message.text(this.messages.initial);
 
@@ -67,7 +67,7 @@ define([
 
     confirm_click: function(){
       var data = this.$el.serializeArray();
-      this.publish('record:submitted', data);
+      Backbone.Mediator.publish('record:submitted', data);
       this.success();
       this.$el
           .find('input, textarea').val('')

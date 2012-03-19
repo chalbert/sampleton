@@ -70,14 +70,14 @@ define([
     initialize: function(options) {
       this._super('initialize', arguments);
 
-      this.subscribe('recording:stop', this.stopRecording, this);
-      this.subscribe('recording:start', this.startRecording, this);
-      this.subscribe('template:use', this.setTemplate, this);
+      Backbone.Mediator.subscribe('recording:stop', this.stopRecording, this);
+      Backbone.Mediator.subscribe('recording:start', this.startRecording, this);
+      Backbone.Mediator.subscribe('template:use', this.setTemplate, this);
 
     },
 
     open: function(projectId){
-      this.publish('recording:stop', 0);
+      Backbone.Mediator.publish('recording:stop', 0);
       this._super('open', arguments);
     },
 
@@ -140,7 +140,7 @@ define([
 
     back_click: function(e){
       e.stopPropagation();
-      this.publish('go:projects');
+      Backbone.Mediator.publish('go:projects');
     },
 
     template_click: function(e) {
@@ -163,7 +163,7 @@ define([
       this.$el.stop(true, true).addClass('editing');
       this.showInput(speed);
       this.$template.show();
-      this.publish('item:unselect');
+      Backbone.Mediator.publish('item:unselect');
     },
 
     startRecording: function(speed){

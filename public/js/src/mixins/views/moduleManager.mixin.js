@@ -24,10 +24,10 @@ define([
           _.each(args, function(arg, i){
             if (attributes[i]) attrs[attributes[i]] = arg;
           });
-          this.publish.apply(this, ['open:' + name, attrs]);
+          Backbone.Mediator.publish.apply(this, ['open:' + name, attrs]);
         });
 
-        this.subscribe('go:' + name, function() {
+        Backbone.Mediator.subscribe('go:' + name, function() {
           var args = _.toArray(arguments),
               prefix = routePrefix,
               newRoute ;
@@ -43,20 +43,20 @@ define([
           router.navigate(newRoute, {trigger: true});
         }, this);
 
-        this.subscribeOnce('open:' + name, function(){
+        Backbone.Mediator.subscribeOnce('open:' + name, function(){
           var args = _.toArray(arguments);
-          this.subscribeOnce('loaded:' + name, function(){
+          Backbone.Mediator.subscribeOnce('loaded:' + name, function(){
             args.unshift('open:' + name);
-            this.publish.apply(null, args);
+            Backbone.Mediator.publish.apply(null, args);
           }, this);
           this.loadModule(name, arguments);
 
         }, this);
 
 
-        this.subscribe('open:' + name, function(){
+        Backbone.Mediator.subscribe('open:' + name, function(){
           if (this.activeModule && (!this.modules[this.activeModule] || name === this.activeModule)) return;
-          if (this.activeModule) this.publish('close:' + this.activeModule);
+          if (this.activeModule) Backbone.Mediator.publish('close:' + this.activeModule);
           this.moduleContainer.removeClass('module-' + this.activeModule);
           this.activeModule = name;
           this.moduleContainer.addClass('module-' + this.activeModule);
@@ -89,7 +89,7 @@ define([
 
     loadModule: function(moduleName, args) {
 
-      this.publish('loading', moduleName);
+      Backbone.Mediator.publish('loading', moduleName);
 
       require(['sampleton/' + moduleName + '/' + moduleName + '.view'], $.proxy(function(view) {
 
@@ -97,7 +97,7 @@ define([
         this.moduleContainer.append(view.render().$el);
 
         // We copy the parent view attributes to its child, so it can build its route.
-        this.subscribe('open:' + moduleName, function(attributes){
+        Backbone.Mediator.subscribe('open:' + moduleName, function(attributes){
           var args = _.compact(_.toArray(arguments));
           if (view.opened && _.isEqual(view.attributes, _.extend({}, view.attributes, attributes))) {
             return
@@ -108,17 +108,17 @@ define([
 
         }, this);
 
-        this.subscribe('close:' + moduleName, function() {
+        Backbone.Mediator.subscribe('close:' + moduleName, function() {
           var args = arguments;
 
           _.each(view.modules, function(route, childModuleName){
-            this.publish('close:' + childModuleName);
+            Backbone.Mediator.publish('close:' + childModuleName);
           }, this);
 
           view.close.apply(view, args);
         });
 
-        this.publish('loaded:' + moduleName);
+        Backbone.Mediator.publish('loaded:' + moduleName);
 
       }, this))
     }

@@ -32,7 +32,7 @@ define([
     },
 
     click: function(e){
-      this.publish('go:template', this.model.id);
+      Backbone.Mediator.publish('go:template', this.model.id);
     },
 
     edit_click: function(e){
@@ -48,7 +48,7 @@ define([
     deleteBtn_click: function(e){
       e.stopPropagation();
         this.model.destroy();
-      this.publish('confirm', 'Do you want to delete this template: ' + this.model.get('title'), function(){
+      Backbone.Mediator.publish('confirm', 'Do you want to delete this template: ' + this.model.get('title'), function(){
         this.remove();
       }, this);
     }

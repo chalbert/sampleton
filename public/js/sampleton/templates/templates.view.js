@@ -44,7 +44,7 @@ define([
     },
 
     back_click: function(){
-      this.publish('go:projects');
+      Backbone.Mediator.publish('go:projects');
     }
 
   });

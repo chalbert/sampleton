@@ -2,12 +2,13 @@ define([
   'libs/vendor/backbone/backbone',
   'libs/vendor/backbone/backbone_super',
   'backbone-mixins',
-  'src/plugins/backbone/backbone-mediator',
+  'backbone-mediator',
   'src/plugins/backbone/backbone-baseModel',
   'src/plugins/backbone/backbone-baseCollection',
   'backbone-elements',
   'backbone-multiviews',
-  'src/plugins/backbone/backbone-bindings'
+  'src/plugins/backbone/backbone-bindings',
+  'backbone-shortcuts'
 ], function(Backbone){
   return Backbone
 });

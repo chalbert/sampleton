@@ -63,7 +63,7 @@ define([
       }, this);
 
 
-      this.subscribeOnce('records:extended', function(){
+      Backbone.Mediator.subscribeOnce('records:extended', function(){
         this.autoRender = true;
         if (this.preRender) {
           this.addAll();
@@ -71,7 +71,7 @@ define([
       }, this);
 
       this.collection.on('rendered', function(){
-        this.publish('loaded:recordList');
+        Backbone.Mediator.publish('loaded:recordList');
       }, this);
 
       this._super('setup', arguments);

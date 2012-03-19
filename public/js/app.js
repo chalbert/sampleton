@@ -9,6 +9,8 @@ require.config({
       'backbone-mixins': 'src/plugins/backbone/backbone-mixins/backbone-mixins',
       'backbone-elements': 'src/plugins/backbone/backbone-elements/backbone-elements',
       'backbone-multiviews': 'src/plugins/backbone/backbone-multiviews/backbone-multiviews',
+      'backbone-mediator': 'src/plugins/backbone/backbone-mediator/backbone-mediator',
+      'backbone-shortcuts': 'src/plugins/backbone/backbone-shortcuts/backbone-shortcuts',
     text: 'libs/vendor/require/text',
     order: "libs/vendor/require/order",
     date: "libs/vendor/date/date",

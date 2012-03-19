@@ -13,28 +13,6 @@ define([
 
   Backbone.View = Backbone.View.extend({
 
-    //| # data-sync attribute extends the modelbinding plugin by specify if
-    setBindingSync: function(){
-      //|   the database should be sync after change
-      var filter = function(container, selector){
-        var result = [];
-        if (container.find(selector).length) {
-          $.merge(result, $(container).children(selector));
-          container.children(':not(.view):has(' + selector + ')').each(function(){
-            $.merge(result, filter($(this), selector));
-          });
-        }
-        return $(result);
-      };
-
-      filter(this.$el, '[data-sync]').each($.proxy(function(index, el){
-        this.model.on('change:' + $(el).attr('name'), function(value, options){
-          if (this.model.id) {
-            Backbone.sync.call(this, 'update', this.model, options);
-          }
-        }, this);
-      }, this));
-    },
 
     setup: function(){
 
@@ -50,7 +28,7 @@ define([
       this.setBindings();
 
       //| > Delegate shorcuts to shortcut manager
-      this.publish('shortcut:add', this.shortcuts, this);
+      Backbone.Mediator.publish('shortcut:add', this.shortcuts, this);
 
     },
 

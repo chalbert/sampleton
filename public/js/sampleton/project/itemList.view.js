@@ -47,11 +47,11 @@ define([
 
       $('body').delegate('.item-sorting', 'mouseup', $.proxy(this.itemSorting_mouseup, this));
 
-      this.subscribe('items:stopSorting', $.proxy(this.stopSorting, this));
-      this.subscribe('items:deleteItem', $.proxy(this.deleteItem, this));
+      Backbone.Mediator.subscribe('items:stopSorting', $.proxy(this.stopSorting, this));
+      Backbone.Mediator.subscribe('items:deleteItem', $.proxy(this.deleteItem, this));
 
-      this.subscribe('item:select', this.selectItem, this);
-      this.subscribe('item:unselect', this.unselectAll, this);
+      Backbone.Mediator.subscribe('item:select', this.selectItem, this);
+      Backbone.Mediator.subscribe('item:unselect', this.unselectAll, this);
 
     },
 

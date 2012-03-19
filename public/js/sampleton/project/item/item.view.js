@@ -63,8 +63,8 @@ define([
         e.preventDefault();
         e.stopPropagation();
         this.effect_press();
-        this.publish('item:select', {id: this.model.id, title: this.model.get('title')});
-        this.subscribeOnce('record:submitted', this.model.addRecord, this.model);
+        Backbone.Mediator.publish('item:select', {id: this.model.id, title: this.model.get('title')});
+        Backbone.Mediator.subscribeOnce('record:submitted', this.model.addRecord, this.model);
         this.$item.addClass('selected');
         $(window).bind('click.outsiteRecord', $.proxy(this.unselect, this));
         //this.model.increment();
@@ -72,8 +72,8 @@ define([
     },
 
     unselect: function(){
-      this.unsubscribe('record:submitted', this);
-      this.publish('item:unselect', this.model.id);
+      Backbone.Mediator.unsubscribe('record:submitted', this);
+      Backbone.Mediator.publish('item:unselect', this.model.id);
       this.$item.removeClass('selected');
       $(window).unbind('click.outsiteRecord');
 
@@ -95,7 +95,7 @@ define([
     history_click: function(e){
       e.preventDefault;
       e.stopPropagation();
-      this.publish('go:records', this.attributes.project, this.model.id);
+      Backbone.Mediator.publish('go:records', this.attributes.project, this.model.id);
     },
     
 //------------------------------------------------------------------------

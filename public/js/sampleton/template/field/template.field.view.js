@@ -162,7 +162,7 @@ define([
 
     deleteBtn_click: function(e){
       e.stopPropagation();
-      this.publish('confirm', 'Do you want to delete the project: ' + this.model.get('title'), function(){
+      Backbone.Mediator.publish('confirm', 'Do you want to delete the project: ' + this.model.get('title'), function(){
         this.model.destroy();
         this.remove();
       }, this);

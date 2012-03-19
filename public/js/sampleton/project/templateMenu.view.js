@@ -83,16 +83,16 @@ define([
       var el = $(e.currentTarget).find('div'),
           id = el.attr('data-id');
       if (el.hasClass('active')) {
-        this.publish('template:use');
+        Backbone.Mediator.publish('template:use');
         this.unsetActiveState();
       } else {
-        this.publish('template:use', id);
+        Backbone.Mediator.publish('template:use', id);
         this.setActiveState(id);
       }
     },
 
     link_click: function(){
-      this.publish('go:templates');
+      Backbone.Mediator.publish('go:templates');
     },
 
     unsetActiveState: function(active){

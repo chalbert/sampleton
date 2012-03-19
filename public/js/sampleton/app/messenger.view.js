@@ -28,12 +28,12 @@ define([
     setup: function() {
       this._super('setup', arguments)
 
-      this.subscribe('confirm', this.showConfirm, this);
+      Backbone.Mediator.subscribe('confirm', this.showConfirm, this);
 
-      this.subscribe('say', this.addMessage, this);
-      this.subscribe('loading', function(name, message){
+      Backbone.Mediator.subscribe('say', this.addMessage, this);
+      Backbone.Mediator.subscribe('loading', function(name, message){
         this.addMessage('loading:' + name, message || this.message.loading);
-        this.subscribe('loaded:' + name, function(){
+        Backbone.Mediator.subscribe('loaded:' + name, function(){
           this.removeMessage('loading:' + name);
         }, this)
       }, this);

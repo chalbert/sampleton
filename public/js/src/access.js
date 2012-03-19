@@ -35,8 +35,8 @@ define([
   function control(criteria, method){
     var level = levels[criteria.level] || 0;
     if (session.level < level) {
-      this.publish('say', "Sorry, you don't have access to this page.");
-      this.publish('login:go');
+      Backbone.Mediator.publish('say', "Sorry, you don't have access to this page.");
+      Backbone.Mediator.publish('login:go');
     } else {
      method.call();
     }

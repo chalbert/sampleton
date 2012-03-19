@@ -24,9 +24,9 @@ define([
         switch(err.status) {
           case 403:
             if (body.auth) {
-              this.publish('say', 'error', "You are not authorized.");
+              Backbone.Mediator.publish('say', 'error', "You are not authorized.");
             } else {
-              this.publish('say', 'error', "You must be logged in. Redirecting...");
+              Backbone.Mediator.publish('say', 'error', "You must be logged in. Redirecting...");
               setTimeout(function(){
                 window.location = '/login';
               }, 3000);

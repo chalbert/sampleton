@@ -71,7 +71,7 @@ define([
     },
 
     applySearch: function(search){
-      this.publish('search' + (this.scope ? ':'+ this.scope : ''), search);
+      Backbone.Mediator.publish('search' + (this.scope ? ':'+ this.scope : ''), search);
     }
 
   });

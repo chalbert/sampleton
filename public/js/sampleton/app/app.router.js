@@ -19,7 +19,7 @@ define([
     },
 
     home: function(){
-      this.publish('go:projects');
+      Backbone.Mediator.publish('go:projects');
     }
 
   });
