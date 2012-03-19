@@ -26,7 +26,7 @@ for each sample.
 Customized form to be used in your project. The form will be presented for each record so you can add the defined
 informations for each specimen.
 
-## Below the Hood
+## Behind the Hood
 
 Sampleton is built using some of the latest tools in Web App development.
 
