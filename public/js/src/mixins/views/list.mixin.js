@@ -76,13 +76,14 @@ define([
       });
       model.view = row;
 
+      // The id is created by the back-end, so need to update after POST
       model.on('sync', function(){
         row.$el.find('[data-id]').attr('data-id', this.id);
       });
 
       this.$list.append(row.render().el);
       row.attributes = this.attributes;
-      row.setup();
+      row.open();
       this.trigger('adding', row);
     },
 
