@@ -11,6 +11,7 @@ define([
   'js/libs/vendor/jqueryui/draggable.js',
   'js/libs/vendor/jqueryui/droppable.js',
   'js/libs/vendor/jqueryui/sortable.js',
+  'touchpunch',
   'handlebars',
-  'touchpunch'
+  'src/plugins/handlebars-helpers'
 ], function(){});

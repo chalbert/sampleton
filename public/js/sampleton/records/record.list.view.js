@@ -62,7 +62,6 @@ define([
             : this.$listHead.hide();
       }, this);
 
-
       Backbone.Mediator.subscribeOnce('records:extended', function(){
         this.autoRender = true;
         if (this.preRender) {

@@ -55,6 +55,11 @@ define([
 
     },
 
+    clean: function(){
+      this.$list.sortable('destroy');
+      this._super('clean', arguments);
+    },
+
     //------------------------------------------------------------------------
     //|--------|
     //| EVENTS |

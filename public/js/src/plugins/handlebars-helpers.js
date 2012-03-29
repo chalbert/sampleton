@@ -1,6 +1,6 @@
 define([
   'jquery',
-  'libs/vendor/handlebars/handlebars-1.0.0.beta.6'
+  'handlebars'
 ], function($, Handlebars){
 
   Handlebars.registerHelper('options', function() {

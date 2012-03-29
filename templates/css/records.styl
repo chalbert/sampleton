@@ -6,6 +6,9 @@
   z-index 10000
   box-shadow 0 0 12px #666, inset 0 0 6px #999
 
+  &.opened
+    top 120px
+
   h1
     font-size 22px
     width 90%
@@ -24,8 +27,13 @@
     background url(/images/play.png) center center no-repeat
     background-size 90%
     cursor pointer
+
+    &:active
+      opacity .65
+
   .btn-previous
     transform rotate(180deg)
+
   [disabled]
     opacity .35
     cursor default

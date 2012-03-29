@@ -5,17 +5,17 @@ define(function () {
 
     open: function(){
       this._super('open', arguments);
-      Backbone.Mediator.subscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
+      Backbone.Mediator.subscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle, this);
     },
 
     close: function(){
       this.resetFilter();
-      Backbone.Mediator.unsubscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle);
+      Backbone.Mediator.unsubscribe('search' + (this.searchScope ? ':'+ this.searchScope : ''), this.filterByTitle, this);
       this._super('close', arguments);
     },
 
     filterByTitle: function(title){
-      this._filterBy('title', title);
+      this.filterBy('title', title);
     },
 
     resetFilter: function () {
@@ -23,7 +23,7 @@ define(function () {
       this.removeListDefault();
     },
 
-    _filterBy: function(attribute, value){
+    filterBy: function(attribute, value){
       if (!this.collection.length) return;
       if (!value) {
         this.resetFilter();

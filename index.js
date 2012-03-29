@@ -7,7 +7,8 @@ var express = require("express"),
       identification: require("./modules/routers/identification.R.js"),
       app: require("./modules/routers/app.R.js")
     },
-    settings = require('./settings');
+    settings = require('./settings'),
+    gzippo = require('gzippo');
 
 var app = module.exports = express.createServer();
 var db = mongoose.connect(settings.db.host, settings.db.db);
@@ -27,13 +28,20 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+//  app.use(gzippo.staticGzip(settings.paths.development.static));
+  app.use(function(req, res, next){
+    res.setHeader("Cache-Control", "no-cache, must-revalidate");
+    res.setHeader("Expires", new Date(Date.now()).toUTCString());
+    next();
+  });
   app.use(express.static(settings.paths.development.static));
   app.set('views', settings.paths.development.views);
 });
 
 app.configure('production', function(){
   app.use(express.static(settings.paths.production.static));
-  app.set('views', settings.paths.production.views);
+  app.use(gzippo.staticGzip(settings.paths.production.static));
+//  app.use(gzippo.compress());
   app.set('views', settings.paths.production.views);
 });
 

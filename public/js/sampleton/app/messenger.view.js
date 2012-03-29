@@ -5,7 +5,8 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'backbone',
+  'clickout'
 ], function($, _, Backbone, itemsTemplate){
 
   return Backbone.View.extend({
@@ -15,6 +16,7 @@ define([
     elements: {
       text: 'span',
       confirm: '.confirm',
+      confirmBox: '.confirm-box',
       confirmMessage: '.confirm .message',
       confirmYes: '.confirm .btn-confirm',
       confirmCancel: '.confirm .btn-cancel'
@@ -43,12 +45,6 @@ define([
     open: function(){
       this.hide();
       this._super('open', arguments);
-      $(window).bind('click.outsiteRecord', $.proxy(this.hideConfirm, this));
-    },
-
-    close: function(){
-      this._super('close', arguments);
-      $(window).unbind('click.outsiteRecord');
     },
 
     message: {
@@ -82,6 +78,10 @@ define([
     events: {
       confirmYes: 'click',
       confirmCancel: 'click'
+    },
+
+    confirmBox_clickout: function(e){
+      this.hideConfirm();
     },
 
     confirmYes_click: function(){
@@ -118,10 +118,12 @@ define([
       this.callback = callback;
       this.context = context;
       this.$confirmMessage.text(message);
+      this.$confirmBox.clickout($.proxy(this.confirmBox_clickout, this));
       this.$confirm.show();
     },
 
     hideConfirm: function(){
+      this.$confirmBox.unbind('clickout');
       this.$confirm.hide(350);
     }
 

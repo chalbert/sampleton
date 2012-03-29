@@ -33,6 +33,8 @@ define([
 
     click: function(e){
       Backbone.Mediator.publish('go:template', this.model.id);
+      e.stopPropagation();
+      return false; // mobile
     },
 
     edit_click: function(e){

@@ -30,7 +30,7 @@ define([
       this.rowView = (this.rowView || options.rowView);
       this.$get('rows').empty();
 
-      this.defaultMessage = options.defaultMessage || ("No " + (options.rowName || 'item') + " have been created yet.");
+      this.defaultMessage = options.defaultMessage || ("No " + (options.rowName || this.rowName || 'item') + " have been created yet.");
 
       if (options.sync) this.sync = options.sync;
 

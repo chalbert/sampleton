@@ -9,7 +9,8 @@ define([
   'src/mixins/views/list.mixin',
   'src/mixins/views/searchable.mixin',
   'sampleton/templates/templates.col',
-  'src/ui/searchbox.view'
+  'src/ui/searchbox.view',
+  'clickout'
   ], function($, _, Backbone, listMixin, searchableMixin, templatesCollection, searchboxView){
 
   return Backbone.View.extend({
@@ -38,12 +39,12 @@ define([
     collection: new templatesCollection(),
 
     rowView: Backbone.View.extend({tagName: 'li'}),
+    rowName: 'template',
 
     autoOpen: false,
 
     setup: function(){
       this._super('setup', arguments);
-      $(window).bind('click.outsiteTemplate', $.proxy(this.close, this));
       this.collection.on('rendered', this.setActiveState, this);
     },
 
@@ -53,11 +54,6 @@ define([
 
     hide: function(){
       this.$el.fadeOut(350);
-    },
-
-    close: function(){
-      $(window).unbind('click.outsiteTemplate');
-      this._super('close', arguments);
     },
 
     toggleOpen: function(){
@@ -70,13 +66,13 @@ define([
    //|--------|
 
     events: {
-      '': 'click',
+      '': 'clickout',
       rows: 'click',
       link: 'click'
     },
 
-    click: function(e){
-      e.stopPropagation();
+    clickout: function(e){
+      this.close();
     },
 
     rows_click: function(e){

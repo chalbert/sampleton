@@ -1,57 +1,13 @@
 @import 'nib'
 
-// Login page
+.editing
+  #list-project
+    .handle
+      display block
 
-#login
-  width auto
-  height auto
-  margin 0
-  bottom 10px
-  right 5%
-  top 15%
-  left 5%
+.list-table
 
-// App
-
-#container
-  padding 2px 5px
-  min-width: 0
-
-.content
-  padding 5px
-
-#logo
-  margin-left -20px
-  font-size 28px
-  background-size contain
-  height 45px
-  padding-left 43px
-
-@media only screen and (max-device-width: 480px)
-  #item-list
-    .item
-      width 88px
-      height 88px
-      margin 0 5px 5px 0
-      border-radius 10px
-
-  .item-title
-    height 53px
-    line-height .9
-
-  .search-input
-    width 42px
-    overflow hidden
-    border-radius 10px
-    &:focus
-      width 150px
-      box-shadow inset 1px 1px 3px #ddd, -1px -1px 4px #ddd
-
-
-  .search-reset
-    &:hover
-      opacity .5
-
-  .searchbox
-    right 10px
-    top  8px
+  td
+    &.edit
+      &:hover:not(.active)
+        opacity .25

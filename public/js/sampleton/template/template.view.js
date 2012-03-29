@@ -15,6 +15,7 @@ define([
   'src/ui/new.view',
   'text!../../../templates/app/templates/template.html',
   'jqueryui/sortable',
+  'jqueryui/draggable',
   'touchpunch'
 ], function($, _, Backbone, listMixin, searchableMixin,
             templateModel, previewView, fieldView, fieldCollection, newView, templateTemplate){
@@ -48,7 +49,8 @@ define([
       title: 'h1 .title',
       list: '#list-fields table',
       rows: '#list-fields tr',
-      back: '.btn-back'
+      back: '.btn-back',
+      preview: '#template-preview'
     },
 
     shortcuts: {
@@ -69,13 +71,33 @@ define([
     setup: function(){
       this._super('setup', arguments);
       this.$list.sortable(this.sortableOptions);
+
+
+      if (window.Touch) {
+
+        var o = this.$preview.offset(),
+            x = o.left,
+            y = o.top;
+
+        this.previewOpenPosition = this.$el.width() - this.$preview.width();
+        this.previewClosePosition = x;
+
+        this.$preview.draggable({
+          axis: 'x',
+          revert: false,
+          containment: [this.previewOpenPosition, y, x, y],
+          distance: 10
+        });
+      }
+
       this.$list.bind('sortstart', $.proxy(this.list_sortstart, this));
       this.$list.bind('sortupdate', $.proxy(this.list_sortupdate, this));
     },
 
-    close: function(){
+    clean: function(){
       this.$list.unbind();
-      this._super('close', arguments);
+      if (window.Touch) this.$preview.draggable('destroy');
+      this._super('clean', arguments);
     },
 
 //------------------------------------------------------------------------
@@ -85,7 +107,8 @@ define([
 
     events: {
       title: 'keydown blur',
-      back: 'click'
+      back: 'click',
+      preview: 'mouseup'
     },
 
     title_keydown: function(e) {
@@ -111,16 +134,26 @@ define([
     },
 
     list_sortupdate: function(e, ui){
-      
+
       var id = ui.item.find('.id').data('id'),
           position = ui.item.index() + 1,
           model = this.collection.get(id);
 
-      console.log(position);
-      
-
       this.collection.trigger('reorder', id, position);
       model.save({'order': position});
+    },
+
+    preview_mouseup: function(e){
+      if (!window.Touch) return;
+      var left = this.$preview.offset().left;
+      this.$preview.animate(
+          {
+            left: (left < this.$el.width() / 2)
+                ? this.previewOpenPosition
+                : this.previewClosePosition
+          }
+          , 200
+      );
     }
 
   });

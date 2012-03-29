@@ -26,7 +26,7 @@ define([
       this.setupTrash();
       Backbone.Mediator.subscribe('recording:start', this.pushStart, this);
       Backbone.Mediator.subscribe('recording:stop', this.pushPause, this);
-      this.$el.removeClass('closed');
+      this.$el.removeClass('closed', 350);
     },
 
     setupTrash: function(){
@@ -45,7 +45,7 @@ define([
     close: function(){
       this._super('close', arguments);
 
-      this.$el.addClass('closed');
+      this.$el.addClass('closed', 350);
       this.$trash.unbind();
       this.$trash.droppable('destroy');
     },

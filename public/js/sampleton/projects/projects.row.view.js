@@ -33,6 +33,8 @@ define([
 
     click: function(e){
       Backbone.Mediator.publish('go:project', this.model.id);
+      e.stopPropagation();
+      if (window.Touch) return false; // e.stopPropagation doesn't work on mobile (iPad)...
     },
 
     edit_click: function(e){

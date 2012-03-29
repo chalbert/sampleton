@@ -482,24 +482,24 @@ define(function(){
     parser.lexer = lexer;
     return parser;
   })();
-  if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-    exports.parser = handlebars;
-    exports.parse = function () { return handlebars.parse.apply(handlebars, arguments); }
-    exports.main = function commonjsMain(args) {
-      if (!args[1])
-        throw new Error('Usage: '+args[0]+' FILE');
-      if (typeof process !== 'undefined') {
-        var source = require('fs').readFileSync(require('path').join(process.cwd(), args[1]), "utf8");
-      } else {
-        var cwd = require("file").path(require("file").cwd());
-        var source = cwd.join(args[1]).read({charset: "utf-8"});
-      }
-      return exports.parser.parse(source);
-    }
-    if (typeof module !== 'undefined' && require.main === module) {
-      exports.main(typeof process !== 'undefined' ? process.argv.slice(1) : require("system").args);
-    }
-  };
+//  if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
+//    exports.parser = handlebars;
+//    exports.parse = function () { return handlebars.parse.apply(handlebars, arguments); }
+//    exports.main = function commonjsMain(args) {
+//      if (!args[1])
+//        throw new Error('Usage: '+args[0]+' FILE');
+//      if (typeof process !== 'undefined') {
+////        var source = require('fs').readFileSync(require('path').join(process.cwd(), args[1]), "utf8");
+//      } else {
+////        var cwd = require("file").path(require("file").cwd());
+////        var source = cwd.join(args[1]).read({charset: "utf-8"});
+//      }
+//      return exports.parser.parse(source);
+//    }
+//    if (typeof module !== 'undefined' && require.main === module) {
+//      exports.main(typeof process !== 'undefined' ? process.argv.slice(1) : require("system").args);
+//    }
+//  };
   ;
 // lib/handlebars/compiler/base.js
   Handlebars.Parser = handlebars;

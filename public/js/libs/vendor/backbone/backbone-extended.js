@@ -7,7 +7,7 @@ define([
   'src/plugins/backbone/backbone-baseCollection',
   'backbone-elements',
   'backbone-multiviews',
-  'src/plugins/backbone/backbone-bindings',
+  'src/plugins/backbone/backbone-multiviews-bindings',
   'backbone-shortcuts'
 ], function(Backbone){
   return Backbone

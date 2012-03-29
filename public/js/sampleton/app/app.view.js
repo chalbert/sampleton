@@ -18,7 +18,8 @@ define([
     el:  "#sampleton",
 
     elements: {
-      content: '.content'
+      content: '.content',
+      logo: '#logo'
     },
 
     shortcuts: {
@@ -43,6 +44,35 @@ define([
       'template': 'templates/:template'
     },
 
+    initialize: function(){
+      this._super('initialize', arguments);
+
+      // Allow to go out of a field by clicking anywhere
+      if (window.Touch) {
+        // Prevent elastic scrolling
+        this.$content.bind('touchmove', function(e){
+          e.stopPropagation();
+        });
+        $(document).bind('touchmove', function(e) {
+            e.preventDefault();
+        });
+
+        $(document).bind('touchstart', function(e){
+          if (e.target.tagName.toLowerCase() == 'input') return;
+          $(':focus:first').blur();
+        });
+      }
+    },
+
+    events: {
+      logo: 'click'
+    },
+
+    logo_click: function(e){
+      Backbone.Mediator.publish('go:projects');
+    },
+
+    // Just to override default browser behavior
     back: function(e){}
 
   });

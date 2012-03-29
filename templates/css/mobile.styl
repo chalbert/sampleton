@@ -1,44 +1,265 @@
 @import 'nib'
+@import 'mixins'
+
+// Login page
+
+
+@media only screen and (device-height: 480px) and (orientation: portrait)
+
+  #login
+    width auto
+    height auto
+    margin 0
+    bottom 10px
+    right 5%
+    top 15%
+    left 5%
+
+    #logo
+      font-size 53px
+      line-height 78px
+
+
+@media only screen and (device-height: 480px) and (orientation: landscape)
+
+  #login
+    top 5px
+    margin-top 0
+
+  #container
+    overflow visible
+
+// App
 
 #container
-  padding 2px 5px
-  min-width: 0
+  padding 0
+  box-shadow none
+  //min-width: 300px;
+  //min-height: 288px;
+  min-size 300px 288px
 
 .content
   padding 5px
 
-#logo
-  margin-left -20px
-  font-size 28px
-  background-size contain
-  height 45px
-  padding-left 43px
+#sampleton
 
-@media only screen and (max-device-width: 480px)
-  #item-list
-    .item
-      width 88px
-      height 88px
-      margin 0 5px 5px 0
+  .messenger
+    margin-left: -220px;
+
+  >.searchbox
+    z-index 1
+
+    .search-input
+      width 42px
+      overflow hidden
       border-radius 10px
+      &:focus
+        width 150px
+        box-shadow inset 1px 1px 3px #ddd, -1px -1px 4px #ddd
 
-  .item-title
-    height 53px
-    line-height .9
+    .search-reset
+      &:hover
+        opacity .5
 
-  .search-input
-    width 42px
+  #logo
+    background-size contain
+    background-position 0 0
+    height 39px
+    font-size 64px
+    line-height 43px
+    margin 5px 0 0 5px
+    padding-left 18px
+    width 34px
     overflow hidden
-    border-radius 10px
-    &:focus
-      width 150px
-      box-shadow inset 1px 1px 3px #ddd, -1px -1px 4px #ddd
+    z-index 1
+
+  .projects, .project, .templates, .template
+    padding 3px 5px
+
+  h1
+    absolute top 8px
+    font-size 16px
+    margin 0 0 8px 5px
+    min-height 16px
+    max-height 32px
+    line-height 18px
+
+.nav-top
+ top -2px
+ z-index 1
+
+ .btn-user
+   a
+
+     &:not(:hover)
+       padding-left 2px
+       padding-bottom 2px
+
+       span
+         font-size 0
+
+.projects, .templates
+  .list-table
+    td.date
+      display none
+
+.page-right-head
+  padding-top 2px
+  overflow: hidden
+  height 20px
+
+  .field-new
+    padding-top 0
+    padding-bottom 0
+
+.templates
+
+  .btn-back
+    margin-right 2px
+
+  .page-right-head
+    height 40px
+
+.project, .templates, .template
+
+  .field-new
+    absolute right 4px top 28px
+
+.project
+
+  .btn-back, .btn-template
+    margin 0 4px
 
 
-  .search-reset
-    &:hover
-      opacity .5
+.field-new
+  font-size 12px
+  height 19px
 
-  .searchbox
-    right 10px
-    top  8px
+.btn-back
+  &:after
+    border-width 6px
+    left 6px
+    top 4px
+
+.btn-back, .btn-template
+  //size 20px
+  //border-radius 4px
+  //padding 0 2px
+  //font-size 0
+  font-size 12px
+  padding-left 18px
+  padding-right 6px
+
+.btn-template
+  background-position 0 -1px
+  background-size contain
+
+.editing
+  #list-project
+    .handle
+      display block
+
+#list-project
+  left 5px
+  right 0
+  top 48px
+
+  .placeholder
+    block 4px 75px
+
+  li:not(.placeholder)
+    width 91px
+    height 91px
+    margin 0 10px 0 0
+
+.item-title
+  height 53px
+  line-height .9
+
+.records
+  left 3px
+  right 3px
+  z-index 2000
+
+  &.opened
+    top 15px
+
+#menu-template
+  top 32px
+  right 0
+  bottom 0
+  height auto
+
+  &:after
+    left auto
+    right 5px
+
+.content
+  bottom 0
+  border-width 4px
+
+.content.view-project
+  bottom 65px
+
+.controls
+  position absolute
+  bottom 5px
+  left 5px
+  right 5px
+  padding 4px 4px 4px 20px
+
+  li
+    padding 6px
+
+.control-start
+  margin 0 15px 160px 0
+  a
+    size 23px
+    margin 3px 0px 2px 7px
+    background-size contain
+
+.control-pause
+  a
+    size 18px
+    background #333
+    margin 5px
+
+.control-trash
+  a
+    size 28px
+
+.list-default
+  font-size 12px
+
+.template
+  overflow hidden
+
+#list-fields
+  width 94%
+
+  td
+    >.handle
+      opacity 1
+      margin 27px 0 0 10px
+
+  td:first-child
+    width 30px
+
+  td:last-child
+    position absolute
+    left 3px
+    margin-bottom 2px
+
+  td:nth-child(0)
+    position absolute
+
+  td:nth-child(n+2)
+    display block
+
+#template-preview
+  position absolute
+  width 90%
+  left 92%
+  bottom 5px
+  top 30px
+  box-shadow 0 3px 8px #999

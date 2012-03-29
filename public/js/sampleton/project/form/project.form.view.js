@@ -35,7 +35,6 @@ define([
     initialize: function(){
       this._super('initialize', arguments);
 
-      this.disable();
       Backbone.Mediator.subscribe('item:select', this.enable, this);
       Backbone.Mediator.subscribe('item:unselect', this.disable, this);
 

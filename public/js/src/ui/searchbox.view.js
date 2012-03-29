@@ -36,13 +36,15 @@ define([
     },
 
     input_keyup_escape: function(e) {
-      (this.$input.val() == '')
+      (this.$input.val() === '')
           ? this.$input.blur()
           : this.reset();
     },
 
     reset_click: function(e) {
       this.reset();
+      e.stopPropagation();
+      if (window.Touch) return false;
     },
 
 //------------------------------------------------------------------------

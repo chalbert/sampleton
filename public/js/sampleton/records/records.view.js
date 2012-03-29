@@ -5,7 +5,11 @@ define([
   'handlebars',
   'sampleton/records/records.model',
   'text!../../../templates/app/project/records.html',
-  'sampleton/records/record.list.view'
+  'sampleton/records/record.list.view',
+  'clickout',
+  'jqueryui/effects/core',
+  'jqueryui/draggable',
+  'touchpunch'
 ], function ($, _, Backbone, Handlebars, recordsModel, recordsTemplate, recordListView) {
 
   return Backbone.View.extend({
@@ -28,15 +32,21 @@ define([
 
     defaultListMessage: "There's not yet any records for this item",
 
-    openPosition: 120,
-
-
     open: function() {
       Backbone.Mediator.publish('loading', 'recordList', "Loading records...");
       this._super('open', arguments);
     },
 
     setup: function() {
+
+      // Allow draggable for closing if touchscreen
+      if (window.Touch) this.$el.draggable({
+        axis: 'y',
+        revert: true,
+        containment: [0, 15, 0, 1000],
+        distance: 20
+      });
+
       // Setup fields based on the selected template of this item
       this.model.on('change', function() {
         if (!this.model.id) return;
@@ -45,20 +55,17 @@ define([
         this.views.list.fields = fields;
         this.views.list.rowView.prototype.fields = fields;
         this.views.list.open(this.attributes);
+        if (this.extended) Backbone.Mediator.publish('records:extended');
 
       }, this);
-
-      $(window).bind('click.outsiteRecord', $.proxy(this.back, this));
 
       this._super('setup', arguments);
     },
 
     show: function(){
-      if (parseInt(this.$el.css('top')) !== this.openPosition) {
-        var top = $(window).outerHeight();
-        this.$el.stop().show().css({top: top}).animate({
-          top: this.openPosition
-        }, 350, $.proxy(function(){
+      if (!this.$el.hasClass('opened')) {
+        this.$el.stop().show().css('top', '').addClass('opened', 350, $.proxy(function(){
+          this.extended = true;
           Backbone.Mediator.publish('records:extended');
         }, this));
       }
@@ -66,15 +73,18 @@ define([
 
     close: function(){
       this.extended = false;
-      $(window).unbind('click.outsiteRecord');
+
       this._super('close', arguments);
     },
 
+    clean: function(){
+      this.$el.draggable('destroy');
+      this._super('clean', arguments);
+    },
+
     hide: function(){
-      this.$el.animate({
-        top: $(window).outerHeight()
-      }, 300, function(){
-        $(this).stop().hide();
+      this.$el.stop().animate({top: 1000}, 450, function(){
+        $(this).css('top', '').removeClass('opened').hide();
       });
     },
 
@@ -92,7 +102,7 @@ define([
     },
 
     events: {
-      '': 'click',
+      '': 'clickout mouseup',
       previous: 'click',
       next: 'click'
     },
@@ -103,8 +113,14 @@ define([
       this.close();
     },
 
-    click: function(e){
-      e.stopPropagation();
+    clickout: function(){
+      this.back();
+    },
+
+    mouseup: function(){
+      if (this.$el.offset().top > 175) {
+        this.back();
+      }
     },
 
     previous_click: function(e){

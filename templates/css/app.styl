@@ -12,6 +12,23 @@
 @import 'nav-top'
 @import 'templates'
 
+btn()
+  display inline-block
+  padding 4px 10px 4px 10px
+  border-radius 40px
+  background #c47d30
+  box-shadow inset 0 0 5px #f0daa2, 0 0 3px #693f12
+  cursor pointer
+  type 14px #fff
+  position relative
+
+  &:hover
+    box-shadow inset 0 0 6px #fff, 0 0 3px #693f12
+
+  //&:active
+  //  background #f0daa2
+
+
 a
   cursor pointer
 
@@ -82,7 +99,9 @@ h1[contenteditable], h1 [contenteditable]
 
 h1
   font-size $very-large
-  size 40% 25px
+  width 40%
+  min-height 25px
+  max-height 50px
   margin 0 0 8px 0
 
   &:focus
@@ -96,6 +115,7 @@ h1
   border 8px #da9c39 solid
   z-index 10
   transition bottom .35s
+  -webkit-tap-highlight-color transparent
 
   &.view-project
     pos absolute 54px 0 85px 0
@@ -157,3 +177,4 @@ h1
 
 .ui-sortable-helper
   dragging()
+
