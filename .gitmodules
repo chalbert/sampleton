@@ -19,3 +19,9 @@
 [submodule "public/js/src/plugins/backbone/backbone-shortcuts"]
 	path = public/js/src/plugins/backbone/backbone-shortcuts
 	url = git://github.com/chalbert/Backbone-Shortcuts.git
+[submodule "public/js/src/plugins/jquery/jquery-clickout"]
+	path = public/js/src/plugins/jquery/jquery-clickout
+	url = git://github.com/chalbert/jQuery-Clickout.git
+[submodule "Backbone-Keyevents"]
+	path = Backbone-Keyevents
+	url = git://github.com/chalbert/Backbone-Keyevents.git
