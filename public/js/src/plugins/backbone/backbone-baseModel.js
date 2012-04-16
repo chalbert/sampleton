@@ -1,7 +1,7 @@
 define([
   'jquery',
   'underscore',
-  'libs/vendor/backbone/backbone',
+  'backbone',
   'src/mixins/models/configurable.mixin',
   'backbone-mixins'
 ], function($, _, Backbone, configurableMixin){
