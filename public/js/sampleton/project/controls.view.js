@@ -5,6 +5,7 @@ define([
   'jqueryui/droppable',
   'jqueryui/effects/core'
 ], function ($, _, Backbone) {
+  'use strict';
 
   return Backbone.View.extend({
 
@@ -20,12 +21,15 @@ define([
       enter: 'toggleRecording'
     },
 
+    subscriptions: {
+      'recording:start': 'pushStart',
+      'recording:stop': 'pushPause'
+    },
+
     setup: function(){
       this._super('setup', arguments);
 
       this.setupTrash();
-      Backbone.Mediator.subscribe('recording:start', this.pushStart, this);
-      Backbone.Mediator.subscribe('recording:stop', this.pushPause, this);
       this.$el.removeClass('closed', 350);
     },
 
@@ -35,7 +39,7 @@ define([
         hoverClass: 'active'
       });
 
-      //| > Those events don't bubble, so need to attach directly on element
+      //| > Those events don't bubble well, so need to attach directly on element
       this.$trash
           .bind('drop', $.proxy(this.trash_drop, this))
           .bind('dropover', $.proxy(this.trash_dropover, this))
@@ -50,8 +54,8 @@ define([
       this.$trash.droppable('destroy');
     },
 
+    // Override default show/hide behaviors
     show: function(){},
-
     hide: function(){},
 
 //------------------------------------------------------------------------
