@@ -56,12 +56,12 @@ define([
       this.autoRender = false;
 
       this.collection.on('reset', function(){
-        this.$listHead.hide();
-        (this.collection.length)
-            ? this.$listHead.show()
-            : this.$listHead.hide();
+        var action = this.collection.length ? 'show' : 'hide';
+        this.$listHead[action]();
       }, this);
 
+      // Once extended, if ready to render (synced), add records to view.
+      // If not, enable auto-render so it's render once synced
       Backbone.Mediator.subscribeOnce('records:extended', function(){
         this.autoRender = true;
         if (this.preRender) {
@@ -69,6 +69,7 @@ define([
         }
       }, this);
 
+      // Once render, remove 'loading' message
       this.collection.on('rendered', function(){
         Backbone.Mediator.publish('loaded:recordList');
       }, this);
