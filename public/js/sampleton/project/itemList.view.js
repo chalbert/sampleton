@@ -40,19 +40,19 @@ define([
       distance: 10
     },
 
+    subscriptions: {
+      'items:stopSorting': 'stopSorting',
+      'items:deleteItem': 'deleteItem',
+      'item:select': 'selectItem',
+      'item:unselect': 'unselectAll'
+    },
+
     setup: function(options) {
       this._super('setup', arguments);
 
       this.$list.sortable(this.sortableOptions);
 
       $('body').delegate('.item-sorting', 'mouseup', $.proxy(this.itemSorting_mouseup, this));
-
-      Backbone.Mediator.subscribe('items:stopSorting', $.proxy(this.stopSorting, this));
-      Backbone.Mediator.subscribe('items:deleteItem', $.proxy(this.deleteItem, this));
-
-      Backbone.Mediator.subscribe('item:select', this.selectItem, this);
-      Backbone.Mediator.subscribe('item:unselect', this.unselectAll, this);
-
     },
 
     clean: function(){
