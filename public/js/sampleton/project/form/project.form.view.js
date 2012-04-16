@@ -35,11 +35,12 @@ define([
     initialize: function(){
       this._super('initialize', arguments);
 
-      Backbone.Mediator.subscribe('item:select', this.enable, this);
-      Backbone.Mediator.subscribe('item:unselect', this.disable, this);
-
       this.$message.text(this.messages.initial);
+    },
 
+    subscriptions: {
+      'item:select': 'enable',
+      'item:unselect': 'disable'
     },
 
     messages: {
@@ -47,8 +48,8 @@ define([
       success: 'New record added'
     },
 
+    // Override default hide/show, it'll only slide off screen
     show: function(){},
-
     hide: function(){},
 
     events: {
@@ -96,7 +97,6 @@ define([
       }, this), time);
 
     }
-
 
   });
 
