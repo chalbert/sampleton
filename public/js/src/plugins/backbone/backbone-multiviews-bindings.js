@@ -5,7 +5,7 @@
 define([
   'jquery',
   'underscore',
-  'libs/vendor/backbone/backbone',
+  'backbone',
   'modelBinding',
   'backbone-elements',
   'backbone-multiviews'
