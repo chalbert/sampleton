@@ -1,4 +1,7 @@
-define(['underscore', 'libs/vendor/backbone/backbone'], function(_, Backbone) {
+define([
+  'underscore',
+  'backbone'
+], function(_, Backbone) {
 
   // The super method takes two parameters: a method name
   // and an array of arguments to pass to the overridden method.
