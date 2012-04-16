@@ -2,7 +2,6 @@ logo($height = 70px)
   position relative
   cursor pointer
   float left
-  width 50px
   height $height
   font-family 'Times new roman'
   font-size @height
@@ -18,10 +17,11 @@ logo($height = 70px)
   border-radius 6px
   text-shadow  0 0 2px #784813
   z-index 200
+
   &:after
     content 'Sampleton'
     absolute left ($bg-size[0] * $ratio) top 0
     color #C47D30
     -webkit-mask-image -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgba(0,0,0,0.00)), color-stop(0.66, rgba(0,0,0,0.45)), color-stop(1, rgba(0,0,0,0.20)));
     -webkit-mask-image:-webkit-linear-gradient(top, rgba(0,0,0,0.00) 10%, rgba(0,0,0,0.45) 66%, rgba(0,0,0,0.20) 100%);
-    -moz-mask-image:-moz-linear-gradient(top, rgba(0,0,0,0.00) 10%, rgba(0,0,0,0.45) 66%, rgba(0,0,0,0.20) 100%);
+    mask: url("/images/mask.svg#mask");
