@@ -13,9 +13,7 @@ define([
   'sampleton/project/itemList.view',
   'sampleton/project/form/project.form.view',
   'sampleton/project/templateMenu.view',
-  // Template
-  'text!../../../templates/app/project/project.html',
-
+  /*Template*/'text!../../../templates/app/project/project.html',
   'jqueryui/sortable',
   'touchpunch',
   'jqueryui/effects/core'
@@ -67,25 +65,27 @@ define([
 
     defaultListMessage: "There's not yet any items in this project",
 
-    initialize: function(options) {
-      this._super('initialize', arguments);
-
-      Backbone.Mediator.subscribe('recording:stop', this.stopRecording, this);
-      Backbone.Mediator.subscribe('recording:start', this.startRecording, this);
-      Backbone.Mediator.subscribe('template:use', this.setTemplate, this);
-
+    open: function(projectId){
+      this._super('open', arguments);
+      Backbone.Mediator.publish('recording:stop', 0);
     },
 
-    open: function(projectId){
-      Backbone.Mediator.publish('recording:stop', 0);
-      this._super('open', arguments);
+    close: function(){
+      Backbone.Mediator.publish('recording:stop');
+      this._super('close', arguments);
+    },
+
+    subscriptions: {
+      'recording:stop': 'stopRecording',
+      'recording:start': 'startRecording',
+      'template:use': 'setTemplate'
     },
 
     setup: function(){
       this._super('setup', arguments);
       this.model.on('change:template', function(model, template){
-        var template;
-        if (template = this.model.get('template')) {
+//        template = this.model.get('template');
+        if (template) {
           this.views.form.open({template: template});
           this.$el.addClass('has-template', 350);
         } else {
@@ -111,7 +111,7 @@ define([
       if (e.which === _.getKeycode('enter')) {
         e.preventDefault();
         this.$title.blur();
-      };
+      }
     },
 
     title_blur: function(e) {
