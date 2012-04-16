@@ -8,6 +8,7 @@ define([
   'backbone',
   'clickout'
 ], function($, _, Backbone, itemsTemplate){
+  'use scrict';
 
   return Backbone.View.extend({
 
@@ -27,19 +28,15 @@ define([
       'escape': 'confirmCancel_click'
     },
 
-    setup: function() {
-      this._super('setup', arguments)
-
-      Backbone.Mediator.subscribe('confirm', this.showConfirm, this);
-
-      Backbone.Mediator.subscribe('say', this.addMessage, this);
-      Backbone.Mediator.subscribe('loading', function(name, message){
+    subscriptions: {
+      confirm: 'showConfirm',
+      say: 'addMessage',
+      loading: function(name, message){
         this.addMessage('loading:' + name, message || this.message.loading);
-        Backbone.Mediator.subscribe('loaded:' + name, function(){
+        Backbone.Mediator.subscribe('loaded:' + name, function () {
           this.removeMessage('loading:' + name);
-        }, this)
-      }, this);
-
+        }, this);
+      }
     },
 
     open: function(){
