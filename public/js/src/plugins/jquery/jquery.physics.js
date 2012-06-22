@@ -55,7 +55,7 @@ define(['jquery'], function($){
 
   $.fn.physics = function(){
     var args = $.makeArray(arguments);
-    Clock || (StartClock());
+    if (!Clock) StartClock();
     $.each(this, function(i, body){
       if (!body.physics) {
         init.apply(body, args);

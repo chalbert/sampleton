@@ -18,7 +18,7 @@ define([
     }, options);
 
     function gravity() {
-      this.physics.forces.gravity.duration || (this.physics.forces.gravity.duration = 0);
+      if (!this.physics.forces.gravity.duration) this.physics.forces.gravity.duration = 0;
       var movement;
 
       this.physics.forces.gravity.duration += FR;
