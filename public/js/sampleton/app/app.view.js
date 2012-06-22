@@ -4,14 +4,17 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'sampleton/app/messenger.view',
+  'sampleton/app/shortcuts.view',
+  'sampleton/app/help.view',
   'src/ui/searchbox.view',
   // For class animation
-  'jqueryui/effects/core'
+  'jqueryui/effects/core',
+  'tooltip'
 
-], function($, _, Backbone, messengerView, searchBoxView) {
+], function($, _, Backbone, messengerView, shortcutsView, searchBoxView) {
 
   return Backbone.View.extend({
 
@@ -19,15 +22,13 @@ define([
 
     elements: {
       content: '.content',
-      logo: '#logo'
-    },
-
-    shortcuts: {
-      backspace: 'back'
+      logo: '#logo',
+      userBtn: '.nav-top .btn-user'
     },
 
     views: {
       messenger: messengerView,
+      //shortcuts: shortcutsView,
       searchbox: searchBoxView,
       $content: {
         projects: 'sampleton/projects/projects.view',
@@ -45,7 +46,9 @@ define([
     },
 
     initialize: function(){
+      if (!('ontouchstart' in document.documentElement)) this.views.shortcuts = shortcutsView;
       this._super('initialize', arguments);
+
 
       // Allow to go out of a field by clicking anywhere
       if (window.Touch) {
@@ -61,19 +64,34 @@ define([
           if (e.target.tagName.toLowerCase() == 'input') return;
           $(':focus:first').blur();
         });
+
       }
+
+      $(window).bind('dragover drop', function(e){
+        e.preventDefault();
+      });
+
+      if (!window.Touch) {
+        $('.content').tooltip({
+          delay: 1000,
+          animSpeed: 250
+        });
+      }
+
     },
 
     events: {
-      logo: 'click'
+      logo: 'click',
+      userBtn: 'click'
     },
 
     logo_click: function(e){
       Backbone.Mediator.publish('go:projects');
     },
 
-    // Just to override default browser behavior
-    back: function(e){}
+    userBtn_click: function(e){
+      e.stopPropagation();
+    }
 
   });
 });
