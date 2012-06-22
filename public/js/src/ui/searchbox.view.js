@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'underscore',
-  'backbone'
+  'underscore-extended',
+  'backbone-extended'
 ], function ($, _, Backbone) {
 
   return Backbone.View.extend({
@@ -9,12 +9,12 @@ define([
     el:  ".searchbox",
 
     elements: {
-      'input': '.search-input',
-      'reset': '.search-reset'
+      input: '.search-input',
+      reset: '.search-reset'
     },
 
     shortcuts: {
-      slash: 'focus'
+      '/': 'focus'
     },
 
 //------------------------------------------------------------------------
@@ -36,9 +36,11 @@ define([
     },
 
     input_keyup_escape: function(e) {
-      (this.$input.val() === '')
-          ? this.$input.blur()
-          : this.reset();
+      if(this.$input.val() === '') {
+        this.$input.blur();
+      } else {
+        this.reset();
+      }
     },
 
     reset_click: function(e) {
@@ -52,9 +54,9 @@ define([
     //| ACTIONS |
     //|---------|
 
-    focus: function(){
-      this.$input.focus()
-    },
+    focus: _.extend(function(){
+      this.$input.focus();
+    }, { description: 'Search'}),
 
     search: function(){
       var search = this.$input.val();
