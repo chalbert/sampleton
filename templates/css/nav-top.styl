@@ -1,8 +1,22 @@
+
+
 .nav-top
   absolute right 8px top -10px
-  background rgba(0, 0, 0, .65)
-  borders left right bottom #888
   z-index 50
+
+  //li:nth-child(n+2)
+  //  borders left #666
+
+  li
+    borders left right bottom #666
+
+  .active
+    background #605e48
+    box-shadow 0 0 10px #f7ee6c
+    a
+      color: #f7ee6c
+      user-select none
+
 
   a
     type #fff 13px
@@ -10,7 +24,14 @@
     display block
     padding 4px 6px
 
+    &:hover
+      color #FFFAB3
+
   >li
+    float left
+    // borders left right bottom #666
+    background rgba(0, 0, 0, .65)
+    margin-left -1px
     &:hover
       ul
         display block
@@ -21,12 +42,14 @@
     a
       padding-right 15px
 
+    // Creates arrow icon
     &:after
       content ''
       absolute right 5px top 9px
       block 0
       borders left right 3px transparent top 3px #666
 
+    // Highlight arrow
     &:hover:after
       borders top 3px #ccc
 

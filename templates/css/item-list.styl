@@ -80,7 +80,7 @@
       display none
     li:hover
       .handle
-        display block
+        opacity 1
 
 .project:not(.editing)
   #list-project
@@ -88,6 +88,12 @@
       display none
     .item
       cursor pointer
+
+    .dropzone
+
+      span
+        &:empty
+          background-image none
 
 #list-project
   pos absolute 45px 16px 0 16px
@@ -117,7 +123,9 @@
     draggable()
     absolute left 50% top -25px
     margin-left -13px
-    display none
+    opacity 0
+    height 23px
+    overflow hidden
 
   li
     list-style none
@@ -148,7 +156,7 @@
     font-size 95%
     max-height 105px
     //overflow hidden
-    padding 5px 3% 0 3%
+    padding 3px 3% 0 3%
     border 0
     //background transparent
     margin 0
@@ -159,15 +167,81 @@
     width 94%
 
   .field-title
-    padding 1px 8px 0 1px
+    padding 3px 8px 0 1px
     background #fff693
     border-radius 16px 16px 0 0
     borders bottom 2px #c9c08f dashed
     outline none
+    margin-bottom 2px
 
   .field-title:focus
     background #fff6c2
     box-shadow  0 0 8px #ffde00
+
+  .dropzone
+    height 95px
+    position relative
+    text-align center
+    padding-top 1px
+
+    img
+      border-radius 10px
+      box-shadow 0 0 4px #ccc
+      borders #ccc
+
+    span
+      position relative
+      display inline-block
+      &:before
+        position absolute
+        content ''
+        block 100% 98%
+        box-shadow inset 0 0 8px #fff
+        border-radius 8px
+
+      &:empty
+        pos absolute 0 0 0 0
+        display block
+        background-image url(../images/camera.png)
+        background-position 107px 61px
+        background-repeat no-repeat;
+        background-size 30px 30px
+        opacity .35
+
+    div
+      block 100%
+
+      &:hover:empty
+        opacity .75
+
+    &.fileover, &.uploading
+      background-color #9cdafd
+      box-shadow inset 0 0 12px #1b4761
+      opacity 1
+
+      div
+
+        &:after
+          content 'Upload image'
+          top 0
+          position absolute
+          width 100%
+          display block
+          margin-top 40px
+          type #1b4761 14px center
+          z-index 1000
+
+      img
+        opacity .35
+
+    &.uploading
+      background-color #9cfdfc
+      cursor progress
+
+      div
+        &:after
+          content 'Uploading...'
+
 
   .counter
     position absolute
@@ -229,7 +303,7 @@
 
     .handle
       dragging()
-      display block
+      opacity 1
 
 
 .project-form
