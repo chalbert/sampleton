@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/views/list.mixin',
   'sampleton/project/form/field/project.form.field.view'
 ], function($, _, Backbone, listMixin, fieldView){

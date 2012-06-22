@@ -2,8 +2,8 @@
 //| MODEL ~ FIELD
 //|===================================================|
 define([
-  'underscore',
-  'backbone'
+  'underscore-extended',
+  'backbone-extended'
 ], function(_, Backbone){
 
   return Backbone.Model.extend({

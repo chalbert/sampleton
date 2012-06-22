@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/views/list.mixin',
   'src/mixins/views/searchable.mixin',
   'sampleton/templates/templates.col',
@@ -24,6 +24,10 @@ define([
 
     views: {
       searchbox: searchboxView.extend({scope: 'templateMenu'})
+    },
+
+    shortcuts: {
+      escape: 'close'
     },
 
     el:  "#menu-template",
@@ -97,7 +101,7 @@ define([
     },
 
     setActiveState: function(active){
-      (active && typeof active == 'string') || (active = this.activeTemplate);
+      if (!active || typeof active !== 'string') active = this.activeTemplate;
       this.$get('active').removeClass('active');
       this.$el.find('[data-id="' + active + '"]').addClass('active');
     }

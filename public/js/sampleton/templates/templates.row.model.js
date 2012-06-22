@@ -2,8 +2,8 @@
 //| MODEL ~ ITEM
 //|===================================================|
 define([
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'date'
 ], function(_, Backbone){
 

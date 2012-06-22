@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'jqueryui/sortable',
   'touchpunch'
   ], function($, _, Backbone){

@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/views/list.mixin',
   'src/mixins/views/searchable.mixin',
   'text!../../../templates/app/templates/templates.html',
