@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'jqueryui/droppable',
   'jqueryui/effects/core'
 ], function ($, _, Backbone) {
@@ -93,11 +93,11 @@ define([
       this.$pause.addClass('pushed');
     },
 
-    toggleRecording: function(){
+    toggleRecording: _.extend(function(){
       this.$start.hasClass('pushed')
           ? this.pause_click()
           : this.start_click();
-    }
+    }, { description: 'Toggle recording mode' })
 
   });
 });

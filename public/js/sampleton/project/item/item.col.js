@@ -2,8 +2,8 @@
 //| COLLECTION ~ ITEM
 //|===================================================|
 define([
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/collections/orderable.mixin',
   'sampleton/project/item/item.model'
 ], function(_, Backbone, orderableMixin, Item){
