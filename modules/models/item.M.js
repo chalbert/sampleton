@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
 var Item = new mongoose.Schema({
   title:String,
   records:[Record],
-  order:Number
+  order:Number,
+  image: Buffer
 });
 
 Item.virtual('counter').get(function(){
