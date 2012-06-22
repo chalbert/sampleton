@@ -1,0 +1,5 @@
+#!/bin/bash
+
+jade templates/app/project --out public/templates/app/project
+jade templates/app/projects --out public/templates/app/projects
+jade templates/app/templates --out public/templates/app/templates
