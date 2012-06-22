@@ -42,7 +42,7 @@ var identification = function(app) {
 
   app.all('/login', function(req, res){
 
-    if (req.session.user && req.session.user.authenticated) {
+    if (req.session && req.session.user && req.session.user.authenticated) {
       return res.redirect('/');
     }
 
