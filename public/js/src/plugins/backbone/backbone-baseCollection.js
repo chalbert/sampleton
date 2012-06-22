@@ -15,7 +15,7 @@ define([
     },
 
     initialize: function(options){
-      options || (options = {});
+      if (!options) options = {};
       this._super('initialize', arguments);
 
       if (options && options.model) this.model = options.model;
