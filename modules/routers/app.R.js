@@ -2,12 +2,15 @@ var access = require("../access.js"),
     User = require("../models/user.M"),
     Template = require("../models/template.M"),
     Project = require("../models/project.M"),
-    Item = require("../models/item.M");
+    Item = require("../models/item.M"),
+    fs = require('fs'),
+    util = require('util'),
+    im = require('imagemagick'),
+    gm = require('gm');
 
 
 function find(query, one){
   var result = [];
-  console.log('------');
   itemLoop: for  (var i = 0, l = this.length; i < l; i++) {
     for (var property in query) {
       if (query[property] instanceof Object) {
@@ -21,10 +24,6 @@ function find(query, one){
         if (lt || lte || gt || gte) {
           continue itemLoop;
         }
-
-        console.log('*');
-        console.log('lt:' + q.$lt + ' / ' + value);
-        console.log('gt:' + q.$gt + ' / ' + value);
 
       } else if (query[property] != this[i].get(property)) {
         continue itemLoop;
@@ -160,6 +159,7 @@ var sampleton = function(app) {
 
   app.param('templateId', access.isRestrictedTo('user'), function(req, res, next, id){
     Template.findById(id, function(err, template) {
+      if (err) return next(err);
       req.template = template;
       next();
     });
@@ -275,15 +275,18 @@ var sampleton = function(app) {
 
   app.get('/api/projects/:projectId/items', access.isRestrictedTo('user'), function(req, res){
     var items = req.project.items,
+        properties,
         response = [];
 
     for (var n = 0; n < items.length; n++) {
-      response.push({
+      properties = {
         _id: items[n]._id,
         title: items[n].title,
         order: items[n].order,
         counter: items[n].counter
-      })
+      }
+      if (items[n].image) properties.image = Boolean(items[n].image);
+      response.push(properties)
     }
     return res.json(response);
   });
@@ -326,6 +329,82 @@ var sampleton = function(app) {
     } else {
       last();
     }
+  });
+
+  app.get('/api/projects/:projectId/items/:itemId/image', access.isRestrictedTo('user'), function(req, res, next){
+    var rs;
+    res.writeHead(200, {
+      'Content-Type' : 'image/gif',
+      'Content-Length' : req.item.image.length
+    });
+    res.end(req.item.image, 'binary');
+  });
+
+  /**
+   * Image upload
+   */
+
+  app.post('/api/projects/:projectId/items/:itemId/image', access.isRestrictedTo('user'), function(req, res, next){
+    var image = req.files.image;
+
+//    console.log('image:' + JSON.stringify(image));
+    console.log('path:' + image.path);
+
+
+//    fs.readFile(image.path, 'binary', function(err, data){
+//      if (err) return next(err);
+//
+//      console.log('after read: ' + image.path);
+
+
+    // TODO: Size should be defined once and share back and front... same for models
+    gm(image.path)
+        .thumb(124, 85, image.path, 85, function (err) {
+          if (err) next(err);
+
+          fs.readFile(image.path, function(err, data){
+          if (err) next(err);
+
+            req.item.image = data;
+
+            req.project.save(function(err){
+              if (err) next(err);
+              else console.log("updated");
+
+              return res.json(req.item.image.toString('base64'), 201);
+            });
+
+          });
+
+        });
+
+//      im.resize({
+//        srcPath: image.path,
+//        width: 140,
+//        height: 95
+//      }, function(err, stdout, stderr){
+//        var resizedImage;
+//        if (err) return next(err);
+//
+//        console.log('stdout: ' + stdout);
+//        //resizedImage = new Buffer();
+//
+//        console.log('after resize');
+//        console.log(stdout);
+//
+//
+//        req.item.image = stdout;
+//        req.project.save(function(err){
+//          if (!err) {
+//            console.log("updated");
+//          }
+//          return res.send(201);
+//        });
+//
+//      });
+
+//    });
+
   });
 
   app.put('/api/projects/:projectId/items/:itemId', access.isRestrictedTo('user'), function(req, res){
