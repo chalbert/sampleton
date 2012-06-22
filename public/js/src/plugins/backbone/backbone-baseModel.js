@@ -15,7 +15,7 @@ define([
     idAttribute : '_id',
 
     initialize: function(options){
-      options || (options = {});
+      if (!options) options = {};
       this._super('initialize', arguments);
 
       this.on('error', function(model, err){
