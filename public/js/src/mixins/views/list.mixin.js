@@ -8,9 +8,11 @@ define([
     sync: true,
 
     initialize: function(options) {
+      var rowName, row;
+
       this._super('initialize', arguments);
 
-      options || (options = {});
+      if (!options) options = {};
 
       this.elements = _.defaults((this.elements || {}), {
         list: 'table',
@@ -22,7 +24,7 @@ define([
 
       this.refreshElements();
 
-      var row = this.elements.row_template
+      row = this.elements.row_template
           ? this.$get('row_template')
           : this.$get('rows').first();
 
@@ -30,7 +32,8 @@ define([
       this.rowView = (this.rowView || options.rowView);
       this.$get('rows').empty();
 
-      this.defaultMessage = options.defaultMessage || ("No " + (options.rowName || this.rowName || 'item') + " have been created yet.");
+      rowName = options.rowName || this.rowName || 'item';
+      this.defaultMessage = options.defaultMessage || ("No " + rowName + " have been created yet.");
 
       if (options.sync) this.sync = options.sync;
 
@@ -103,6 +106,7 @@ define([
         }, this);
       }
 
+      Backbone.Mediator.pub('rendered', this);
       this.collection.trigger('rendered');
     },
 

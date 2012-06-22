@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'sampleton/project/project.model',
   'sampleton/project/controls.view',
   'src/ui/new.view',
@@ -60,7 +60,8 @@ define([
     },
 
     shortcuts: {
-      backspace: 'back_click'
+      backspace: 'back_click',
+      t: 'template_click'
     },
 
     defaultListMessage: "There's not yet any items in this project",
@@ -138,16 +139,21 @@ define([
           .animate({ width: this.$newField.originalWidth }, speed);
     },
 
-    back_click: function(e){
+//    back_click: _.extend(function(e) {
+//      e.stopPropagation();
+//      Backbone.Mediator.publish('go:projects');
+//    }, {description: 'Back to projects'}),
+
+    back_click: _.extend(function(e) {
       e.stopPropagation();
       Backbone.Mediator.publish('go:projects');
-    },
+    }, {description: 'Back to projects'}),
 
-    template_click: function(e) {
-      e.stopPropagation();
-      this.views.templateMenu.activeTemplate = this.model.get('template');
-      this.views.templateMenu.toggleOpen();
-    },
+    template_click: _.extend(function(e) {
+        e.stopPropagation();
+        this.views.templateMenu.activeTemplate = this.model.get('template');
+        this.views.templateMenu.toggleOpen();
+      }, { description: 'Open template menu' }),
 
 //------------------------------------------------------------------------
     //|---------|

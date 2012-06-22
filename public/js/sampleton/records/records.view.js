@@ -1,7 +1,7 @@
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'handlebars',
   'sampleton/records/records.model',
   'text!../../../templates/app/project/records.html',
@@ -43,7 +43,7 @@ define([
       if (window.Touch) this.$el.draggable({
         axis: 'y',
         revert: true,
-        containment: [0, 15, 0, 1000],
+        containment: [38, 55, 38, 1000],
         distance: 20
       });
 
@@ -108,10 +108,10 @@ define([
     },
 
 
-    back: function(){
+    back: _.extend(function(){
       Backbone.Mediator.publish('go:project', this.attributes.project);
       this.close();
-    },
+    }, { description: 'Close records' }),
 
     clickout: function(){
       this.back();
@@ -123,19 +123,19 @@ define([
       }
     },
 
-    previous_click: function(e){
+    previous_click: _.extend(function(e){
       e.preventDefault();
       if (this.model.get('previous')) {
         Backbone.Mediator.publish('go:records', this.attributes.project, this.model.get('previous'));
       }
-    },
+    }, { description: 'Previous item' }),
 
-    next_click: function(e){
+    next_click: _.extend(function(e){
       e.preventDefault();
       if (this.model.get('next')) {
         Backbone.Mediator.publish('go:records', this.attributes.project, this.model.get('next'));
       }
-    }
+    }, { description: 'Next item' })
 
   });
 });

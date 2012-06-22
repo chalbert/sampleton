@@ -2,8 +2,8 @@
 //| COLLECTION ~ ITEM
 //|===================================================|
 define([
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'sampleton/records/record.model'
 ], function(_, Backbone, recordModel){
 

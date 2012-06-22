@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/views/list.mixin',
   'sampleton/records/record.view',
   'sampleton/records/record.col',

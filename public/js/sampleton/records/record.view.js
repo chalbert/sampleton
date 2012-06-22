@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'handlebars',
   'date'
   ], function($, _, Backbone, Handlebars){

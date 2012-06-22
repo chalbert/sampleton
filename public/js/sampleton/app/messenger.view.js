@@ -4,10 +4,10 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'clickout'
-], function($, _, Backbone, itemsTemplate){
+], function($, _, Backbone){
   'use scrict';
 
   return Backbone.View.extend({
@@ -21,11 +21,6 @@ define([
       confirmMessage: '.confirm .message',
       confirmYes: '.confirm .btn-confirm',
       confirmCancel: '.confirm .btn-cancel'
-    },
-
-    shortcuts: {
-      'enter': 'confirmYes_click',
-      'escape': 'confirmCancel_click'
     },
 
     subscriptions: {
@@ -81,14 +76,14 @@ define([
       this.hideConfirm();
     },
 
-    confirmYes_click: function(){
+    confirmYes_click: _.extend(function(){
       this.callback.apply(this.context);
       this.hideConfirm();
-    },
+    }, { description: 'Confirm' }),
 
-    confirmCancel_click: function(){
+    confirmCancel_click: _.extend(function(){
       this.hideConfirm();
-    },
+    }, { description: 'Cancel' }),
 
 //------------------------------------------------------------------------
     //|---------|
@@ -111,17 +106,24 @@ define([
           .fadeOut(250);
     },
 
+    confirmShortcuts: {
+      enter: 'confirmYes_click',
+      escape: 'confirmCancel_click'
+    },
+
     showConfirm: function(message, callback, context){
       this.callback = callback;
       this.context = context;
       this.$confirmMessage.text(message);
       this.$confirmBox.clickout($.proxy(this.confirmBox_clickout, this));
       this.$confirm.show();
+      Backbone.Shortcuts.delegateShortcuts(this.confirmShortcuts, this);
     },
 
     hideConfirm: function(){
       this.$confirmBox.unbind('clickout');
       this.$confirm.hide(350);
+      Backbone.Shortcuts.undelegateShortcuts(this.confirmShortcuts, this);
     }
 
   });

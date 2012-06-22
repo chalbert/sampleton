@@ -4,8 +4,8 @@
 
 define([
   'jquery',
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'date',
   'jqueryui/effects/core'
 ], function($, _, Backbone){
