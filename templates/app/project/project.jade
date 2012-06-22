@@ -1,5 +1,5 @@
 .page-right-head
-  a.btn-template Template
+  a.btn-template(data-tooltip="Change & edit templates") Template
   input.field-new(placeholder="New sample type", type="text")
   a.btn-back Project List
 
@@ -32,9 +32,12 @@ h1(contenteditable="true", data-bind="text title")
         .edit
           .field-title(contenteditable="true", data-bind="text title", data-sync)
           a.btn-history
-            |History (
+            |Records (
             span(data-bind="counter")
             |)
+        .dropzone(data-tooltip="You can drop a picture here")
+          div
+            span
 
 form.project-form
   h2 New record
