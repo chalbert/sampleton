@@ -1,6 +1,6 @@
 define([
-  'underscore',
-  'backbone',
+  'underscore-extended',
+  'backbone-extended',
   'src/mixins/routers/slash.mixin'
 ], function(_, Backbone, slashMixin){
 
