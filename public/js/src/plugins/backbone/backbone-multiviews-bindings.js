@@ -42,8 +42,7 @@ define([
     },
 
     clean: function(){
-      if (!this.model) return;
-      ModelBinding.unbind(this);
+      if (this.model) ModelBinding.unbind(this);
       this._super('clean', arguments);
     },
 
