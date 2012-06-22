@@ -6,7 +6,7 @@ define([
   return  {
 
     initialize: function(options){
-      options || (options = {});
+      if (!options) options = {};
 
       this.url = options.url || this.url;
       if (_.isString(this.url)) this.urlPattern = this.url;
