@@ -49,12 +49,6 @@ app.configure('production', function(){
 //| ROUTING |
 //|---------|
 
-// Easier for debugging, when node restarts
-app.all('*', function(req, res, next) {
-  req.connection.setTimeout(1500);
-  next();
-});
-
 routers.templates(app);
 routers.identification(app);
 routers.app(app);
