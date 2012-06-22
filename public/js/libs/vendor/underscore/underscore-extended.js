@@ -1,5 +1,5 @@
 define([
-  'libs/vendor/underscore/underscore',
+  'underscore',
   'src/plugins/underscore/underscore-extension',
   'underscore-keys'
 ], function(_) {
