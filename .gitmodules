@@ -25,3 +25,6 @@
 [submodule "public/js/src/plugins/backbone/backbone-keyevents"]
 	path = public/js/src/plugins/backbone/backbone-keyevents
 	url = git://github.com/chalbert/Backbone-Keyevents.git
+[submodule "public/js/src/plugins/jquery/jquery-tooltip"]
+	path = public/js/src/plugins/jquery/jquery-tooltip
+	url = git://github.com/chalbert/jQuery-Tooltip.git
