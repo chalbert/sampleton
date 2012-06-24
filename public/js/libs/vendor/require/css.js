@@ -36,10 +36,9 @@ define(['text'], function (text) {
             content +
             "';});\n");
       }
-    },
-
-
+    }
   };
 
   return css;
+
 });
